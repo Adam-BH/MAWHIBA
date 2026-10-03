@@ -18,6 +18,12 @@ Next.js 15 (App Router) + Supabase in a single app, with three roles (client / c
 - RLS is on everywhere, with explicit table/column grants for `anon`/`authenticated`. Never select `certifications.answer_key` from the app.
 - New RPCs: `security definer`, `set search_path = public`, a role check via `assert_role`, `for update` locks, and errors raised as codes listed in `src/lib/action-result.ts` and `messages/fr.json → errors`. Grant execute explicitly.
 - `admin` can never come from signup (the trigger only accepts client/coach).
+- Never edit an applied migration; add a new one.
+- When an RLS policy references another table, `anon` needs SELECT on that table too (RLS still returns no rows). Otherwise public pages fail with `permission denied`.
+- Offers: max 6 active and inclusive-only-with-badge are enforced by trigger. `price_per_session` is derived from offers by trigger, so don't write it when the coach has active offers.
+- Requests/proposals: all status changes go through RPCs (`create_request`, `close_request`, `create_proposal`, `withdraw_proposal`, `accept_proposal`). Coaches read requests only through the `request_board` view: never expose `client_id`, last names, e-mail or phone to coaches.
+- Free text in requests/proposals is checked with `has_contact_info` (SQL, source of truth) and `hasContactInfo` (TS, same patterns). Keep both in sync; `tests/requests.test.ts` checks parity.
+- Expiry is computed on read (`expires_at < now()`, see `effectiveRequestStatus`). There's no cron.
 
 ## Checks before committing
 `npm run lint && npm run typecheck && npm run test && npm run build`. Use Conventional Commits.
