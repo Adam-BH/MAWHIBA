@@ -1,17 +1,17 @@
 import type { Role } from "@/lib/auth";
 
 export const NAV_ITEMS = [
-  { href: "/dashboard", labelKey: "nav.dashboard", icon: "LayoutDashboard", roles: ["client", "coach", "admin"] },
-  { href: "/coaches", labelKey: "nav.findCoach", icon: "Search", roles: ["client"] },
-  { href: "/sessions", labelKey: "nav.sessions", icon: "CalendarCheck", roles: ["client", "coach"] },
-  { href: "/slots", labelKey: "nav.slots", icon: "CalendarPlus", roles: ["coach"] },
-  { href: "/learn", labelKey: "nav.learn", icon: "GraduationCap", roles: ["coach"] },
-  { href: "/wallet", labelKey: "nav.wallet", icon: "Wallet", roles: ["client", "coach"] },
-  { href: "/admin", labelKey: "nav.admin", icon: "Shield", roles: ["admin"] },
-  { href: "/admin/coaches", labelKey: "nav.verify", icon: "BadgeCheck", roles: ["admin"] },
-  { href: "/admin/bookings", labelKey: "nav.bookings", icon: "ListChecks", roles: ["admin"] },
-  { href: "/admin/wallets", labelKey: "nav.wallets", icon: "Coins", roles: ["admin"] },
-  { href: "/profile", labelKey: "nav.profile", icon: "User", roles: ["client", "coach", "admin"] },
+  { href: "/dashboard", labelKey: "nav.dashboard", shortLabelKey: "navShort.dashboard", icon: "LayoutDashboard", roles: ["client", "coach", "admin"] },
+  { href: "/coaches", labelKey: "nav.findCoach", shortLabelKey: "navShort.findCoach", icon: "Search", roles: ["client"] },
+  { href: "/sessions", labelKey: "nav.sessions", shortLabelKey: "navShort.sessions", icon: "CalendarCheck", roles: ["client", "coach"] },
+  { href: "/slots", labelKey: "nav.slots", shortLabelKey: "navShort.slots", icon: "CalendarPlus", roles: ["coach"] },
+  { href: "/learn", labelKey: "nav.learn", shortLabelKey: "navShort.learn", icon: "GraduationCap", roles: ["coach"] },
+  { href: "/wallet", labelKey: "nav.wallet", shortLabelKey: "navShort.wallet", icon: "Wallet", roles: ["client", "coach"] },
+  { href: "/admin", labelKey: "nav.admin", shortLabelKey: "navShort.admin", icon: "Shield", roles: ["admin"] },
+  { href: "/admin/coaches", labelKey: "nav.verify", shortLabelKey: "navShort.verify", icon: "BadgeCheck", roles: ["admin"] },
+  { href: "/admin/bookings", labelKey: "nav.bookings", shortLabelKey: "navShort.bookings", icon: "ListChecks", roles: ["admin"] },
+  { href: "/admin/wallets", labelKey: "nav.wallets", shortLabelKey: "navShort.wallets", icon: "Coins", roles: ["admin"] },
+  { href: "/profile", labelKey: "nav.profile", shortLabelKey: "navShort.profile", icon: "User", roles: ["client", "coach", "admin"] },
 ] as const;
 
 export type NavItem = (typeof NAV_ITEMS)[number];

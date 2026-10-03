@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function AppLoading() {
+export function PageSkeleton() {
   return (
     <div className="flex flex-col gap-4" aria-busy>
       <Skeleton className="h-9 w-56" />

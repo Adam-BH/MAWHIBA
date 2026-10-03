@@ -409,5 +409,18 @@
     "badges": "Badges",
     "cards": "Cartes",
     "forms": "Formulaires"
+  },
+  "navShort": {
+    "dashboard": "Accueil",
+    "findCoach": "Coachs",
+    "sessions": "Séances",
+    "slots": "Créneaux",
+    "learn": "Formation",
+    "wallet": "Solde",
+    "admin": "Stats",
+    "verify": "Vérifier",
+    "bookings": "Résas",
+    "wallets": "Soldes",
+    "profile": "Profil"
   }
 }
