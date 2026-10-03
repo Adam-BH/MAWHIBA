@@ -2,6 +2,7 @@ import { DEMO_COACH, EXTRA_CLIENTS, LOCATIONS, PENDING_COACHES, REVIEW_COMMENTS,
 import { INCLUSIVE_CERTIFICATION } from "./seed-data/certification";
 import { check, db, must } from "./seed-data/db";
 import { seedMarketplace } from "./seed-marketplace";
+import { seedProfiles } from "./seed-profiles";
 
 const PASSWORD = "Mawhiba2026!";
 const DAY = 86_400_000;
@@ -120,7 +121,9 @@ async function main() {
   for (const coach of PENDING_COACHES) await seedCoach(coach, false);
   console.log(`✔ ${verified.length} verified coaches, ${PENDING_COACHES.length} pending`);
 
-  await seedCertification(verified.filter((v) => v.coach.inclusive).map((v) => v.id));
+  const inclusiveIds = verified.filter((v) => v.coach.inclusive).map((v) => v.id);
+  await seedCertification(inclusiveIds);
+  await seedProfiles(verified, new Set(inclusiveIds));
   await seedFutureSlots(verified);
 
   const clients = [];

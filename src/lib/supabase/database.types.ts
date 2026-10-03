@@ -23,7 +23,57 @@ export type Database = {
           }
         },"public": {
           Tables: {
-            "bookings": {
+            "ai_bio_requests": {
+                  Row: {
+                    "coach_id": string,"created_at": string,"id": number
+                  }
+                  Insert: {
+                    "coach_id": string,"created_at"?: string,"id"?: never
+                  }
+                  Update: {
+                    "coach_id"?: string,"created_at"?: string,"id"?: never
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "ai_bio_requests_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ai_bio_requests_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"athletic_achievements": {
+                  Row: {
+                    "coach_id": string,"competition": string,"id": string,"level": Database["public"]['Enums']["achievement_level"],"proof_path": string | null,"result": string,"sort": number,"sport": string,"title": string,"verified": boolean,"year": number
+                  }
+                  Insert: {
+                    "coach_id": string,"competition"?: string,"id"?: string,"level": Database["public"]['Enums']["achievement_level"],"proof_path"?: string | null,"result"?: string,"sort"?: number,"sport": string,"title": string,"verified"?: boolean,"year": number
+                  }
+                  Update: {
+                    "coach_id"?: string,"competition"?: string,"id"?: string,"level"?: Database["public"]['Enums']["achievement_level"],"proof_path"?: string | null,"result"?: string,"sort"?: number,"sport"?: string,"title"?: string,"verified"?: boolean,"year"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "athletic_achievements_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_cv_stats"
+      referencedColumns: ["coach_id"]
+    },{
+      foreignKeyName: "athletic_achievements_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_profiles"
+      referencedColumns: ["user_id"]
+    }
+                  ]
+                },"bookings": {
                   Row: {
                     "client_id": string,"coach_id": string,"created_at": string,"id": string,"insurance_fee": number,"note": string | null,"offer_id": string | null,"price": number,"proposal_id": string | null,"request_id": string | null,"slot_id": string,"status": Database["public"]['Enums']["booking_status"],"updated_at": string
                   }
@@ -136,13 +186,13 @@ isOneToOne: false
                   ]
                 },"coach_profiles": {
                   Row: {
-                    "achievements": string | null,"bio": string | null,"headline": string | null,"price_per_session": number,"proof_path": string | null,"rating_avg": number,"rating_count": number,"session_duration_min": number,"sports": (string)[],"user_id": string,"verified": boolean
+                    "achievements": string | null,"athlete_status": Database["public"]['Enums']["athlete_status"] | null,"bio": string | null,"builder_step": number,"cover_path": string | null,"cv_public": boolean,"cv_template": string,"headline": string | null,"highest_level": Database["public"]['Enums']["achievement_level"] | null,"languages": (string)[],"price_per_session": number,"primary_sport": string | null,"proof_path": string | null,"published_at": string | null,"rating_avg": number,"rating_count": number,"session_duration_min": number,"slug": string | null,"socials": NonNullable<Json>,"specialties": (string)[],"sports": (string)[],"tagline": string | null,"user_id": string,"verified": boolean,"video_url": string | null,"years_coaching": number | null,"years_practice": number | null,"zones": (string)[]
                   }
                   Insert: {
-                    "achievements"?: string | null,"bio"?: string | null,"headline"?: string | null,"price_per_session"?: number,"proof_path"?: string | null,"rating_avg"?: number,"rating_count"?: number,"session_duration_min"?: number,"sports"?: (string)[],"user_id": string,"verified"?: boolean
+                    "achievements"?: string | null,"athlete_status"?: Database["public"]['Enums']["athlete_status"] | null,"bio"?: string | null,"builder_step"?: number,"cover_path"?: string | null,"cv_public"?: boolean,"cv_template"?: string,"headline"?: string | null,"highest_level"?: Database["public"]['Enums']["achievement_level"] | null,"languages"?: (string)[],"price_per_session"?: number,"primary_sport"?: string | null,"proof_path"?: string | null,"published_at"?: string | null,"rating_avg"?: number,"rating_count"?: number,"session_duration_min"?: number,"slug"?: string | null,"socials"?: NonNullable<Json>,"specialties"?: (string)[],"sports"?: (string)[],"tagline"?: string | null,"user_id": string,"verified"?: boolean,"video_url"?: string | null,"years_coaching"?: number | null,"years_practice"?: number | null,"zones"?: (string)[]
                   }
                   Update: {
-                    "achievements"?: string | null,"bio"?: string | null,"headline"?: string | null,"price_per_session"?: number,"proof_path"?: string | null,"rating_avg"?: number,"rating_count"?: number,"session_duration_min"?: number,"sports"?: (string)[],"user_id"?: string,"verified"?: boolean
+                    "achievements"?: string | null,"athlete_status"?: Database["public"]['Enums']["athlete_status"] | null,"bio"?: string | null,"builder_step"?: number,"cover_path"?: string | null,"cv_public"?: boolean,"cv_template"?: string,"headline"?: string | null,"highest_level"?: Database["public"]['Enums']["achievement_level"] | null,"languages"?: (string)[],"price_per_session"?: number,"primary_sport"?: string | null,"proof_path"?: string | null,"published_at"?: string | null,"rating_avg"?: number,"rating_count"?: number,"session_duration_min"?: number,"slug"?: string | null,"socials"?: NonNullable<Json>,"specialties"?: (string)[],"sports"?: (string)[],"tagline"?: string | null,"user_id"?: string,"verified"?: boolean,"video_url"?: string | null,"years_coaching"?: number | null,"years_practice"?: number | null,"zones"?: (string)[]
                   }
                   Relationships: [
                     {
@@ -159,6 +209,81 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"coaching_experiences": {
+                  Row: {
+                    "coach_id": string,"description": string,"end_date": string | null,"id": string,"organization": string,"role": string,"sort": number,"start_date": string
+                  }
+                  Insert: {
+                    "coach_id": string,"description"?: string,"end_date"?: string | null,"id"?: string,"organization": string,"role": string,"sort"?: number,"start_date": string
+                  }
+                  Update: {
+                    "coach_id"?: string,"description"?: string,"end_date"?: string | null,"id"?: string,"organization"?: string,"role"?: string,"sort"?: number,"start_date"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "coaching_experiences_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_cv_stats"
+      referencedColumns: ["coach_id"]
+    },{
+      foreignKeyName: "coaching_experiences_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_profiles"
+      referencedColumns: ["user_id"]
+    }
+                  ]
+                },"education": {
+                  Row: {
+                    "coach_id": string,"degree": string,"id": string,"school": string,"year": number
+                  }
+                  Insert: {
+                    "coach_id": string,"degree": string,"id"?: string,"school": string,"year": number
+                  }
+                  Update: {
+                    "coach_id"?: string,"degree"?: string,"id"?: string,"school"?: string,"year"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "education_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_cv_stats"
+      referencedColumns: ["coach_id"]
+    },{
+      foreignKeyName: "education_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_profiles"
+      referencedColumns: ["user_id"]
+    }
+                  ]
+                },"external_certifications": {
+                  Row: {
+                    "coach_id": string,"created_at": string,"file_path": string | null,"id": string,"issuer": string,"title": string,"verified": boolean,"year": number
+                  }
+                  Insert: {
+                    "coach_id": string,"created_at"?: string,"file_path"?: string | null,"id"?: string,"issuer": string,"title": string,"verified"?: boolean,"year": number
+                  }
+                  Update: {
+                    "coach_id"?: string,"created_at"?: string,"file_path"?: string | null,"id"?: string,"issuer"?: string,"title"?: string,"verified"?: boolean,"year"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "external_certifications_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_cv_stats"
+      referencedColumns: ["coach_id"]
+    },{
+      foreignKeyName: "external_certifications_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_profiles"
+      referencedColumns: ["user_id"]
+    }
+                  ]
                 },"offers": {
                   Row: {
                     "audience": Database["public"]['Enums']["offer_audience"],"coach_id": string,"created_at": string,"description": string,"duration_min": number,"id": string,"is_active": boolean,"is_inclusive": boolean,"price": number,"sport": string,"title": string,"updated_at": string
@@ -171,6 +296,12 @@ isOneToOne: true
                   }
                   Relationships: [
                     {
+      foreignKeyName: "offers_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_cv_stats"
+      referencedColumns: ["coach_id"]
+    },{
       foreignKeyName: "offers_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
@@ -203,6 +334,12 @@ isOneToOne: false
                   }
                   Relationships: [
                     {
+      foreignKeyName: "proposals_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_cv_stats"
+      referencedColumns: ["coach_id"]
+    },{
       foreignKeyName: "proposals_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
@@ -311,6 +448,12 @@ isOneToOne: false
       foreignKeyName: "slots_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
+      referencedRelation: "coach_cv_stats"
+      referencedColumns: ["coach_id"]
+    },{
+      foreignKeyName: "slots_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
       referencedRelation: "coach_profiles"
       referencedColumns: ["user_id"]
     }
@@ -374,7 +517,26 @@ isOneToOne: false
                 }
           }
           Views: {
-            "public_profiles": {
+            "coach_cv_stats": {
+                  Row: {
+                    "badges": Json | null,"coach_id": string | null,"completed_sessions": number | null,"distinct_clients": number | null,"member_since": string | null,"rating_avg": number | null,"rating_count": number | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "coach_profiles_user_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "coach_profiles_user_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: true
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"public_profiles": {
                   Row: {
                     "avatar_url": string | null,"city": string | null,"full_name": string | null,"id": string | null
                   }
@@ -421,6 +583,12 @@ isOneToOne: false
 "admin_set_coach_verified":
 { Args: { "coach_id": string,"verified": boolean }; Returns: undefined
                            },
+"admin_verify_achievement":
+{ Args: { "id": string,"verified": boolean }; Returns: undefined
+                           },
+"admin_verify_certification":
+{ Args: { "id": string,"verified": boolean }; Returns: undefined
+                           },
 "assert_role":
 { Args: { "p_roles": (Database["public"]['Enums']["user_role"])[] }; Returns: string
                            },
@@ -436,11 +604,17 @@ isOneToOne: false
 "close_request":
 { Args: { "request_id": string }; Returns: undefined
                            },
+"coach_cv_visible":
+{ Args: { "p_coach": string }; Returns: boolean
+                           },
 "coach_share":
 { Args: { "p_price": number }; Returns: number
                            },
 "complete_booking":
 { Args: { "booking_id": string }; Returns: undefined
+                           },
+"consume_ai_bio_quota":
+{ Args: Record<PropertyKey, never>; Returns: boolean
                            },
 "create_proposal":
 { Args: { "message": string,"price": number,"request_id": string,"slot_id": string }; Returns: string
@@ -469,6 +643,9 @@ isOneToOne: false
 "respond_booking":
 { Args: { "accept": boolean,"booking_id": string }; Returns: undefined
                            },
+"slugify":
+{ Args: { "p_text": string }; Returns: string
+                           },
 "split_payout":
 { Args: { "p_price": number }; Returns: {
               "coach": number,"platform": number,"star": number,"total": number
@@ -480,6 +657,9 @@ isOneToOne: false
 "topup_wallet":
 { Args: { "pack_id": string }; Returns: number
                            },
+"unique_coach_slug":
+{ Args: { "p_coach": string,"p_name": string }; Returns: string
+                           },
 "wallet_balance":
 { Args: { "uid": string }; Returns: number
                            },
@@ -488,7 +668,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "booking_status": "pending"|"confirmed"|"declined"|"cancelled"|"completed","offer_audience": "enfants"|"adultes"|"tous","proposal_status": "pending"|"accepted"|"rejected"|"withdrawn","request_audience": "enfant"|"adulte","request_status": "open"|"fulfilled"|"closed"|"expired","skill_level": "debutant"|"intermediaire"|"avance","tx_type": "topup"|"booking_hold"|"booking_refund"|"coach_payout"|"commission"|"insurance"|"withdrawal"|"admin_credit","user_role": "client"|"coach"|"admin","withdrawal_status": "pending"|"paid"|"rejected"
+            "achievement_level": "local"|"regional"|"national"|"international"|"olympique","athlete_status": "actif"|"retraite"|"amateur","booking_status": "pending"|"confirmed"|"declined"|"cancelled"|"completed","offer_audience": "enfants"|"adultes"|"tous","proposal_status": "pending"|"accepted"|"rejected"|"withdrawn","request_audience": "enfant"|"adulte","request_status": "open"|"fulfilled"|"closed"|"expired","skill_level": "debutant"|"intermediaire"|"avance","tx_type": "topup"|"booking_hold"|"booking_refund"|"coach_payout"|"commission"|"insurance"|"withdrawal"|"admin_credit","user_role": "client"|"coach"|"admin","withdrawal_status": "pending"|"paid"|"rejected"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -608,7 +788,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "booking_status": ["pending", "confirmed", "declined", "cancelled", "completed"],"offer_audience": ["enfants", "adultes", "tous"],"proposal_status": ["pending", "accepted", "rejected", "withdrawn"],"request_audience": ["enfant", "adulte"],"request_status": ["open", "fulfilled", "closed", "expired"],"skill_level": ["debutant", "intermediaire", "avance"],"tx_type": ["topup", "booking_hold", "booking_refund", "coach_payout", "commission", "insurance", "withdrawal", "admin_credit"],"user_role": ["client", "coach", "admin"],"withdrawal_status": ["pending", "paid", "rejected"]
+            "achievement_level": ["local", "regional", "national", "international", "olympique"],"athlete_status": ["actif", "retraite", "amateur"],"booking_status": ["pending", "confirmed", "declined", "cancelled", "completed"],"offer_audience": ["enfants", "adultes", "tous"],"proposal_status": ["pending", "accepted", "rejected", "withdrawn"],"request_audience": ["enfant", "adulte"],"request_status": ["open", "fulfilled", "closed", "expired"],"skill_level": ["debutant", "intermediaire", "avance"],"tx_type": ["topup", "booking_hold", "booking_refund", "coach_payout", "commission", "insurance", "withdrawal", "admin_credit"],"user_role": ["client", "coach", "admin"],"withdrawal_status": ["pending", "paid", "rejected"]
           }
         }
 } as const
