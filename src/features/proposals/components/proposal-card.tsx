@@ -42,7 +42,7 @@ export function ProposalCard({ proposal, budget, actions }: {
           <UserAvatar name={coach.profile.full_name} src={coach.profile.avatar_url} className="size-12" />
           <div className="min-w-0 flex-1">
             <Link href={`/coaches/${coach.user_id}`} className="font-semibold hover:underline">{coach.profile.full_name}</Link>
-            <RatingStars rating={Number(coach.rating_avg)} count={coach.rating_count} className="block" />
+            <div><RatingStars rating={Number(coach.rating_avg)} count={coach.rating_count} /></div>
             <CoachBadges verified={coach.verified} inclusive={proposal.inclusive} />
           </div>
           {proposal.status !== "pending" && <StatusBadge status={proposal.status} />}

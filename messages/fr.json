@@ -601,7 +601,8 @@
       "newProposals": "{count, plural, one {# nouvelle proposition à examiner} other {# nouvelles propositions à examiner}}",
       "clientHint": "Décrivez votre besoin et laissez les coachs venir à vous.",
       "matchingCount": "{count, plural, =0 {Aucune nouvelle demande} one {# demande sans réponse} other {# demandes sans réponse}}"
-    }
+    },
+    "slotTaken": "Créneau plus disponible : le coach doit en proposer un autre."
   },
   "proposals": {
     "outOfBudget": "Hors budget",

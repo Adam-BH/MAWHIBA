@@ -6,7 +6,7 @@ const REQUEST_FIELDS =
   "id, sport, city, title, description, audience, child_age, level, special_needs, special_needs_note, schedule_note, budget_min, budget_max, status, expires_at, created_at";
 
 const PROPOSAL_FIELDS = `id, price, message, status, created_at, coach_id,
-  slot:slots!inner(starts_at, ends_at, location),
+  slot:slots!inner(starts_at, ends_at, location, is_booked),
   coach:coach_profiles!inner(user_id, verified, rating_avg, rating_count, sports, profile:profiles!inner(full_name, avatar_url, city))`;
 
 export async function listMyRequests(clientId: string) {

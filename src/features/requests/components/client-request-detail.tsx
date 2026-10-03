@@ -32,7 +32,9 @@ export async function ClientRequestDetail({ requestId, userId }: { requestId: st
             {request.proposals.map((p) => (
               <ProposalCard key={p.id} proposal={p} budget={budget}
                 actions={canAcceptProposal(p.status, request.status, expiresAt) && (
-                  <AcceptProposalDialog proposalId={p.id} price={p.price} coachName={p.coach.profile.full_name} balance={balance} />
+                  p.slot.is_booked || new Date(p.slot.starts_at) <= new Date()
+                    ? <span className="text-sm text-muted-foreground">{t("slotTaken")}</span>
+                    : <AcceptProposalDialog proposalId={p.id} price={p.price} coachName={p.coach.profile.full_name} balance={balance} />
                 )} />
             ))}
           </div>
