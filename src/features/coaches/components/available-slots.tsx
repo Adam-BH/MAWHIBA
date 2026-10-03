@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CalendarX } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -9,7 +8,7 @@ type Slot = { id: string; starts_at: string; ends_at: string; location: string }
 
 export function AvailableSlots({ slots, canBook, offerId }: { slots: Slot[]; canBook: boolean; offerId?: string }) {
   const t = useTranslations("coaches");
-  if (slots.length === 0) return <EmptyState icon={CalendarX} title={t("noSlots")} />;
+  if (slots.length === 0) return <EmptyState title={t("noSlots")} />;
 
   const days = Map.groupBy(slots, (s) => dayKey(s.starts_at));
   return (

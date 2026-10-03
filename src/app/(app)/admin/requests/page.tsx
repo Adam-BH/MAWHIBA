@@ -1,4 +1,3 @@
-import { Megaphone } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
@@ -17,7 +16,7 @@ export default async function AdminRequestsPage() {
   return (
     <>
       <PageHeader title={t("title")} />
-      {requests.length === 0 ? <EmptyState icon={Megaphone} title={t("empty")} /> : (
+      {requests.length === 0 ? <EmptyState title={t("empty")} /> : (
         <div className="grid gap-3 lg:grid-cols-2">
           {requests.map((r) => {
             const status = effectiveRequestStatus(r.status, new Date(r.expires_at));

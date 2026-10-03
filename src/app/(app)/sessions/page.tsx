@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CalendarX, History, Inbox } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -39,14 +38,14 @@ export default async function SessionsPage({ searchParams }: { searchParams: Pro
         </TabsList>
         {isCoach && (
           <TabsContent value="requests">
-            <BookingList bookings={requests} viewer={viewer} emptyIcon={Inbox} emptyTitle={t("empty.requests")} />
+            <BookingList bookings={requests} viewer={viewer} emptyTitle={t("empty.requests")} />
           </TabsContent>
         )}
         <TabsContent value="upcoming">
-          <BookingList bookings={upcoming} viewer={viewer} emptyIcon={CalendarX} emptyTitle={t("empty.upcoming")} emptyAction={isCoach ? undefined : findCoach} />
+          <BookingList bookings={upcoming} viewer={viewer} emptyTitle={t("empty.upcoming")} emptyAction={isCoach ? undefined : findCoach} />
         </TabsContent>
         <TabsContent value="past">
-          <BookingList bookings={past} viewer={viewer} emptyIcon={History} emptyTitle={t("empty.past")} />
+          <BookingList bookings={past} viewer={viewer} emptyTitle={t("empty.past")} />
         </TabsContent>
         {isCoach && <TabsContent value="slots"><SlotsPanel user={user} /></TabsContent>}
       </Tabs>

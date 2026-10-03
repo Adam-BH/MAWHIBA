@@ -17,8 +17,8 @@ export function ShareButtons({ url, text }: { url: string; text: string }) {
   }
   return (
     <>
-      <Button type="button" variant="outline" onClick={copy}><Link2 />{t("copy")}</Button>
-      <Button asChild variant="outline">
+      <Button type="button" variant="ghost" size="sm" onClick={copy}><Link2 />{t("copy")}</Button>
+      <Button asChild variant="ghost" size="sm">
         <a href={`https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`} target="_blank" rel="noreferrer"><MessageCircle />{t("whatsapp")}</a>
       </Button>
     </>

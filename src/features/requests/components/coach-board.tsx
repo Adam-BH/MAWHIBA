@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BadgeCheck, Inbox, Send, ShieldAlert } from "lucide-react";
+import { BadgeCheck, Send } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +15,7 @@ import type { CurrentUser } from "@/lib/auth";
 export async function VerificationRequired() {
   const t = await getTranslations("requests.board");
   return (
-    <EmptyState icon={ShieldAlert} title={t("verificationTitle")} description={t("verificationText")}
+    <EmptyState title={t("verificationTitle")}
       action={<Button asChild><Link href="/profile">{t("verificationCta")}</Link></Button>} />
   );
 }
@@ -34,9 +34,9 @@ export async function CoachBoard({ user, city }: { user: CurrentUser; city?: str
       {header}
       <Suspense><BoardFilters city={selectedCity} /></Suspense>
       {coach.sports.length === 0 ? (
-        <EmptyState icon={Inbox} title={t("board.noSports")} action={<Button asChild><Link href="/profile">{t("board.completeProfile")}</Link></Button>} />
+        <EmptyState title={t("board.noSports")} action={<Button asChild><Link href="/profile">{t("board.completeProfile")}</Link></Button>} />
       ) : board.length === 0 ? (
-        <EmptyState icon={Inbox} title={t("board.empty")} description={t("board.emptyHint", { sports: coach.sports.join(", ") })} />
+        <EmptyState title={t("board.empty")} />
       ) : (
         <div className="grid gap-3 md:grid-cols-2">
           {board.map((r) => (

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { CalendarX, Coins, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { Price } from "@/components/shared/price";
 import { RatingStars } from "@/components/shared/rating-stars";
-import { StatCard } from "@/components/shared/stat-card";
+import { Stat } from "@/components/shared/stat";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { BudgetRange } from "@/components/shared/budget-range";
@@ -88,9 +88,9 @@ export default async function DevUiPage() {
       </Section>
       <Section title={t("cards")}>
         <div className="grid gap-3 sm:grid-cols-3">
-          <StatCard icon={Coins} label="primary" value={<Price value={110} />} />
-          <StatCard icon={Coins} tone="accent" label="accent" value={42} />
-          <StatCard icon={ShieldCheck} tone="success" label="success" value={7} hint="hint" />
+          <Stat label="primary" value={<Price value={110} />} />
+          <Stat label="accent" value={42} />
+          <Stat label="success" value={7} hint="hint" />
         </div>
         <Card>
           <CardHeader><CardTitle>Card</CardTitle><CardDescription>{t("sample")}</CardDescription></CardHeader>
@@ -98,7 +98,7 @@ export default async function DevUiPage() {
         </Card>
         <Alert><ShieldCheck /><AlertTitle>Alert</AlertTitle><AlertDescription>{t("sample")}</AlertDescription></Alert>
         <Alert variant="destructive"><ShieldCheck /><AlertTitle>Destructive</AlertTitle><AlertDescription>{t("sample")}</AlertDescription></Alert>
-        <EmptyState icon={CalendarX} title="EmptyState" description={t("sample")} />
+        <EmptyState title="EmptyState" />
       </Section>
       <Section title={t("marketplace")}>
         <div className="flex flex-wrap items-center gap-4"><BudgetRange min={30} max={50} /><TimeLeft expiresAt={IN_5_DAYS} /></div>
@@ -115,7 +115,6 @@ export default async function DevUiPage() {
         <StrengthMeter score={72} level="pro" next={{ key: "achievements", gain: 10, count: 2 }} />
         <div className="grid gap-4 md:grid-cols-2">
           <AthleteCard card={{ ...CARD, badges: [...CARD.badges] }} />
-          <AthleteCard variant="compact" card={{ ...CARD, sport: "Boxe", badges: ["verified"] }} />
         </div>
       </Section>
       <Section title={t("forms")}>

@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { SearchX } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
@@ -36,7 +35,7 @@ export default async function ExploreOffersPage({ searchParams }: { searchParams
       <PageHeader title={t("title")} />
       <Suspense><CoachFilters withAudience /></Suspense>
       <p className="my-4 text-sm text-muted-foreground">{t("results", { count: offers.length })}</p>
-      {offers.length === 0 ? <EmptyState icon={SearchX} title={t("empty")} /> : (
+      {offers.length === 0 ? <EmptyState title={t("empty")} /> : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {offers.map((o) => (
             <OfferCard key={o.id} offer={o} href={`/coaches/${o.coach.slug ?? o.coach_id}?offer=${o.id}#offres`} coachLine={

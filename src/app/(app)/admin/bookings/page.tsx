@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ListChecks } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/shared/page-header";
@@ -25,7 +24,7 @@ export default async function AdminBookingsPage({ searchParams }: { searchParams
           <Button key={s} asChild size="sm" variant={status === s ? "default" : "outline"}><Link href={`/admin/bookings?status=${s}`}>{ts(s)}</Link></Button>
         ))}
       </nav>
-      <BookingList bookings={bookings} viewer="admin" emptyIcon={ListChecks} emptyTitle={t("empty")} />
+      <BookingList bookings={bookings} viewer="admin" emptyTitle={t("empty")} />
     </>
   );
 }

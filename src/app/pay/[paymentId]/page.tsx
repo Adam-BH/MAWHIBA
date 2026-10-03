@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { Lock } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
+import { InsuredBadge } from "@/components/shared/insured-badge";
 import { Price } from "@/components/shared/price";
+import { Receipt } from "@/components/shared/receipt";
 import { GatewayButtons } from "@/features/payments/components/gateway-buttons";
 import { getPayment, paymentStatus } from "@/features/payments/queries";
 import { requireRole } from "@/lib/auth";
@@ -24,10 +26,10 @@ export default async function PayPage({ params }: { params: Promise<{ paymentId:
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-muted px-4 py-10">
-      <div className="w-full max-w-sm rounded-3xl bg-card p-6 shadow-lift">
+      <div className="w-full max-w-sm rounded-4xl bg-card p-6 shadow-lift sm:p-8">
         <div className="mb-6 flex items-center justify-between">
           <span className="flex items-center gap-1.5 font-display font-semibold"><Lock className="size-4" />{t("gateway")}</span>
-          <span className="rounded-full bg-warning/20 px-2.5 py-0.5 text-xs font-medium text-warning-foreground">{t("testMode")}</span>
+          <InsuredBadge />
         </div>
         <dl className="grid gap-3 text-sm">
           <div className="flex justify-between gap-4"><dt className="text-muted-foreground">{t("merchant")}</dt><dd className="font-medium">MAWHIBA</dd></div>
@@ -37,13 +39,12 @@ export default async function PayPage({ params }: { params: Promise<{ paymentId:
               <span className="capitalize text-muted-foreground">{formatDateTime(payment.slot.starts_at)}</span></dd>
           </div>
         </dl>
-        <div className="my-6 border-y py-4 text-center">
-          <p className="text-sm text-muted-foreground">{t("amount")}</p>
-          <Price value={payment.amount} className="text-3xl" />
-        </div>
+        <Receipt className="my-6"
+          lines={[{ label: t("session"), value: <Price value={payment.price} /> }, { label: t("insurance"), value: <Price value={payment.insurance_fee} /> }]}
+          total={{ label: t("amount"), value: <Price value={payment.amount} className="font-semibold" /> }} />
         {status === "pending" ? (
           <>
-            <p className="mb-4 text-center text-xs text-muted-foreground">{t("expiresIn", { time: formatTime(payment.expires_at) })}</p>
+            <p className="mb-4 text-center text-xs text-muted-foreground">{t("expiresIn", { time: formatTime(payment.expires_at) })} {t("testMode")}</p>
             <GatewayButtons paymentId={payment.id} total={payment.amount} backUrl={backUrl} isProposal={!!payment.proposal} />
           </>
         ) : (

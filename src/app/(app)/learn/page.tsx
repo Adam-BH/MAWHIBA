@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, CheckCircle2, Clock, GraduationCap } from "lucide-react";
+import { BookOpen, CheckCircle2, Clock } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,7 +23,7 @@ export default async function LearnPage() {
           <span className="text-sm text-muted-foreground">{t("progress", { passed, total: certs.length })}</span>
         </div>
       )}
-      {certs.length === 0 ? <EmptyState icon={GraduationCap} title={t("empty")} /> : (
+      {certs.length === 0 ? <EmptyState title={t("empty")} /> : (
         <div className="grid gap-4 md:grid-cols-2">
           {certs.map((cert) => (
             <Card key={cert.id}>

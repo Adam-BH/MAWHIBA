@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Hourglass } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ export async function ClientRequestDetail({ requestId, userId }: { requestId: st
       <section>
         <h2 className="mb-3 text-xl font-semibold">{t("proposalsTitle", { count: request.proposals.length })}</h2>
         {request.proposals.length === 0 ? (
-          <EmptyState icon={Hourglass} title={t("noProposals")} description={t("noProposalsHint")} />
+          <EmptyState title={t("noProposals")} />
         ) : (
           <div className="grid gap-3">
             {request.proposals.map((p) => (

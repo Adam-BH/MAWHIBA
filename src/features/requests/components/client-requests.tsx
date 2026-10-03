@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Megaphone, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ export async function ClientRequests({ userId }: { userId: string }) {
     <>
       <PageHeader title={t("clientTitle")} actions={cta} />
       {withStatus.length === 0 ? (
-        <EmptyState icon={Megaphone} title={t("emptyClient")} description={t("emptyClientHint")} action={canPost ? cta : undefined} />
+        <EmptyState title={t("emptyClient")} action={canPost ? cta : undefined} />
       ) : (
         <div className="grid gap-3 md:grid-cols-2">
           {withStatus.map((r) => (

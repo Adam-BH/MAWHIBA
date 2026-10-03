@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowDown, ArrowUp, GripVertical, Medal, Pencil, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, GripVertical, Pencil, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -65,7 +65,7 @@ export function StepAchievements() {
 
   return (
     <div className="grid gap-4">
-      {items.length === 0 ? <EmptyState icon={Medal} title={t("empty")} description={t("emptyHint")} action={addButton} /> : (
+      {items.length === 0 ? <EmptyState title={t("empty")} action={addButton} /> : (
         <>
           <ul className="flex flex-col gap-2">
             {items.map((a, i) => (

@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Price } from "@/components/shared/price";
+import { Receipt } from "@/components/shared/receipt";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { startProposalCheckoutAction } from "@/features/payments/actions";
 import { INSURANCE_FEE } from "@/lib/config";
@@ -24,7 +26,9 @@ export function AcceptProposalDialog({ proposalId, price, coachName }: { proposa
           <DialogTitle>{t("title", { name: coachName })}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
-        <p className="rounded-lg bg-muted p-3 text-center font-medium">{t("summary", { price, fee: INSURANCE_FEE, total })}</p>
+        <Receipt
+          lines={[{ label: t("price"), value: <Price value={price} /> }, { label: t("insurance"), value: <Price value={INSURANCE_FEE} /> }]}
+          total={{ label: t("total"), value: <Price value={total} className="font-semibold" /> }} />
         <DialogFooter>
           <Button disabled={pending} onClick={() => run(() => startProposalCheckoutAction(proposalId), { onSuccess: (payUrl) => router.push(payUrl) })}>
             {t("confirm", { total })}

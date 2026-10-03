@@ -1,4 +1,4 @@
-import { CalendarPlus, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -9,7 +9,7 @@ type Slot = { id: string; starts_at: string; ends_at: string; location: string; 
 
 export function SlotList({ slots }: { slots: Slot[] }) {
   const t = useTranslations("slots");
-  if (slots.length === 0) return <EmptyState icon={CalendarPlus} title={t("empty")} description={t("emptyHint")} />;
+  if (slots.length === 0) return <EmptyState title={t("empty")} />;
   return (
     <ul className="divide-y rounded-xl border bg-card">
       {slots.map((slot) => (

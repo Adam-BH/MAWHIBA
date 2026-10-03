@@ -1,4 +1,3 @@
-import { BadgeCheck, Medal } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -28,7 +27,7 @@ export default async function AdminCoachesPage({ searchParams }: { searchParams:
         <TabsContent value="coaches">
           <section className="mb-8">
             <h2 className="mb-3 text-xl font-semibold">{t("queue", { count: queue.length })}</h2>
-            {queue.length === 0 ? <EmptyState icon={BadgeCheck} title={t("queueEmpty")} /> : (
+            {queue.length === 0 ? <EmptyState title={t("queueEmpty")} /> : (
               <ul className="divide-y rounded-xl border bg-card">{queue.map((c) => <CoachAdminRow key={c.user_id} coach={c} />)}</ul>
             )}
           </section>
@@ -38,7 +37,7 @@ export default async function AdminCoachesPage({ searchParams }: { searchParams:
           </section>
         </TabsContent>
         <TabsContent value="items">
-          {pendingItems === 0 ? <EmptyState icon={Medal} title={t("itemsEmpty")} /> : (
+          {pendingItems === 0 ? <EmptyState title={t("itemsEmpty")} /> : (
             <ul className="divide-y rounded-xl border bg-card">
               {items.achievements.map((a) => (
                 <CvItemReview key={a.id} kind="achievement" id={a.id} proofUrl={a.proofUrl} coach={a.coach.profile.full_name}

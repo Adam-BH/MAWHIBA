@@ -1,4 +1,3 @@
-import { Receipt } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -9,7 +8,7 @@ import { formatDateTime } from "@/lib/dates";
 
 export function PaymentList({ payments, showClient = false }: { payments: PaymentRow[]; showClient?: boolean }) {
   const t = useTranslations();
-  if (payments.length === 0) return <EmptyState icon={Receipt} title={t("payments.empty")} />;
+  if (payments.length === 0) return <EmptyState title={t("payments.empty")} />;
   return (
     <Card>
       <CardContent>

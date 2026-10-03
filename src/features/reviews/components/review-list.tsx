@@ -1,4 +1,3 @@
-import { MessageSquare } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { EmptyState } from "@/components/shared/empty-state";
 import { RatingStars } from "@/components/shared/rating-stars";
@@ -8,7 +7,7 @@ type Review = { id: string; rating: number; comment: string | null; created_at: 
 
 export function ReviewList({ reviews }: { reviews: Review[] }) {
   const t = useTranslations("reviews");
-  if (reviews.length === 0) return <EmptyState icon={MessageSquare} title={t("empty")} />;
+  if (reviews.length === 0) return <EmptyState title={t("empty")} />;
   return (
     <ul className="flex flex-col gap-3">
       {reviews.map((r) => (

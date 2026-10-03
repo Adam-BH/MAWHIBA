@@ -1,6 +1,6 @@
 "use client";
 
-import { Briefcase, Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -45,7 +45,7 @@ export function StepExperience() {
   return (
     <form onSubmit={form.handleSubmit((values) => run(() => saveCoachingInfoAction(values), { onSuccess: () => { markSaved(); next(); } }))}
       className="grid gap-5" noValidate>
-      {coach.experiences.length === 0 ? <EmptyState icon={Briefcase} title={t("empty")} description={t("emptyHint")} action={addButton} /> : (
+      {coach.experiences.length === 0 ? <EmptyState title={t("empty")} action={addButton} /> : (
         <>
           <ul className="flex flex-col gap-2">
             {coach.experiences.map((e) => (

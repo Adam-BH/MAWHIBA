@@ -37,7 +37,7 @@ export default async function OffersPage() {
         <AlertDescription>{t("fromPreview")} <Price value={fromPrice} className="text-primary" /> · {t("activeCount", { count: active.length, max: MAX_ACTIVE_OFFERS })}</AlertDescription>
       </Alert>
       {offers.length === 0 ? (
-        <EmptyState icon={Tag} title={t("empty")} description={t("emptyHint")} action={createButton} />
+        <EmptyState title={t("empty")} action={createButton} />
       ) : (
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {offers.map((o) => (

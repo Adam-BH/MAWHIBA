@@ -33,7 +33,8 @@
   "common": {
     "price": "{amount} DT",
     "ratingLabel": "Note : {rating} sur 5",
-    "noRating": "Nouveau"
+    "noRating": "Nouveau",
+    "insured": "Assuré par Star"
   },
   "status": {
     "pending": "En attente",
@@ -153,7 +154,8 @@
     },
     "from": "à partir de",
     "offers": "Offres",
-    "offersHint": "Choisissez une offre, puis un créneau."
+    "offersHint": "Choisissez une offre, puis un créneau.",
+    "new": "Nouveau coach"
   },
   "profile": {
     "title": "Mon profil",
@@ -249,7 +251,6 @@
     "total": "Total",
     "note": "Note pour le coach",
     "notePlaceholder": "niveau, besoins particuliers…",
-    "insuredTitle": "Séance assurée par Star",
     "insuredText": "Paiement sécurisé par Konnect. Remboursement intégral si le coach refuse ou si vous annulez avant la séance.",
     "pay": "Payer {total} DT",
     "unavailable": "Ce créneau n'est plus disponible",
@@ -288,8 +289,6 @@
     "noNextSession": "Aucune séance prévue",
     "recommended": "Coachs recommandés",
     "verification": {
-      "verifiedTitle": "Profil vérifié",
-      "verifiedText": "Vous apparaissez dans la recherche. Publiez des créneaux pour recevoir des réservations.",
       "pendingTitle": "Profil en attente de vérification",
       "pendingText": "Notre équipe examine votre justificatif. Vous apparaîtrez dans la recherche dès validation.",
       "missingTitle": "Profil à compléter",
@@ -304,10 +303,7 @@
     "seeAll": "Tout voir",
     "noUpcoming": "Aucune séance confirmée à venir",
     "addSlots": "Ajouter des créneaux",
-    "profileCard": "Mon profil",
     "earnBadge": "Obtenir le badge Coaching inclusif",
-    "editProfile": "Modifier mon profil",
-    "mySessions": "Mes séances",
     "title": "Accueil"
   },
   "admin": {
@@ -322,16 +318,15 @@
       "gmv": "Volume des séances (GMV)",
       "commission": "Commission plateforme",
       "insurance": "Assurance Star collectée",
-      "bookingsTotal": "Réservations",
-      "byStatus": "Réservations par statut",
-      "activeOffers": "Offres actives",
       "openRequests": "Demandes ouvertes",
-      "proposals": "Propositions envoyées",
       "conversion": "Conversion demandes",
       "conversionHint": "demandes → réservations",
       "collected": "Encaissé",
       "refunded": "Remboursé",
-      "coachDue": "Dû aux coachs"
+      "coachDue": "Dû aux coachs",
+      "money": "Argent",
+      "activity": "Activité",
+      "insuredSessions": "Séances assurées par Star"
     },
     "coaches": {
       "title": "Vérification des coachs",
@@ -553,8 +548,10 @@
       "cta": "Accepter",
       "title": "Accepter la proposition de {name}",
       "description": "Le coach a déjà donné son accord : la séance est confirmée dès le paiement.",
-      "summary": "{price} DT + {fee} DT assurance Star = {total} DT",
-      "confirm": "Payer {total} DT"
+      "confirm": "Payer {total} DT",
+      "price": "Séance",
+      "insurance": "Assurance Star",
+      "total": "Total"
     },
     "form": {
       "slot": "Créneau proposé",
@@ -855,8 +852,6 @@
   },
   "myCv": {
     "title": "Mon CV",
-    "complete": "Profil complet",
-    "nudge": "Ton profil est encore léger : complète-le pour inspirer confiance et générer un CV solide.",
     "improve": "Compléter mon profil",
     "preview": "Voir mon CV",
     "pdf": "Télécharger le PDF",
@@ -876,7 +871,8 @@
     "gross": "Prix",
     "commission": "Commission",
     "net": "Net",
-    "payoutNote": "Les revenus sont versés chaque mois par virement."
+    "payoutNote": "Les revenus sont versés chaque mois par virement.",
+    "session": "Séance"
   },
   "pay": {
     "title": "Paiement",
@@ -894,7 +890,9 @@
     "failed": "Paiement refusé. Aucun montant n'a été débité.",
     "lost": "Le créneau n'est plus disponible : vous avez été remboursé.",
     "expired": "Ce paiement a expiré. Recommencez la réservation.",
-    "done": "Ce paiement est déjà traité."
+    "done": "Ce paiement est déjà traité.",
+    "session": "Séance",
+    "insurance": "Assurance Star"
   },
   "events": {
     "sectionTitle": "Le rendez-vous du mois",

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarX, Clock, MapPin } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
 import { Price } from "@/components/shared/price";
+import { Receipt } from "@/components/shared/receipt";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { CheckoutForm } from "@/features/bookings/components/checkout-form";
 import { OfferCard } from "@/features/offers/components/offer-card";
@@ -26,7 +27,7 @@ export default async function BookPage({ params, searchParams }: {
   const [{ slotId }, { offer: offerId }, t] = await Promise.all([params, searchParams, getTranslations("checkout")]);
   const slot = uuid.safeParse(slotId).success ? await getBookableSlot(slotId) : null;
   if (!slot) {
-    return <EmptyState icon={CalendarX} title={t("unavailable")} action={<Button asChild><Link href="/coaches">{t("back")}</Link></Button>} />;
+    return <EmptyState title={t("unavailable")} action={<Button asChild><Link href="/coaches">{t("back")}</Link></Button>} />;
   }
   const offers = await listCoachOffers(slot.coach.user_id);
   const offer = offers.find((o) => o.id === offerId);
@@ -63,11 +64,13 @@ export default async function BookPage({ params, searchParams }: {
             <p className="flex items-center gap-2"><MapPin className="size-4 text-muted-foreground" />{slot.location}</p>
           </div>
           <Separator />
-          <dl className="grid gap-2 text-sm">
-            <div className="flex justify-between gap-2"><dt>{offer?.title ?? t("session")}</dt><dd><Price value={price} /></dd></div>
-            <div className="flex justify-between"><dt>{t("insurance")}</dt><dd><Price value={INSURANCE_FEE} /></dd></div>
-            <div className="flex justify-between border-t pt-2 text-base font-semibold"><dt>{t("total")}</dt><dd><Price value={total} className="text-primary" /></dd></div>
-          </dl>
+          <Receipt
+            lines={[
+              { label: offer?.title ?? t("session"), value: <Price value={price} /> },
+              { label: t("insurance"), value: <Price value={INSURANCE_FEE} /> },
+            ]}
+            total={{ label: t("total"), value: <Price value={total} className="font-semibold" /> }}
+          />
           <CheckoutForm slotId={slot.id} offerId={offer?.id} total={total} />
         </CardContent>
       </Card>
