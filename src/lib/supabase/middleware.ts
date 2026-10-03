@@ -23,6 +23,17 @@ export async function updateSession(request: NextRequest) {
 
   const { data } = await supabase.auth.getUser();
   const path = request.nextUrl.pathname;
+
+  // Legacy /coaches/<uuid> URLs → canonical slug (real 308, before any streaming).
+  const legacy = path.match(/^\/coaches\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i);
+  if (legacy) {
+    const { data: coach } = await supabase.from("coach_profiles").select("slug").eq("user_id", legacy[1]).maybeSingle();
+    if (coach?.slug) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/coaches/${coach.slug}`;
+      return NextResponse.redirect(url, 308);
+    }
+  }
   if (!data.user && PROTECTED.some((p) => path === p || path.startsWith(`${p}/`))) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";

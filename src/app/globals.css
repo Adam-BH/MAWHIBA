@@ -35,6 +35,19 @@
   --ring: oklch(0.55 0.12 262);
   --radius: 0.75rem;
 
+  /* Sport families (athlete card gradients) and achievement levels. */
+  --sport-aqua: oklch(0.6 0.13 230);
+  --sport-combat: oklch(0.52 0.17 25);
+  --sport-court: oklch(0.58 0.14 150);
+  --sport-field: oklch(0.66 0.16 60);
+  --sport-mind: oklch(0.58 0.13 300);
+  --level-local: oklch(0.92 0.01 255);
+  --level-regional: oklch(0.88 0.05 230);
+  --level-national: oklch(0.82 0.1 150);
+  --level-international: oklch(0.8 0.13 60);
+  --level-olympique: oklch(0.84 0.15 90);
+  --level-foreground: oklch(0.25 0.05 260);
+
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, sans-serif;
 }
@@ -88,5 +101,21 @@
   h2,
   h3 {
     @apply font-display tracking-tight;
+  }
+}
+
+/* Printable web CV: one A4 page, colours kept. */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .cv-sheet {
+    max-width: none;
+    min-height: 297mm;
   }
 }

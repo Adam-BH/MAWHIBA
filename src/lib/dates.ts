@@ -27,3 +27,11 @@ export function fromLocal(day: string, time: string): Date {
   const [hh, mm] = time.split(":").map(Number);
   return new Date(new TZDate(y, m - 1, d, hh, mm, TIME_ZONE).getTime());
 }
+
+export function formatMonthYear(date: string | Date) {
+  return format(new Date(date), "MMMM yyyy", { locale: fr, in: inTz });
+}
+
+export function formatLongDate(date: string | Date) {
+  return format(new Date(date), "d MMMM yyyy", { locale: fr, in: inTz });
+}

@@ -5,7 +5,7 @@ import { INCLUSIVE_CERT_SLUG } from "@/lib/config";
 export type CoachFilters = { sport?: string; city?: string; maxPrice?: number; inclusive?: boolean };
 
 const CARD_FIELDS =
-  "user_id, sports, headline, price_per_session, rating_avg, rating_count, verified, profile:profiles!inner(full_name, city, avatar_url)";
+  "user_id, slug, sports, primary_sport, highest_level, years_practice, tagline, headline, price_per_session, rating_avg, rating_count, verified, profile:profiles!inner(full_name, city, avatar_url)";
 
 export async function listInclusiveCoachIds(): Promise<Set<string>> {
   const supabase = await createClient();
@@ -26,23 +26,19 @@ export async function listCoaches(filters: CoachFilters = {}, limit = 60) {
   if (filters.maxPrice) query = query.lte("price_per_session", filters.maxPrice);
   if (filters.inclusive) query = query.in("user_id", [...inclusiveIds]);
   const { data } = await query.order("rating_avg", { ascending: false }).limit(limit);
-  return (data ?? []).map((coach) => ({ ...coach, inclusive: inclusiveIds.has(coach.user_id) }));
+  const coaches = data ?? [];
+  const { data: stats } = coaches.length
+    ? await supabase.from("coach_cv_stats").select("coach_id, completed_sessions").in("coach_id", coaches.map((c) => c.user_id))
+    : { data: [] };
+  const sessions = new Map((stats ?? []).map((s) => [s.coach_id, s.completed_sessions ?? 0]));
+  return coaches.map((coach) => ({
+    ...coach,
+    inclusive: inclusiveIds.has(coach.user_id),
+    stats: { ratingAvg: Number(coach.rating_avg), ratingCount: coach.rating_count, completedSessions: sessions.get(coach.user_id) ?? 0 },
+  }));
 }
 
 export type CoachCardData = Awaited<ReturnType<typeof listCoaches>>[number];
-
-export async function getCoach(id: string) {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("coach_profiles")
-    .select("*, profile:profiles!inner(full_name, city, avatar_url)")
-    .eq("user_id", id)
-    .eq("verified", true)
-    .maybeSingle();
-  if (!data) return null;
-  const inclusiveIds = await listInclusiveCoachIds();
-  return { ...data, inclusive: inclusiveIds.has(id) };
-}
 
 export async function getMyCoachProfile(userId: string) {
   const supabase = await createClient();
@@ -50,12 +46,3 @@ export async function getMyCoachProfile(userId: string) {
   return data;
 }
 
-export type MyCoachProfile = NonNullable<Awaited<ReturnType<typeof getMyCoachProfile>>>;
-
-export function profileCompleteness(coach: MyCoachProfile, profile: { avatar_url: string | null; city: string | null }) {
-  const checks = [
-    coach.sports.length > 0, !!coach.headline, !!coach.bio, !!coach.achievements,
-    !!profile.avatar_url, !!profile.city, !!coach.proof_path || coach.verified,
-  ];
-  return Math.round((checks.filter(Boolean).length / checks.length) * 100);
-}

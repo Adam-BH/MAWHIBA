@@ -6,11 +6,14 @@ import { Button } from "@/components/ui/button";
 import { useAction } from "@/lib/use-action";
 import type { ActionResult } from "@/lib/action-result";
 
-export function FileUpload({ action, accept, label, success }: {
+export function FileUpload({ action, accept, label, success, fields = {}, size = "default", variant = "outline" }: {
   action: (formData: FormData) => Promise<ActionResult<unknown>>;
   accept: string;
   label: string;
   success: string;
+  fields?: Record<string, string>;
+  size?: "default" | "sm";
+  variant?: "outline" | "ghost";
 }) {
   const input = useRef<HTMLInputElement>(null);
   const { pending, run } = useAction();
@@ -20,6 +23,7 @@ export function FileUpload({ action, accept, label, success }: {
     if (!file) return;
     const formData = new FormData();
     formData.set("file", file);
+    Object.entries(fields).forEach(([k, v]) => formData.set(k, v));
     run(() => action(formData), { success });
     e.target.value = "";
   }
@@ -27,7 +31,7 @@ export function FileUpload({ action, accept, label, success }: {
   return (
     <>
       <input ref={input} type="file" accept={accept} className="sr-only" onChange={onChange} tabIndex={-1} aria-hidden />
-      <Button type="button" variant="outline" disabled={pending} onClick={() => input.current?.click()}>
+      <Button type="button" variant={variant} size={size} disabled={pending} onClick={() => input.current?.click()}>
         <Upload />{label}
       </Button>
     </>

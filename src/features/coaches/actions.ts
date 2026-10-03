@@ -4,9 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { fail, invalid, ok, type ActionResult } from "@/lib/action-result";
-import {
-  ALLOWED_TYPES, MAX_UPLOAD_BYTES, coachProfileSchema, profileSchema, type CoachProfileInput, type ProfileInput,
-} from "@/lib/validations/profile";
+import { ALLOWED_TYPES, MAX_UPLOAD_BYTES, profileSchema, type ProfileInput } from "@/lib/validations/profile";
 
 export async function updateProfileAction(input: ProfileInput): Promise<ActionResult> {
   const user = await requireRole(["client", "coach", "admin"]);
@@ -19,28 +17,6 @@ export async function updateProfileAction(input: ProfileInput): Promise<ActionRe
     .update({ full_name: fullName, phone: phone || null, city: city || null })
     .eq("id", user.id);
   if (error) return fail(error);
-  revalidatePath("/", "layout");
-  return ok(null);
-}
-
-export async function updateCoachProfileAction(input: CoachProfileInput): Promise<ActionResult> {
-  const user = await requireRole(["coach"]);
-  const parsed = coachProfileSchema.safeParse(input);
-  if (!parsed.success) return invalid(parsed.error.issues[0].message);
-  const { fullName, phone, city, sports, headline, bio, achievements, price, duration } = parsed.data;
-  const supabase = await createClient();
-  // With active offers, the "à partir de" price is derived from them (DB trigger).
-  const { count: activeOffers } = await supabase
-    .from("offers").select("id", { count: "exact", head: true }).eq("coach_id", user.id).eq("is_active", true);
-  const priceUpdate = activeOffers ? {} : { price_per_session: price };
-  const [profileRes, coachRes] = await Promise.all([
-    supabase.from("profiles").update({ full_name: fullName, phone: phone || null, city: city || null }).eq("id", user.id),
-    supabase
-      .from("coach_profiles")
-      .update({ sports, headline, bio, achievements, session_duration_min: duration, ...priceUpdate })
-      .eq("user_id", user.id),
-  ]);
-  if (profileRes.error || coachRes.error) return fail(profileRes.error ?? coachRes.error);
   revalidatePath("/", "layout");
   return ok(null);
 }

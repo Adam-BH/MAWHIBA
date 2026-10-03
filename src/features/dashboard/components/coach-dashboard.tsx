@@ -4,7 +4,6 @@ import { getTranslations } from "next-intl/server";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { CoachBadges } from "@/components/shared/coach-badges";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
@@ -12,7 +11,8 @@ import { Points } from "@/components/shared/points";
 import { StatCard } from "@/components/shared/stat-card";
 import { BookingCard } from "@/features/bookings/components/booking-card";
 import { listCoachBookings } from "@/features/bookings/queries";
-import { getMyCoachProfile, listInclusiveCoachIds, profileCompleteness } from "@/features/coaches/queries";
+import { getMyCoachProfile, listInclusiveCoachIds } from "@/features/coaches/queries";
+import { MyCvCard } from "@/features/cv/components/my-cv-card";
 import { CoachRequestsWidget } from "@/features/requests/components/requests-widget";
 import { getCoachEarnings } from "@/features/wallet/queries";
 import type { CurrentUser } from "@/lib/auth";
@@ -23,7 +23,6 @@ export async function CoachDashboard({ user }: { user: CurrentUser }) {
     getTranslations("dashboard"), getMyCoachProfile(user.id), listCoachBookings(user.id), getCoachEarnings(user.id), listInclusiveCoachIds(),
   ]);
   if (!coach) return null;
-  const completeness = profileCompleteness(coach, user);
   const pending = bookings.filter((b) => b.status === "pending").length;
   const upcoming = bookings.filter((b) => b.status === "confirmed" && isUpcoming(b.status, new Date(b.slot.starts_at)))
     .sort((a, b) => a.slot.starts_at.localeCompare(b.slot.starts_at)).slice(0, 4);
@@ -48,6 +47,8 @@ export async function CoachDashboard({ user }: { user: CurrentUser }) {
         <StatCard icon={Coins} tone="success" label={t("earningsTotal")} value={<Points value={earnings.total} />} />
       </div>
 
+      <div className="mt-6"><MyCvCard coachId={user.id} /></div>
+
       {coach.verified && coach.sports.length > 0 && (
         <div className="mt-6"><CoachRequestsWidget userId={user.id} sports={coach.sports} city={user.city} /></div>
       )}
@@ -67,7 +68,6 @@ export async function CoachDashboard({ user }: { user: CurrentUser }) {
         <Card className="self-start">
           <CardHeader><CardTitle>{t("profileCard")}</CardTitle></CardHeader>
           <CardContent className="flex flex-col gap-3">
-            <div className="flex items-center gap-3"><Progress value={completeness} className="flex-1" /><span className="text-sm font-semibold">{completeness}%</span></div>
             <CoachBadges verified={coach.verified} inclusive={inclusiveIds.has(user.id)} />
             {!inclusiveIds.has(user.id) && <Button asChild variant="outline" size="sm"><Link href="/learn">{t("earnBadge")}</Link></Button>}
             <Button asChild variant="ghost" size="sm"><Link href="/profile">{t("editProfile")}</Link></Button>

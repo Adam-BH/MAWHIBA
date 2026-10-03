@@ -1,37 +1,19 @@
 import Link from "next/link";
-import { MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent } from "@/components/ui/card";
-import { CoachBadges } from "@/components/shared/coach-badges";
+import { AthleteCard } from "@/components/shared/athlete-card";
 import { Points } from "@/components/shared/points";
-import { RatingStars } from "@/components/shared/rating-stars";
-import { UserAvatar } from "@/components/shared/user-avatar";
 import type { CoachCardData } from "@/features/coaches/queries";
+import { athleteCardData } from "@/lib/athlete-card";
 
 export function CoachCard({ coach }: { coach: CoachCardData }) {
   const t = useTranslations("coaches");
   return (
-    <Link href={`/coaches/${coach.user_id}`} className="group block rounded-xl focus-visible:ring-3 focus-visible:ring-ring/50 outline-none">
-      <Card className="h-full transition-shadow group-hover:shadow-md">
-        <CardContent className="flex flex-col gap-3">
-          <div className="flex items-start gap-3">
-            <UserAvatar name={coach.profile.full_name} src={coach.profile.avatar_url} className="size-14" />
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-semibold">{coach.profile.full_name}</p>
-              <p className="text-sm text-muted-foreground">{coach.sports.join(" · ")}</p>
-              {coach.profile.city && (
-                <p className="flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-3.5" />{coach.profile.city}</p>
-              )}
-            </div>
-          </div>
-          {coach.headline && <p className="line-clamp-2 text-sm">{coach.headline}</p>}
-          <CoachBadges verified={coach.verified} inclusive={coach.inclusive} />
-          <div className="mt-auto flex items-center justify-between border-t pt-3">
-            <RatingStars rating={Number(coach.rating_avg)} count={coach.rating_count} />
-            <span className="text-sm">{t("from")} <Points value={coach.price_per_session} className="text-primary" /> {t("perSession")}</span>
-          </div>
-        </CardContent>
-      </Card>
+    <Link href={`/coaches/${coach.slug ?? coach.user_id}`} className="group flex flex-col rounded-2xl border bg-card outline-none transition-shadow hover:shadow-md focus-visible:ring-3 focus-visible:ring-ring/50">
+      <AthleteCard variant="compact" card={athleteCardData(coach, 0, 100)} />
+      <div className="flex flex-1 flex-col gap-2 p-3">
+        {(coach.tagline ?? coach.headline) && <p className="line-clamp-2 text-sm">{coach.tagline ?? coach.headline}</p>}
+        <p className="mt-auto text-sm">{t("from")} <Points value={coach.price_per_session} className="text-primary" /> {t("perSession")}</p>
+      </div>
     </Link>
   );
 }
