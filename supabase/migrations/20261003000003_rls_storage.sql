@@ -66,6 +66,8 @@ create policy slots_delete_own on public.slots for delete using (
 
 -- ---------- bookings / wallet_tx / withdrawals: read only ----------
 grant select on public.bookings, public.wallet_tx, public.withdrawals to authenticated;
+-- anon needs the privilege because profiles/slots policies look at bookings; RLS still returns no rows.
+grant select on public.bookings to anon;
 
 create policy bookings_select on public.bookings for select
   using (client_id = auth.uid() or coach_id = auth.uid() or public.is_admin());
