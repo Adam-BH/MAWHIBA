@@ -4,7 +4,7 @@
     "description": "Réservez une séance avec un athlète tunisien vérifié. Chaque séance est assurée par Star."
   },
   "nav": {
-    "dashboard": "Tableau de bord",
+    "dashboard": "Accueil",
     "findCoach": "Trouver un coach",
     "sessions": "Séances",
     "learn": "Formation",
@@ -110,7 +110,7 @@
   },
   "landing": {
     "eyebrow": "Avec Star Assurances",
-    "heroTitle": "Des athlètes devenus coachs. Des séances assurées par Star.",
+    "heroTitle": "Des athlètes devenus coachs.",
     "heroText": "Nageurs, footballeurs, judokas : réservez une séance avec un athlète tunisien vérifié et payez en ligne.",
     "ctaClient": "Je cherche un coach",
     "ctaCoach": "Je suis athlète, je deviens coach",
@@ -126,7 +126,7 @@
     "starTitle": "Chaque séance est assurée par Star",
     "starText": "Une assurance de {fee} DT est incluse dans chaque réservation : vous vous entraînez l'esprit tranquille.",
     "footer": "MAWHIBA · Hackathon Star Assurances",
-    "seeOffers": "Explorer les offres"
+    "heroAccent": "Des séances assurées par Star."
   },
   "coaches": {
     "title": "Trouver un coach",
@@ -154,8 +154,9 @@
     },
     "from": "à partir de",
     "offers": "Offres",
-    "offersHint": "Choisissez une offre, puis un créneau.",
-    "new": "Nouveau coach"
+    "new": "Nouveau coach",
+    "bookAt": "Réserver à {time}",
+    "moreSlots": "{count, plural, one {# autre jour} other {# autres jours}}"
   },
   "profile": {
     "title": "Mon profil",
@@ -309,7 +310,6 @@
   "admin": {
     "title": "Vue d'ensemble",
     "goVerify": "Vérifications ({count})",
-    "goPayments": "Paiements",
     "metrics": {
       "coachesVerified": "Coachs vérifiés",
       "ofTotal": "sur {total} inscrits",
@@ -366,7 +366,8 @@
     },
     "payments": {
       "title": "Paiements"
-    }
+    },
+    "goStarTracks": "Star Tracks"
   },
   "errorPage": {
     "title": "Une erreur est survenue",
@@ -825,7 +826,7 @@
   "publicProfile": {
     "book": "Réserver",
     "seeCv": "Voir le CV",
-    "shareText": "Découvre le profil de {name} sur MAWHIBA :",
+    "shareText": "Découvrez le profil de {name} sur MAWHIBA :",
     "about": "À propos",
     "languages": "Langues",
     "zones": "Zones d'intervention",
@@ -922,5 +923,19 @@
       "submit": "Publier l'événement",
       "created": "Événement publié"
     }
+  },
+  "starTracks": {
+    "headline": "{count, plural, one {# séance assurée par Star.} other {# séances assurées par Star.}}",
+    "subline": "Chaque réservation payée sur MAWHIBA inclut {fee} DT d'assurance Star. Aucune séance n'est réservée sans elle.",
+    "premiums": "Primes Star",
+    "premiumsHint": "sur les séances terminées",
+    "verifiedCoaches": "Coachs vérifiés",
+    "certifiedCoaches": "Coachs formés",
+    "badges": "{count, plural, one {# badge obtenu} other {# badges obtenus}}",
+    "coachEarnings": "Revenus des coachs",
+    "coachEarningsHint": "{pct} % de chaque séance terminée",
+    "bySport": "Séances assurées par sport",
+    "closing": "Un athlète vérifié, un client serein, une séance assurée.",
+    "back": "Retour à la vue d'ensemble"
   }
 }

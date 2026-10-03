@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CalendarCheck, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AthleteCard } from "@/components/shared/athlete-card";
 import { Price } from "@/components/shared/price";
 import { AvailableSlots } from "@/features/coaches/components/available-slots";
@@ -19,7 +18,7 @@ import { listAvailableSlots } from "@/features/slots/queries";
 import { getCurrentUser } from "@/lib/auth";
 import { athleteCardData } from "@/lib/athlete-card";
 import { STRENGTH_COMPLETE_FROM } from "@/lib/profile-strength";
-import { publicStorageUrl, siteUrl } from "@/lib/storage-url";
+import { siteUrl } from "@/lib/storage-url";
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ offer?: string }> };
 
@@ -57,55 +56,42 @@ export default async function CoachPage({ params, searchParams }: Props) {
   const tp = await getTranslations("publicProfile");
   const selected = offers.find((o) => o.id === offerParam) ?? offers[0];
   const card = athleteCardData(coach, strengthOf(coach).score, STRENGTH_COMPLETE_FROM);
-  const cover = publicStorageUrl("covers", coach.cover_path);
   const profileUrl = siteUrl(`/coaches/${coach.slug}`);
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="relative">
-        <div className="h-40 rounded-3xl bg-secondary bg-cover bg-center sm:h-56" style={cover ? { backgroundImage: `url(${cover})` } : undefined} />
-        <div className="-mt-20 flex flex-col gap-4 px-2 sm:px-6 md:flex-row md:items-end">
-          <AthleteCard card={card} className="w-full md:w-96" />
-          <div className="flex flex-wrap gap-2 md:pb-2">
-            <Button asChild size="lg"><a href="#disponibilites"><CalendarCheck />{tp("book")}</a></Button>
-            {coach.cv_public && <Button asChild size="lg" variant="outline"><Link href={`/cv/${coach.slug}`}><FileText />{tp("seeCv")}</Link></Button>}
-            <ShareButtons url={profileUrl} text={tp("shareText", { name: coach.profile.full_name })} />
-          </div>
+    <div className="grid gap-10 lg:grid-cols-[360px_1fr]">
+      <aside className="flex flex-col gap-4 lg:sticky lg:top-24 lg:self-start">
+        <AthleteCard card={card} />
+        <Button asChild size="lg"><a href={offers.length ? "#offres" : "#disponibilites"}>{tp("book")}</a></Button>
+        <div className="flex flex-wrap justify-center gap-1">
+          {coach.cv_public && <Button asChild variant="ghost" size="sm"><Link href={`/cv/${coach.slug}`}><FileText />{tp("seeCv")}</Link></Button>}
+          <ShareButtons url={profileUrl} text={tp("shareText", { name: coach.profile.full_name })} />
         </div>
-      </section>
+      </aside>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-        <div className="flex min-w-0 flex-col gap-6">
-          <ProfileSections coach={coach} />
-          {offers.length > 0 && (
-            <section id="offres" className="scroll-mt-20">
-              <h2 className="mb-1 text-xl font-semibold">{t("offers")}</h2>
-              <p className="mb-3 text-sm text-muted-foreground">{t("offersHint")}</p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {offers.map((o) => <OfferCard key={o.id} offer={o} href={`/coaches/${coach.slug}?offer=${o.id}#offres`} selected={o.id === selected?.id} />)}
-              </div>
-            </section>
-          )}
-          <section id="avis" className="scroll-mt-20">
-            <h2 className="mb-3 text-xl font-semibold">{t("reviews")}</h2>
-            <ReviewList reviews={reviews} />
+      <div className="flex min-w-0 flex-col gap-12">
+        {offers.length > 0 && (
+          <section id="offres" className="scroll-mt-20">
+            <h2 className="mb-4 text-xl font-semibold">{t("offers")}</h2>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {offers.map((o) => <OfferCard key={o.id} offer={o} href={`/coaches/${coach.slug}?offer=${o.id}#offres`} selected={o.id === selected?.id} />)}
+            </div>
           </section>
-        </div>
-        <aside id="disponibilites" className="scroll-mt-20 lg:sticky lg:top-20 lg:self-start">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("availability")}</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                {selected ? (
-                  <>{selected.title} · <Price value={selected.price} className="text-primary" /> · {t("duration", { min: selected.duration_min })}</>
-                ) : (
-                  <><Price value={coach.price_per_session} className="text-primary" /> {t("perSession")} · {t("duration", { min: coach.session_duration_min })}</>
-                )}
-              </p>
-            </CardHeader>
-            <CardContent><AvailableSlots slots={slots} canBook={!viewer || viewer.role === "client"} offerId={selected?.id} /></CardContent>
-          </Card>
-        </aside>
+        )}
+        <section id="disponibilites" className="scroll-mt-20">
+          <h2 className="text-xl font-semibold">{t("availability")}</h2>
+          <p className="mt-1 mb-4 text-sm text-muted-foreground">
+            {selected
+              ? <>{selected.title} · <Price value={selected.price} /> · {t("duration", { min: selected.duration_min })}</>
+              : <><Price value={coach.price_per_session} /> {t("perSession")} · {t("duration", { min: coach.session_duration_min })}</>}
+          </p>
+          <AvailableSlots slots={slots} canBook={!viewer || viewer.role === "client"} offerId={selected?.id} />
+        </section>
+        <ProfileSections coach={coach} />
+        <section id="avis" className="scroll-mt-20">
+          <h2 className="mb-4 text-xl font-semibold">{t("reviews")}</h2>
+          <ReviewList reviews={reviews} />
+        </section>
       </div>
     </div>
   );

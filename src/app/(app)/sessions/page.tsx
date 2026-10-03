@@ -30,7 +30,7 @@ export default async function SessionsPage({ searchParams }: { searchParams: Pro
     <>
       <PageHeader title={t("title")} />
       <Tabs defaultValue={isCoach && tab === "slots" ? "slots" : isCoach && requests.length ? "requests" : "upcoming"}>
-        <TabsList className="mb-4">
+        <TabsList className="mb-6 max-w-full justify-start overflow-x-auto">
           {isCoach && <TabsTrigger value="requests">{t("tabs.requests", { count: requests.length })}</TabsTrigger>}
           <TabsTrigger value="upcoming">{t("tabs.upcoming")}</TabsTrigger>
           <TabsTrigger value="past">{t("tabs.past")}</TabsTrigger>

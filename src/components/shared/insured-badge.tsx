@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export function InsuredBadge({ className }: { className?: string }) {
   const t = useTranslations("common");
   return (
-    <span className={cn("inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground", className)}>
+    <span className={cn("inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground", className)}>
       <Check className="size-3.5" />{t("insured")}
     </span>
   );
