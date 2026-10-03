@@ -7,7 +7,7 @@ import { dayKey, formatDay, formatTime } from "@/lib/dates";
 
 type Slot = { id: string; starts_at: string; ends_at: string; location: string };
 
-export function AvailableSlots({ slots, canBook }: { slots: Slot[]; canBook: boolean }) {
+export function AvailableSlots({ slots, canBook, offerId }: { slots: Slot[]; canBook: boolean; offerId?: string }) {
   const t = useTranslations("coaches");
   if (slots.length === 0) return <EmptyState icon={CalendarX} title={t("noSlots")} />;
 
@@ -21,7 +21,7 @@ export function AvailableSlots({ slots, canBook }: { slots: Slot[]; canBook: boo
             {daySlots.map((slot) => (
               canBook ? (
                 <Button key={slot.id} asChild variant="outline" size="lg">
-                  <Link href={`/book/${slot.id}`} title={slot.location}>{formatTime(slot.starts_at)} · {t("book")}</Link>
+                  <Link href={offerId ? `/book/${slot.id}?offer=${offerId}` : `/book/${slot.id}`} title={slot.location}>{formatTime(slot.starts_at)} · {t("book")}</Link>
                 </Button>
               ) : (
                 <span key={slot.id} className="rounded-lg border px-3 py-2 text-sm text-muted-foreground">{formatTime(slot.starts_at)}</span>

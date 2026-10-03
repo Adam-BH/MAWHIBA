@@ -13,7 +13,7 @@ import { SubmitButton } from "@/components/shared/submit-button";
 import { bookSlotAction } from "@/features/bookings/actions";
 import { useAction } from "@/lib/use-action";
 
-export function CheckoutForm({ slotId, total, balance }: { slotId: string; total: number; balance: number }) {
+export function CheckoutForm({ slotId, offerId, total, balance }: { slotId: string; offerId?: string; total: number; balance: number }) {
   const t = useTranslations("checkout");
   const router = useRouter();
   const [note, setNote] = useState("");
@@ -22,7 +22,7 @@ export function CheckoutForm({ slotId, total, balance }: { slotId: string; total
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    run(() => bookSlotAction({ slotId, note }), { success: t("booked"), onSuccess: () => router.push("/sessions") });
+    run(() => bookSlotAction({ slotId, offerId, note }), { success: t("booked"), onSuccess: () => router.push("/sessions") });
   }
 
   return (

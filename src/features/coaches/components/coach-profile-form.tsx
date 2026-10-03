@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { coachProfileSchema, type CoachProfileInput } from "@/lib/validations/profile";
 import { useAction } from "@/lib/use-action";
 
-export function CoachProfileForm({ defaults }: { defaults: CoachProfileInput }) {
+export function CoachProfileForm({ defaults, priceFromOffers }: { defaults: CoachProfileInput; priceFromOffers: boolean }) {
   const t = useTranslations("profile");
   const { pending, run } = useAction();
   const form = useForm<CoachProfileInput>({ resolver: zodResolver(coachProfileSchema), defaultValues: defaults });
@@ -41,7 +41,8 @@ export function CoachProfileForm({ defaults }: { defaults: CoachProfileInput }) 
         <div className="grid grid-cols-2 gap-3">
           <div className="grid gap-2">
             <Label htmlFor="price">{t("price")}</Label>
-            <Input id="price" type="number" inputMode="numeric" {...form.register("price", { valueAsNumber: true })} aria-invalid={!!errors.price} />
+            <Input id="price" type="number" inputMode="numeric" readOnly={priceFromOffers} className={priceFromOffers ? "bg-muted" : undefined} {...form.register("price", { valueAsNumber: true })} aria-invalid={!!errors.price} />
+            {priceFromOffers && <p className="text-xs text-muted-foreground">{t("priceFromOffers")}</p>}
             <FieldError message={errors.price?.message} />
           </div>
           <div className="grid gap-2">

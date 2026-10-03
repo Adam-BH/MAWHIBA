@@ -12,6 +12,7 @@ export async function PublicHeader() {
         <Logo />
         <nav className="ml-auto flex items-center gap-1">
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link href="/coaches">{t("findCoach")}</Link></Button>
+          <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link href="/explore/offers">{t("exploreOffers")}</Link></Button>
           {user ? (
             <Button asChild size="sm"><Link href="/dashboard">{t("dashboard")}</Link></Button>
           ) : (

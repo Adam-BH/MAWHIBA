@@ -8,6 +8,7 @@ import { CoachProfileForm } from "@/features/coaches/components/coach-profile-fo
 import { FileUpload } from "@/features/coaches/components/file-upload";
 import { ProfileForm } from "@/features/coaches/components/profile-form";
 import { getMyCoachProfile, listInclusiveCoachIds } from "@/features/coaches/queries";
+import { listCoachOffers } from "@/features/offers/queries";
 import { requireUser } from "@/lib/auth";
 import type { Sport } from "@/lib/config";
 import type { ProfileInput } from "@/lib/validations/profile";
@@ -15,8 +16,8 @@ import type { ProfileInput } from "@/lib/validations/profile";
 export default async function ProfilePage() {
   const user = await requireUser();
   const isCoach = user.role === "coach";
-  const [t, coach, inclusiveIds] = await Promise.all([
-    getTranslations("profile"), isCoach ? getMyCoachProfile(user.id) : null, listInclusiveCoachIds(),
+  const [t, coach, inclusiveIds, offers] = await Promise.all([
+    getTranslations("profile"), isCoach ? getMyCoachProfile(user.id) : null, listInclusiveCoachIds(), isCoach ? listCoachOffers(user.id) : [],
   ]);
   const base = { fullName: user.full_name, phone: user.phone ?? "", city: (user.city ?? "") as ProfileInput["city"] };
 
@@ -55,7 +56,7 @@ export default async function ProfilePage() {
         <CardHeader><CardTitle>{isCoach ? t("coachInfo") : t("info")}</CardTitle></CardHeader>
         <CardContent>
           {coach ? (
-            <CoachProfileForm defaults={{
+            <CoachProfileForm priceFromOffers={offers.length > 0} defaults={{
               ...base,
               sports: coach.sports as Sport[],
               headline: coach.headline ?? "",

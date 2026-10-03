@@ -11,16 +11,23 @@ import { getCoach } from "@/features/coaches/queries";
 import { ReviewList } from "@/features/reviews/components/review-list";
 import { listCoachReviews } from "@/features/reviews/queries";
 import { listAvailableSlots } from "@/features/slots/queries";
+import { OfferCard } from "@/features/offers/components/offer-card";
+import { listCoachOffers } from "@/features/offers/queries";
 import { getCurrentUser } from "@/lib/auth";
 import { uuid } from "@/lib/validations/forms";
 
-export default async function CoachPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function CoachPage({ params, searchParams }: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ offer?: string }>;
+}) {
+  const [{ id }, { offer: offerParam }] = await Promise.all([params, searchParams]);
   if (!uuid.safeParse(id).success) notFound();
-  const [coach, slots, reviews, user, t] = await Promise.all([
-    getCoach(id), listAvailableSlots(id), listCoachReviews(id), getCurrentUser(), getTranslations("coaches"),
+  const [coach, slots, reviews, offers, user, t] = await Promise.all([
+    getCoach(id), listAvailableSlots(id), listCoachReviews(id), listCoachOffers(id), getCurrentUser(), getTranslations("coaches"),
   ]);
   if (!coach) notFound();
+  // Booking = offer + slot. Defaults to the cheapest offer.
+  const selected = offers.find((o) => o.id === offerParam) ?? offers[0];
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
@@ -48,6 +55,15 @@ export default async function CoachPage({ params }: { params: Promise<{ id: stri
             <CardContent><p className="whitespace-pre-line text-muted-foreground">{coach.bio}</p></CardContent>
           </Card>
         )}
+        {offers.length > 0 && (
+          <section id="offres" className="scroll-mt-20">
+            <h2 className="mb-1 text-xl font-bold">{t("offers")}</h2>
+            <p className="mb-3 text-sm text-muted-foreground">{t("offersHint")}</p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {offers.map((o) => <OfferCard key={o.id} offer={o} href={`/coaches/${id}?offer=${o.id}#offres`} selected={o.id === selected?.id} />)}
+            </div>
+          </section>
+        )}
         <section>
           <h2 className="mb-3 text-xl font-bold">{t("reviews")}</h2>
           <ReviewList reviews={reviews} />
@@ -58,10 +74,14 @@ export default async function CoachPage({ params }: { params: Promise<{ id: stri
           <CardHeader>
             <CardTitle>{t("availability")}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              <Points value={coach.price_per_session} className="text-primary" /> {t("perSession")} · {t("duration", { min: coach.session_duration_min })}
+              {selected ? (
+                <>{selected.title} · <Points value={selected.price} className="text-primary" /> · {t("duration", { min: selected.duration_min })}</>
+              ) : (
+                <><Points value={coach.price_per_session} className="text-primary" /> {t("perSession")} · {t("duration", { min: coach.session_duration_min })}</>
+              )}
             </p>
           </CardHeader>
-          <CardContent><AvailableSlots slots={slots} canBook={!user || user.role === "client"} /></CardContent>
+          <CardContent><AvailableSlots slots={slots} canBook={!user || user.role === "client"} offerId={selected?.id} /></CardContent>
         </Card>
       </aside>
     </div>

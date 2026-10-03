@@ -9,25 +9,43 @@ import { PageHeader } from "@/components/shared/page-header";
 import { Points } from "@/components/shared/points";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { CheckoutForm } from "@/features/bookings/components/checkout-form";
+import { OfferCard } from "@/features/offers/components/offer-card";
+import { listCoachOffers } from "@/features/offers/queries";
 import { getBookableSlot } from "@/features/slots/queries";
 import { getBalance } from "@/features/wallet/queries";
 import { requireRole } from "@/lib/auth";
+import { INSURANCE_FEE } from "@/lib/config";
 import { formatDay, formatTime } from "@/lib/dates";
 import { checkoutTotal } from "@/lib/money";
-import { INSURANCE_FEE } from "@/lib/config";
 import { uuid } from "@/lib/validations/forms";
 
-export default async function BookPage({ params }: { params: Promise<{ slotId: string }> }) {
+export default async function BookPage({ params, searchParams }: {
+  params: Promise<{ slotId: string }>;
+  searchParams: Promise<{ offer?: string }>;
+}) {
   const user = await requireRole(["client"]);
-  const { slotId } = await params;
-  const t = await getTranslations("checkout");
+  const [{ slotId }, { offer: offerId }, t] = await Promise.all([params, searchParams, getTranslations("checkout")]);
   const slot = uuid.safeParse(slotId).success ? await getBookableSlot(slotId) : null;
   if (!slot) {
     return <EmptyState icon={CalendarX} title={t("unavailable")} action={<Button asChild><Link href="/coaches">{t("back")}</Link></Button>} />;
   }
-  const price = slot.coach.price_per_session;
+  const [offers, balance] = await Promise.all([listCoachOffers(slot.coach.user_id), getBalance(user.id)]);
+  const offer = offers.find((o) => o.id === offerId);
+
+  // Coaches with offers are booked through an offer: ask for one if missing.
+  if (offers.length > 0 && !offer) {
+    return (
+      <div className="mx-auto max-w-xl">
+        <PageHeader title={t("chooseOffer")} description={t("chooseOfferHint")} />
+        <div className="grid gap-3">
+          {offers.map((o) => <OfferCard key={o.id} offer={o} href={`/book/${slot.id}?offer=${o.id}`} />)}
+        </div>
+      </div>
+    );
+  }
+
+  const price = offer?.price ?? slot.coach.price_per_session;
   const total = checkoutTotal(price);
-  const balance = await getBalance(user.id);
 
   return (
     <div className="mx-auto max-w-xl">
@@ -37,7 +55,7 @@ export default async function BookPage({ params }: { params: Promise<{ slotId: s
           <UserAvatar name={slot.coach.profile.full_name} src={slot.coach.profile.avatar_url} className="size-12" />
           <div>
             <CardTitle>{slot.coach.profile.full_name}</CardTitle>
-            <p className="text-sm text-muted-foreground">{slot.coach.sports.join(" · ")}</p>
+            <p className="text-sm text-muted-foreground">{offer ? `${offer.title} · ${offer.duration_min} min` : slot.coach.sports.join(" · ")}</p>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
@@ -47,13 +65,13 @@ export default async function BookPage({ params }: { params: Promise<{ slotId: s
           </div>
           <Separator />
           <dl className="grid gap-2 text-sm">
-            <div className="flex justify-between"><dt>{t("session")}</dt><dd><Points value={price} /></dd></div>
+            <div className="flex justify-between gap-2"><dt>{offer?.title ?? t("session")}</dt><dd><Points value={price} /></dd></div>
             <div className="flex justify-between"><dt>{t("insurance")}</dt><dd><Points value={INSURANCE_FEE} /></dd></div>
             <div className="flex justify-between border-t pt-2 text-base font-bold"><dt>{t("total")}</dt><dd><Points value={total} className="text-primary" /></dd></div>
           </dl>
           <p className="rounded-lg bg-muted p-3 text-center text-sm font-medium">{t("summary", { price, fee: INSURANCE_FEE, total })}</p>
           {balance >= total && <p className="text-sm text-muted-foreground">{t("balanceLine", { balance, after: balance - total })}</p>}
-          <CheckoutForm slotId={slot.id} total={total} balance={balance} />
+          <CheckoutForm slotId={slot.id} offerId={offer?.id} total={total} balance={balance} />
         </CardContent>
       </Card>
     </div>

@@ -28,7 +28,7 @@ export function CoachCard({ coach }: { coach: CoachCardData }) {
           <CoachBadges verified={coach.verified} inclusive={coach.inclusive} />
           <div className="mt-auto flex items-center justify-between border-t pt-3">
             <RatingStars rating={Number(coach.rating_avg)} count={coach.rating_count} />
-            <span className="text-sm"><Points value={coach.price_per_session} className="text-primary" /> {t("perSession")}</span>
+            <span className="text-sm">{t("from")} <Points value={coach.price_per_session} className="text-primary" /> {t("perSession")}</span>
           </div>
         </CardContent>
       </Card>

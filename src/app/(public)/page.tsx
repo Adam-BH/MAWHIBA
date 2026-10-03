@@ -50,7 +50,10 @@ export default async function LandingPage() {
       <section>
         <div className="mb-6 flex items-end justify-between gap-4">
           <h2 className="text-2xl font-bold">{t("featuredTitle")}</h2>
-          <Button asChild variant="link"><Link href="/coaches">{t("seeAll")}</Link></Button>
+          <div className="flex flex-wrap justify-end">
+            <Button asChild variant="link"><Link href="/explore/offers">{t("seeOffers")}</Link></Button>
+            <Button asChild variant="link"><Link href="/coaches">{t("seeAll")}</Link></Button>
+          </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {coaches.map((coach) => <CoachCard key={coach.user_id} coach={coach} />)}

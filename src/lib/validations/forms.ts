@@ -4,6 +4,7 @@ export const uuid = z.uuid();
 
 export const bookingSchema = z.object({
   slotId: z.uuid(),
+  offerId: z.uuid().optional(),
   note: z.string().trim().max(500).optional(),
 });
 
