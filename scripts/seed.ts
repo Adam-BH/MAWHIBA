@@ -1,27 +1,11 @@
-import { config } from "dotenv";
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "../src/lib/supabase/database.types";
 import { DEMO_COACH, EXTRA_CLIENTS, LOCATIONS, PENDING_COACHES, REVIEW_COMMENTS, VERIFIED_COACHES, type SeedCoach } from "./seed-data/coaches";
 import { INCLUSIVE_CERTIFICATION } from "./seed-data/certification";
+import { check, db, must } from "./seed-data/db";
+import { seedMarketplace } from "./seed-marketplace";
 
-config({ path: ".env.local" });
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (!url || !key) throw new Error("NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required (.env.local)");
-
-const db = createClient<Database>(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
 const PASSWORD = "Mawhiba2026!";
 const DAY = 86_400_000;
 const avatar = (name: string) => `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(name)}`;
-
-function check(res: { error: { message: string } | null }, what: string) {
-  if (res.error) throw new Error(`${what}: ${res.error.message}`);
-}
-
-function must<T>(res: { data: T; error: { message: string } | null }, what: string): NonNullable<T> {
-  if (res.error || res.data === null || res.data === undefined) throw new Error(`${what}: ${res.error?.message ?? "no data"}`);
-  return res.data;
-}
 
 async function ensureUser(email: string, name: string, role: "client" | "coach", city: string) {
   const { data } = await db.auth.admin.listUsers({ perPage: 1000 });
@@ -142,6 +126,7 @@ async function main() {
   const clients = [];
   for (const c of EXTRA_CLIENTS) clients.push({ id: await ensureUser(c.email, c.name, "client", c.city), balance: c.balance });
   await seedHistory(verified, clients);
+  await seedMarketplace(verified, { demoClient, clients: clients.map((c) => c.id) });
 
   console.log(`✔ Seed done. Demo accounts (password ${PASSWORD}): admin@ / coach@ / client@mawhiba.tn`);
 }

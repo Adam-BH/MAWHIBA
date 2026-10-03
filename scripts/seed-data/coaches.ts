@@ -15,7 +15,7 @@ export const DEMO_COACH: SeedCoach = {
   name: "Amira Ben Salah",
   city: "La Marsa",
   sports: ["Natation"],
-  price: 45,
+  price: 40, // = cheapest of her offers ("à partir de")
   headline: "Nageuse de l'équipe nationale, coach bienveillante",
   achievements: "Équipe nationale de natation (2016–2022) · Médaillée d'or aux Jeux panarabes 2019 (200 m dos)",
   bio: "J'accompagne enfants et adultes, du premier plongeon au perfectionnement technique. Séances adaptées aux profils neuro-atypiques.",

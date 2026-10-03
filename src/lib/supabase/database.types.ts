@@ -25,13 +25,13 @@ export type Database = {
           Tables: {
             "bookings": {
                   Row: {
-                    "client_id": string,"coach_id": string,"created_at": string,"id": string,"insurance_fee": number,"note": string | null,"price": number,"slot_id": string,"status": Database["public"]['Enums']["booking_status"],"updated_at": string
+                    "client_id": string,"coach_id": string,"created_at": string,"id": string,"insurance_fee": number,"note": string | null,"offer_id": string | null,"price": number,"proposal_id": string | null,"request_id": string | null,"slot_id": string,"status": Database["public"]['Enums']["booking_status"],"updated_at": string
                   }
                   Insert: {
-                    "client_id": string,"coach_id": string,"created_at"?: string,"id"?: string,"insurance_fee": number,"note"?: string | null,"price": number,"slot_id": string,"status"?: Database["public"]['Enums']["booking_status"],"updated_at"?: string
+                    "client_id": string,"coach_id": string,"created_at"?: string,"id"?: string,"insurance_fee": number,"note"?: string | null,"offer_id"?: string | null,"price": number,"proposal_id"?: string | null,"request_id"?: string | null,"slot_id": string,"status"?: Database["public"]['Enums']["booking_status"],"updated_at"?: string
                   }
                   Update: {
-                    "client_id"?: string,"coach_id"?: string,"created_at"?: string,"id"?: string,"insurance_fee"?: number,"note"?: string | null,"price"?: number,"slot_id"?: string,"status"?: Database["public"]['Enums']["booking_status"],"updated_at"?: string
+                    "client_id"?: string,"coach_id"?: string,"created_at"?: string,"id"?: string,"insurance_fee"?: number,"note"?: string | null,"offer_id"?: string | null,"price"?: number,"proposal_id"?: string | null,"request_id"?: string | null,"slot_id"?: string,"status"?: Database["public"]['Enums']["booking_status"],"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -57,6 +57,30 @@ isOneToOne: false
       columns: ["coach_id"]
 isOneToOne: false
       referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "bookings_offer_id_fkey"
+      columns: ["offer_id"]
+isOneToOne: false
+      referencedRelation: "offers"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "bookings_proposal_id_fkey"
+      columns: ["proposal_id"]
+isOneToOne: false
+      referencedRelation: "proposals"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "bookings_request_id_fkey"
+      columns: ["request_id"]
+isOneToOne: false
+      referencedRelation: "request_board"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "bookings_request_id_fkey"
+      columns: ["request_id"]
+isOneToOne: false
+      referencedRelation: "requests"
       referencedColumns: ["id"]
     },{
       foreignKeyName: "bookings_slot_id_fkey"
@@ -135,6 +159,25 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"offers": {
+                  Row: {
+                    "audience": Database["public"]['Enums']["offer_audience"],"coach_id": string,"created_at": string,"description": string,"duration_min": number,"id": string,"is_active": boolean,"is_inclusive": boolean,"price": number,"sport": string,"title": string,"updated_at": string
+                  }
+                  Insert: {
+                    "audience"?: Database["public"]['Enums']["offer_audience"],"coach_id": string,"created_at"?: string,"description"?: string,"duration_min": number,"id"?: string,"is_active"?: boolean,"is_inclusive"?: boolean,"price": number,"sport": string,"title": string,"updated_at"?: string
+                  }
+                  Update: {
+                    "audience"?: Database["public"]['Enums']["offer_audience"],"coach_id"?: string,"created_at"?: string,"description"?: string,"duration_min"?: number,"id"?: string,"is_active"?: boolean,"is_inclusive"?: boolean,"price"?: number,"sport"?: string,"title"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "offers_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_profiles"
+      referencedColumns: ["user_id"]
+    }
+                  ]
                 },"profiles": {
                   Row: {
                     "avatar_url": string | null,"city": string | null,"created_at": string,"email": string | null,"full_name": string,"id": string,"phone": string | null,"role": Database["public"]['Enums']["user_role"]
@@ -147,6 +190,68 @@ isOneToOne: true
                   }
                   Relationships: [
                     
+                  ]
+                },"proposals": {
+                  Row: {
+                    "coach_id": string,"created_at": string,"id": string,"message": string,"price": number,"request_id": string,"slot_id": string,"status": Database["public"]['Enums']["proposal_status"],"updated_at": string
+                  }
+                  Insert: {
+                    "coach_id": string,"created_at"?: string,"id"?: string,"message"?: string,"price": number,"request_id": string,"slot_id": string,"status"?: Database["public"]['Enums']["proposal_status"],"updated_at"?: string
+                  }
+                  Update: {
+                    "coach_id"?: string,"created_at"?: string,"id"?: string,"message"?: string,"price"?: number,"request_id"?: string,"slot_id"?: string,"status"?: Database["public"]['Enums']["proposal_status"],"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "proposals_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "coach_profiles"
+      referencedColumns: ["user_id"]
+    },{
+      foreignKeyName: "proposals_request_id_fkey"
+      columns: ["request_id"]
+isOneToOne: false
+      referencedRelation: "request_board"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "proposals_request_id_fkey"
+      columns: ["request_id"]
+isOneToOne: false
+      referencedRelation: "requests"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "proposals_slot_id_fkey"
+      columns: ["slot_id"]
+isOneToOne: false
+      referencedRelation: "slots"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"requests": {
+                  Row: {
+                    "audience": Database["public"]['Enums']["request_audience"],"budget_max": number,"budget_min": number,"child_age": number | null,"city": string,"client_id": string,"created_at": string,"description": string,"expires_at": string,"id": string,"level": Database["public"]['Enums']["skill_level"],"schedule_note": string,"special_needs": boolean,"special_needs_note": string | null,"sport": string,"status": Database["public"]['Enums']["request_status"],"title": string,"updated_at": string
+                  }
+                  Insert: {
+                    "audience": Database["public"]['Enums']["request_audience"],"budget_max": number,"budget_min": number,"child_age"?: number | null,"city": string,"client_id": string,"created_at"?: string,"description": string,"expires_at"?: string,"id"?: string,"level": Database["public"]['Enums']["skill_level"],"schedule_note"?: string,"special_needs"?: boolean,"special_needs_note"?: string | null,"sport": string,"status"?: Database["public"]['Enums']["request_status"],"title": string,"updated_at"?: string
+                  }
+                  Update: {
+                    "audience"?: Database["public"]['Enums']["request_audience"],"budget_max"?: number,"budget_min"?: number,"child_age"?: number | null,"city"?: string,"client_id"?: string,"created_at"?: string,"description"?: string,"expires_at"?: string,"id"?: string,"level"?: Database["public"]['Enums']["skill_level"],"schedule_note"?: string,"special_needs"?: boolean,"special_needs_note"?: string | null,"sport"?: string,"status"?: Database["public"]['Enums']["request_status"],"title"?: string,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "requests_client_id_fkey"
+      columns: ["client_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "requests_client_id_fkey"
+      columns: ["client_id"]
+isOneToOne: false
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    }
                   ]
                 },"reviews": {
                   Row: {
@@ -282,6 +387,13 @@ isOneToOne: false
                         Relationships: [
                     
                   ]
+                },"request_board": {
+                  Row: {
+                    "audience": Database["public"]['Enums']["request_audience"] | null,"budget_max": number | null,"budget_min": number | null,"child_age": number | null,"city": string | null,"client_first_name": string | null,"created_at": string | null,"description": string | null,"expires_at": string | null,"id": string | null,"level": Database["public"]['Enums']["skill_level"] | null,"proposals_count": number | null,"schedule_note": string | null,"special_needs": boolean | null,"special_needs_note": string | null,"sport": string | null,"status": Database["public"]['Enums']["request_status"] | null,"title": string | null
+                  }
+                  Relationships: [
+                    
+                  ]
                 }
           }
           Functions: {
@@ -293,6 +405,9 @@ isOneToOne: false
                            },
 "_refund_booking":
 { Args: { "p_booking": Database["public"]['Tables']["bookings"]['Row'],"p_status": Database["public"]['Enums']["booking_status"] }; Returns: undefined
+                           },
+"accept_proposal":
+{ Args: { "proposal_id": string }; Returns: string
                            },
 "admin_credit":
 { Args: { "amount": number,"reason": string,"user_id": string }; Returns: undefined
@@ -313,10 +428,13 @@ isOneToOne: false
 { Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role"]
                            },
 "book_slot":
-{ Args: { "note"?: string,"slot_id": string }; Returns: string
+{ Args: { "note"?: string,"offer_id"?: string,"slot_id": string }; Returns: string
                            },
 "cancel_booking":
 { Args: { "booking_id": string }; Returns: undefined
+                           },
+"close_request":
+{ Args: { "request_id": string }; Returns: undefined
                            },
 "coach_share":
 { Args: { "p_price": number }; Returns: number
@@ -324,10 +442,25 @@ isOneToOne: false
 "complete_booking":
 { Args: { "booking_id": string }; Returns: undefined
                            },
+"create_proposal":
+{ Args: { "message": string,"price": number,"request_id": string,"slot_id": string }; Returns: string
+                           },
+"create_request":
+{ Args: { "audience": Database["public"]['Enums']["request_audience"],"budget_max": number,"budget_min": number,"child_age": number,"city": string,"description": string,"level": Database["public"]['Enums']["skill_level"],"schedule_note": string,"special_needs": boolean,"special_needs_note": string,"sport": string,"title": string }; Returns: string
+                           },
+"has_contact_info":
+{ Args: { "p_text": string }; Returns: boolean
+                           },
+"has_inclusive_badge":
+{ Args: { "p_coach": string }; Returns: boolean
+                           },
 "insurance_fee":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
 "is_admin":
+{ Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"is_verified_coach":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
 "request_withdrawal":
@@ -349,10 +482,13 @@ isOneToOne: false
                            },
 "wallet_balance":
 { Args: { "uid": string }; Returns: number
+                           },
+"withdraw_proposal":
+{ Args: { "proposal_id": string }; Returns: undefined
                            }
           }
           Enums: {
-            "booking_status": "pending"|"confirmed"|"declined"|"cancelled"|"completed","tx_type": "topup"|"booking_hold"|"booking_refund"|"coach_payout"|"commission"|"insurance"|"withdrawal"|"admin_credit","user_role": "client"|"coach"|"admin","withdrawal_status": "pending"|"paid"|"rejected"
+            "booking_status": "pending"|"confirmed"|"declined"|"cancelled"|"completed","offer_audience": "enfants"|"adultes"|"tous","proposal_status": "pending"|"accepted"|"rejected"|"withdrawn","request_audience": "enfant"|"adulte","request_status": "open"|"fulfilled"|"closed"|"expired","skill_level": "debutant"|"intermediaire"|"avance","tx_type": "topup"|"booking_hold"|"booking_refund"|"coach_payout"|"commission"|"insurance"|"withdrawal"|"admin_credit","user_role": "client"|"coach"|"admin","withdrawal_status": "pending"|"paid"|"rejected"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -472,7 +608,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "booking_status": ["pending", "confirmed", "declined", "cancelled", "completed"],"tx_type": ["topup", "booking_hold", "booking_refund", "coach_payout", "commission", "insurance", "withdrawal", "admin_credit"],"user_role": ["client", "coach", "admin"],"withdrawal_status": ["pending", "paid", "rejected"]
+            "booking_status": ["pending", "confirmed", "declined", "cancelled", "completed"],"offer_audience": ["enfants", "adultes", "tous"],"proposal_status": ["pending", "accepted", "rejected", "withdrawn"],"request_audience": ["enfant", "adulte"],"request_status": ["open", "fulfilled", "closed", "expired"],"skill_level": ["debutant", "intermediaire", "avance"],"tx_type": ["topup", "booking_hold", "booking_refund", "coach_payout", "commission", "insurance", "withdrawal", "admin_credit"],"user_role": ["client", "coach", "admin"],"withdrawal_status": ["pending", "paid", "rejected"]
           }
         }
 } as const
