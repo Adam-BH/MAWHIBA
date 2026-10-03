@@ -7,7 +7,7 @@ const c = THEME.colors;
 export const styles = StyleSheet.create({
   page: { fontFamily: THEME.fonts.family, fontSize: 9.5, color: c.foreground, lineHeight: 1.4 },
   h1: { fontSize: 24, fontWeight: "bold", lineHeight: 1.2 },
-  tagline: { fontSize: 11, fontStyle: "italic", marginTop: 4, lineHeight: 1.3 },
+  tagline: { fontSize: 11, marginTop: 4, lineHeight: 1.3 },
   sectionTitle: { fontSize: 9, fontWeight: "bold", letterSpacing: 1.2, textTransform: "uppercase", color: c.primary,
     borderBottomWidth: 1.5, borderBottomColor: c.accent, paddingBottom: 2, marginBottom: 4, marginTop: 9 },
   row: { flexDirection: "row", marginBottom: 4 },

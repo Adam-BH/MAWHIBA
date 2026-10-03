@@ -9,7 +9,6 @@ Font.register({
   fonts: [
     { src: THEME.fonts.files.regular },
     { src: THEME.fonts.files.bold, fontWeight: "bold" },
-    { src: THEME.fonts.files.italic, fontStyle: "italic" },
   ],
 });
 Font.registerHyphenationCallback((word) => [word]);

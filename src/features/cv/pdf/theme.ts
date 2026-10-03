@@ -23,11 +23,10 @@ export const THEME = {
     foreground: "#1f2a44",
   }, // --level-*
   fonts: {
-    family: "Lato",
+    family: "Mawhiba",
     files: {
-      regular: path.join(process.cwd(), "public/fonts/Lato-Regular.ttf"),
-      bold: path.join(process.cwd(), "public/fonts/Lato-Bold.ttf"),
-      italic: path.join(process.cwd(), "public/fonts/Lato-Italic.ttf"),
+      regular: path.join(process.cwd(), "public/fonts/dm-sans-medium.ttf"), // --font-sans
+      bold: path.join(process.cwd(), "public/fonts/montserrat-semibold.ttf"), // --font-display
     },
   },
 } as const;
