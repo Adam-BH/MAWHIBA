@@ -36,7 +36,7 @@ export async function listPublicOffers(filters: OfferFilters = {}, limit = 60) {
   const supabase = await createClient();
   let query = supabase
     .from("offers")
-    .select(`${OFFER_FIELDS}, coach:coach_profiles!inner(verified, rating_avg, rating_count, profile:profiles!inner(full_name, avatar_url, city))`)
+    .select(`${OFFER_FIELDS}, coach:coach_profiles!inner(slug, verified, rating_avg, rating_count, profile:profiles!inner(full_name, avatar_url, city))`)
     .eq("is_active", true)
     .eq("coach.verified", true);
   if (filters.sport) query = query.eq("sport", filters.sport);

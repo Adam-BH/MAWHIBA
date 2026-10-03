@@ -10,7 +10,11 @@ const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"] });
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
-  return { title: { default: t("title"), template: `%s · MAWHIBA` }, description: t("description") };
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    title: { default: t("title"), template: `%s · MAWHIBA` },
+    description: t("description"),
+  };
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

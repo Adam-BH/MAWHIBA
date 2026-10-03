@@ -15,7 +15,7 @@ export function CoachAdminRow({ coach }: { coach: AdminCoach }) {
         <UserAvatar name={coach.profile.full_name} src={coach.profile.avatar_url} />
         <div className="min-w-0">
           <p className="truncate font-medium">
-            {coach.verified ? <Link className="hover:underline" href={`/coaches/${coach.user_id}`}>{coach.profile.full_name}</Link> : coach.profile.full_name}
+            {coach.verified ? <Link className="hover:underline" href={`/coaches/${coach.slug ?? coach.user_id}`}>{coach.profile.full_name}</Link> : coach.profile.full_name}
           </p>
           <p className="truncate text-sm text-muted-foreground">{coach.profile.email} · {coach.profile.city ?? "—"}</p>
           <p className="truncate text-sm text-muted-foreground">{coach.sports.join(", ") || "—"} · <Points value={coach.price_per_session} /></p>

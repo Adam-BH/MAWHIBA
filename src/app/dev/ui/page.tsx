@@ -20,6 +20,10 @@ import { StatCard } from "@/components/shared/stat-card";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { BudgetRange } from "@/components/shared/budget-range";
+import { AthleteCard } from "@/components/shared/athlete-card";
+import { LevelChip } from "@/components/shared/level-chip";
+import { StrengthMeter } from "@/features/profile/components/strength-meter";
+import { ACHIEVEMENT_LEVELS } from "@/lib/config";
 import { TimeLeft } from "@/components/shared/time-left";
 import { OfferCard } from "@/features/offers/components/offer-card";
 import { ProposalCard } from "@/features/proposals/components/proposal-card";
@@ -31,6 +35,10 @@ const TOKENS = [
 ];
 const STATUSES = ["pending", "confirmed", "completed", "declined", "cancelled", "paid", "rejected", "open", "fulfilled", "closed", "expired", "accepted", "withdrawn"] as const;
 const IN_5_DAYS = new Date(Date.now() + 5 * 86_400_000).toISOString();
+const CARD = {
+  name: "Amira Ben Salah", avatarUrl: null, sport: "Natation", city: "La Marsa", level: "international" as const, verified: true,
+  rating: 4.9, ratingCount: 32, sessions: 32, years: 12, badges: ["verified", "inclusive", "complete"] as const, tagline: "Je rends l'eau rassurante pour tous",
+};
 const SLOT = { starts_at: IN_5_DAYS, ends_at: IN_5_DAYS, location: "Piscine olympique de Radès" };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -101,6 +109,14 @@ export default async function DevUiPage() {
           <RequestCard request={{ sport: "Natation", city: "La Marsa", title: "Coach pour mon fils (8 ans)", audience: "enfant", child_age: 8, level: "debutant",
             special_needs: true, schedule_note: "Samedi matin", budget_min: 30, budget_max: 50, status: "open", expires_at: IN_5_DAYS, client_first_name: "Mehdi", proposals_count: 2 }} />
           <ProposalCard budget={{ min: 30, max: 50 }} proposal={{ price: 60, message: "Disponible samedi.", status: "pending", slot: SLOT }} />
+        </div>
+      </Section>
+      <Section title={t("profileCv")}>
+        <div className="flex flex-wrap gap-2">{ACHIEVEMENT_LEVELS.map((l) => <LevelChip key={l} level={l} />)}</div>
+        <StrengthMeter score={72} level="pro" next={{ key: "achievements", gain: 10, count: 2 }} />
+        <div className="grid gap-4 md:grid-cols-2">
+          <AthleteCard card={{ ...CARD, badges: [...CARD.badges] }} />
+          <AthleteCard variant="compact" card={{ ...CARD, sport: "Boxe", badges: ["verified"] }} />
         </div>
       </Section>
       <Section title={t("forms")}>

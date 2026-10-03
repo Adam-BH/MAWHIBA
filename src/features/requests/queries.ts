@@ -7,7 +7,7 @@ const REQUEST_FIELDS =
 
 const PROPOSAL_FIELDS = `id, price, message, status, created_at, coach_id,
   slot:slots!inner(starts_at, ends_at, location, is_booked),
-  coach:coach_profiles!inner(user_id, verified, rating_avg, rating_count, sports, profile:profiles!inner(full_name, avatar_url, city))`;
+  coach:coach_profiles!inner(user_id, slug, verified, rating_avg, rating_count, sports, profile:profiles!inner(full_name, avatar_url, city))`;
 
 export async function listMyRequests(clientId: string) {
   const supabase = await createClient();

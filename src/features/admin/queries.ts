@@ -29,7 +29,7 @@ export async function listCoachesForAdmin() {
   const supabase = await createClient();
   const { data } = await supabase
     .from("coach_profiles")
-    .select("user_id, sports, headline, price_per_session, verified, proof_path, rating_avg, rating_count, profile:profiles!inner(full_name, email, city, avatar_url, created_at)")
+    .select("user_id, slug, sports, headline, price_per_session, verified, proof_path, rating_avg, rating_count, profile:profiles!inner(full_name, email, city, avatar_url, created_at)")
     .order("verified")
     .limit(500);
   const coaches = data ?? [];
@@ -67,4 +67,23 @@ export async function searchUsers(q: string) {
   const users = data ?? [];
   const balances = await Promise.all(users.map((u) => supabase.rpc("wallet_balance", { uid: u.id })));
   return users.map((u, i) => ({ ...u, balance: balances[i].data ?? 0 }));
+}
+
+/** Palmarès & certifications awaiting review (unverified, with a proof file), with signed proof URLs. */
+export async function listPendingCvItems() {
+  const supabase = await createClient();
+  const coachEmbed = "coach:coach_profiles!inner(slug, profile:profiles!inner(full_name, email))";
+  const [{ data: achievements }, { data: certifications }] = await Promise.all([
+    supabase.from("athletic_achievements").select(`id, year, title, competition, result, level, proof_path, ${coachEmbed}`)
+      .eq("verified", false).not("proof_path", "is", null),
+    supabase.from("external_certifications").select(`id, year, title, issuer, file_path, ${coachEmbed}`)
+      .eq("verified", false).not("file_path", "is", null),
+  ]);
+  const paths = [...(achievements ?? []).map((a) => a.proof_path!), ...(certifications ?? []).map((c) => c.file_path!)];
+  const { data: signed } = paths.length ? await supabase.storage.from("proofs").createSignedUrls(paths, 600) : { data: [] };
+  const urls = new Map((signed ?? []).map((s) => [s.path, s.signedUrl]));
+  return {
+    achievements: (achievements ?? []).map((a) => ({ ...a, proofUrl: urls.get(a.proof_path!) ?? null })),
+    certifications: (certifications ?? []).map((c) => ({ ...c, proofUrl: urls.get(c.file_path!) ?? null })),
+  };
 }

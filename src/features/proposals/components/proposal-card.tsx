@@ -18,6 +18,7 @@ export type ProposalCardData = {
   slot: { starts_at: string; ends_at: string; location: string };
   coach?: {
     user_id: string;
+    slug?: string | null;
     verified: boolean;
     rating_avg: number;
     rating_count: number;
@@ -41,7 +42,7 @@ export function ProposalCard({ proposal, budget, actions }: {
         <div className="flex items-start gap-3">
           <UserAvatar name={coach.profile.full_name} src={coach.profile.avatar_url} className="size-12" />
           <div className="min-w-0 flex-1">
-            <Link href={`/coaches/${coach.user_id}`} className="font-semibold hover:underline">{coach.profile.full_name}</Link>
+            <Link href={`/coaches/${coach.slug ?? coach.user_id}`} className="font-semibold hover:underline">{coach.profile.full_name}</Link>
             <div><RatingStars rating={Number(coach.rating_avg)} count={coach.rating_count} /></div>
             <CoachBadges verified={coach.verified} inclusive={proposal.inclusive} />
           </div>

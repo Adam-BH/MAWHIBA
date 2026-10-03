@@ -39,7 +39,7 @@ export default async function ExploreOffersPage({ searchParams }: { searchParams
       {offers.length === 0 ? <EmptyState icon={SearchX} title={t("empty")} /> : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {offers.map((o) => (
-            <OfferCard key={o.id} offer={o} href={`/coaches/${o.coach_id}?offer=${o.id}#offres`} coachLine={
+            <OfferCard key={o.id} offer={o} href={`/coaches/${o.coach.slug ?? o.coach_id}?offer=${o.id}#offres`} coachLine={
               <div className="flex items-center gap-2 border-b pb-2">
                 <UserAvatar name={o.coach.profile.full_name} src={o.coach.profile.avatar_url} className="size-8" />
                 <div className="min-w-0 flex-1">

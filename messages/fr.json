@@ -85,7 +85,10 @@
     "CONTACT_INFO": "Pas de numéro de téléphone ni d'e-mail : les échanges passent par MAWHIBA pour garantir l'assurance Star et la protection de votre paiement.",
     "REQUEST_CLOSED": "Cette demande n'est plus ouverte.",
     "SPORT_MISMATCH": "Ce sport ne fait pas partie de votre profil.",
-    "ALREADY_PROPOSED": "Vous avez déjà envoyé une proposition pour cette demande."
+    "ALREADY_PROPOSED": "Vous avez déjà envoyé une proposition pour cette demande.",
+    "SLUG_TAKEN": "Cette adresse de profil est déjà prise. Essaie une variante.",
+    "AI_QUOTA": "Limite atteinte : 5 suggestions par jour. Réessaie demain.",
+    "AI_UNAVAILABLE": "Suggestions indisponibles pour le moment. Ta bio actuelle est conservée."
   },
   "auth": {
     "email": "E-mail",
@@ -180,7 +183,9 @@
     "uploadProof": "Téléverser un justificatif",
     "replaceProof": "Remplacer le justificatif",
     "proofSaved": "Justificatif envoyé",
-    "priceFromOffers": "Calculé automatiquement : prix de votre offre la moins chère."
+    "priceFromOffers": "Calculé automatiquement : prix de votre offre la moins chère.",
+    "builderTitle": "Mon profil de coach",
+    "builderSubtitle": "7 étapes pour un profil pro et un CV prêt à partager."
   },
   "slots": {
     "title": "Mes créneaux",
@@ -394,7 +399,10 @@
       "revoke": "Retirer la vérification",
       "verifiedToast": "Coach vérifié",
       "rejectedToast": "Justificatif rejeté",
-      "revokedToast": "Vérification retirée"
+      "revokedToast": "Vérification retirée",
+      "tabCoaches": "Coachs ({count})",
+      "tabItems": "Palmarès & certifications ({count})",
+      "itemsEmpty": "Rien à vérifier pour le moment"
     },
     "bookings": {
       "title": "Réservations",
@@ -428,6 +436,15 @@
       "title": "Demandes clients",
       "subtitle": "Modération des demandes et de leurs propositions.",
       "empty": "Aucune demande"
+    },
+    "cvItems": {
+      "achievement": "Palmarès",
+      "certification": "Certification",
+      "viewProof": "Voir la preuve",
+      "verify": "Vérifier",
+      "reject": "Rejeter",
+      "verifiedToast": "Marqué comme vérifié",
+      "rejectedToast": "Preuve rejetée"
     }
   },
   "errorPage": {
@@ -449,7 +466,8 @@
     "badges": "Badges",
     "cards": "Cartes",
     "forms": "Formulaires",
-    "marketplace": "Offres & demandes"
+    "marketplace": "Offres & demandes",
+    "profileCv": "Profil & CV"
   },
   "navShort": {
     "dashboard": "Accueil",
@@ -631,5 +649,299 @@
       "submit": "Envoyer la proposition",
       "sent": "Proposition envoyée !"
     }
+  },
+  "levels": {
+    "local": "Local",
+    "regional": "Régional",
+    "national": "National",
+    "international": "International",
+    "olympique": "Olympique"
+  },
+  "athleteCard": {
+    "rating": "Note",
+    "sessions": "Séances",
+    "years": "Années",
+    "verified": "Vérifié",
+    "yourName": "Ton nom",
+    "sport": "Ton sport",
+    "badges": {
+      "verified": "Athlète vérifié",
+      "inclusive": "Coaching inclusif",
+      "complete": "Profil complet"
+    }
+  },
+  "strength": {
+    "title": "Force du profil",
+    "next": "Prochaine étape : {hint} (+{gain}%)",
+    "levels": {
+      "debutant": "Débutant",
+      "solide": "Solide",
+      "pro": "Pro",
+      "elite": "Élite"
+    },
+    "hints": {
+      "avatar": "ajoute une photo",
+      "cover": "ajoute une photo de couverture",
+      "tagline": "écris ta phrase d'accroche",
+      "languages": "indique tes langues",
+      "city": "indique ta ville",
+      "primarySport": "choisis ton sport principal",
+      "athleteStatus": "précise ton statut d'athlète",
+      "yearsPractice": "indique tes années de pratique",
+      "highestLevel": "indique ton plus haut niveau",
+      "achievements": "{count, plural, one {ajoute # palmarès} other {ajoute # palmarès}}",
+      "verifiedAchievement": "fais vérifier un palmarès (ajoute une preuve)",
+      "experience": "ajoute une expérience de coaching",
+      "yearsCoaching": "indique tes années de coaching",
+      "specialties": "choisis au moins 2 spécialités",
+      "education": "ajoute ta formation",
+      "certification": "ajoute une certification",
+      "mawhibaBadge": "obtiens un badge MAWHIBA dans Formation",
+      "bio": "écris une bio d'au moins 150 caractères",
+      "zones": "indique tes zones d'intervention",
+      "video": "ajoute une vidéo",
+      "socials": "ajoute un réseau social"
+    }
+  },
+  "builder": {
+    "stepsLabel": "Étapes du profil",
+    "preview": "Aperçu",
+    "savedIndicator": "Enregistré ✓",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "saved": "Enregistré",
+    "save": "Enregistrer",
+    "optional": "facultatif",
+    "steps": {
+      "identity": "Identité",
+      "sport": "Ton sport",
+      "achievements": "Palmarès",
+      "experience": "Expérience",
+      "education": "Formation",
+      "coaching": "Coaching",
+      "publish": "Publication"
+    },
+    "stepHints": {
+      "identity": "La première impression : photo, nom et une phrase qui te ressemble.",
+      "sport": "Ton sport et ton parcours d'athlète.",
+      "achievements": "Tes résultats marquants. Ajoute une preuve pour obtenir la mention « Vérifié ».",
+      "experience": "Où et avec qui tu as déjà coaché.",
+      "education": "Tes diplômes et certifications. Les badges MAWHIBA s'ajoutent automatiquement.",
+      "coaching": "Ta bio, tes zones et tes réseaux.",
+      "publish": "Vérifie l'aperçu, choisis ton modèle de CV et publie !"
+    },
+    "identity": {
+      "cover": "Couverture",
+      "coverSaved": "Couverture mise à jour",
+      "avatar": "Changer la photo",
+      "avatarSaved": "Photo mise à jour",
+      "fullName": "Nom complet",
+      "city": "Ville",
+      "tagline": "Phrase d'accroche",
+      "taglinePlaceholder": "Ex. : Ex-nageuse nationale, je rends l'eau rassurante",
+      "example1": "Ancien athlète national, je transmets la rigueur du haut niveau",
+      "example2": "Le sport accessible à tous, à ton rythme",
+      "example3": "Je t'aide à progresser avec méthode et bonne humeur",
+      "slug": "Adresse de ton profil",
+      "languages": "Langues parlées"
+    },
+    "sport": {
+      "primary": "Sport principal",
+      "others": "Autres sports (3 max)",
+      "status": "Statut d'athlète",
+      "statuses": {
+        "actif": "Actif",
+        "retraite": "Retraité",
+        "amateur": "Amateur"
+      },
+      "yearsPractice": "Années de pratique",
+      "highestLevel": "Plus haut niveau atteint"
+    },
+    "achievements": {
+      "add": "Ajouter un palmarès",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "deleteConfirm": "Supprimer ce palmarès ?",
+      "empty": "Aucun palmarès pour l'instant",
+      "emptyHint": "Titres, médailles, sélections… même régionaux, ils comptent !",
+      "title": "Titre",
+      "titlePlaceholder": "Ex. : Championne de Tunisie 100 m dos",
+      "competition": "Compétition",
+      "result": "Résultat",
+      "resultPlaceholder": "Ex. : Médaille d'or",
+      "year": "Année",
+      "level": "Niveau",
+      "sport": "Sport",
+      "up": "Monter",
+      "down": "Descendre"
+    },
+    "experience": {
+      "add": "Ajouter une expérience",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "deleteConfirm": "Supprimer cette expérience ?",
+      "empty": "Aucune expérience pour l'instant",
+      "emptyHint": "Club, stage d'été, cours particuliers… tout compte.",
+      "role": "Rôle",
+      "rolePlaceholder": "Ex. : Entraîneur natation jeunes",
+      "organization": "Club / organisation",
+      "organizationPlaceholder": "Ex. : Club Nautique de La Marsa",
+      "startDate": "Début",
+      "endDate": "Fin (vide si en cours)",
+      "description": "Description",
+      "today": "aujourd'hui",
+      "yearsCoaching": "Années de coaching",
+      "specialties": "Spécialités",
+      "addSpecialty": "Autre spécialité"
+    },
+    "education": {
+      "mawhibaBadges": "Badges MAWHIBA",
+      "issuedBy": "délivré par MAWHIBA",
+      "noBadges": "Pas encore de badge MAWHIBA.",
+      "goLearn": "Passer une formation",
+      "educationTitle": "Formation",
+      "addEducation": "Ajouter une formation",
+      "editEducation": "Modifier la formation",
+      "degree": "Diplôme",
+      "degreePlaceholder": "Ex. : Licence en sciences du sport",
+      "school": "Établissement",
+      "schoolPlaceholder": "Ex. : ISSEP Ksar Saïd",
+      "year": "Année",
+      "certTitleSection": "Certifications",
+      "addCert": "Ajouter une certification",
+      "editCert": "Modifier la certification",
+      "certTitle": "Certification",
+      "certPlaceholder": "Ex. : Brevet de sauveteur",
+      "issuer": "Organisme",
+      "issuerPlaceholder": "Ex. : Croissant-Rouge tunisien",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "deleteConfirm": "Supprimer cet élément ?"
+    },
+    "coaching": {
+      "bio": "Bio",
+      "bioPlaceholder": "Raconte ton parcours, ta méthode et à qui tu t'adresses.",
+      "prompt1": "Ton parcours",
+      "prompt2": "Ta méthode",
+      "prompt3": "Pour qui ?",
+      "aiImprove": "✨ Améliorer ma bio",
+      "aiLoading": "Rédaction en cours…",
+      "aiUse": "Utiliser cette version",
+      "zones": "Zones d'intervention",
+      "video": "Vidéo (YouTube ou Instagram)",
+      "videoInvalid": "Lien YouTube ou Instagram en https uniquement.",
+      "handleInvalid": "Pseudo uniquement (lettres, chiffres, . _ -), sans lien.",
+      "socials": {
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok",
+        "linkedin": "LinkedIn"
+      },
+      "price": "Prix « à partir de » (pts)",
+      "duration": "Durée d'une séance (min)",
+      "priceFromOffers": "Calculé automatiquement depuis tes offres."
+    },
+    "publish": {
+      "template": "Modèle de CV",
+      "templates": {
+        "moderne": "Moderne",
+        "classique": "Classique"
+      },
+      "public": "CV public (visible par tous)",
+      "publicHint": "Si décoché, seul toi et l'équipe MAWHIBA pouvez voir ton CV.",
+      "seeProfile": "Voir mon profil public",
+      "seeCv": "Voir mon CV",
+      "downloadPdf": "Télécharger le PDF",
+      "publish": "Publier mon profil",
+      "celebrateTitle": "Ton profil est en ligne !",
+      "celebrateText": "Partage-le : les clients peuvent réserver directement, et ton CV est prêt à être envoyé.",
+      "celebratePending": "Ton profil est prêt. Il sera visible publiquement dès que notre équipe aura vérifié ton justificatif.",
+      "editAgain": "Modifier encore"
+    },
+    "proof": {
+      "verified": "Vérifié",
+      "pending": "En attente de vérification",
+      "upload": "Ajouter une preuve",
+      "uploaded": "Preuve envoyée : en attente de vérification"
+    }
+  },
+  "cv": {
+    "metaTitle": "CV de {name}",
+    "today": "aujourd'hui",
+    "bookOn": "Réserver sur MAWHIBA",
+    "summary": "Profil",
+    "achievements": "Palmarès",
+    "experience": "Expérience de coaching",
+    "education": "Formation",
+    "certifications": "Certifications",
+    "activity": "Activité sur MAWHIBA",
+    "languages": "Langues",
+    "specialties": "Spécialités",
+    "verified": "Vérifié",
+    "verifiedData": "Données vérifiées par MAWHIBA",
+    "sessions": "{count, plural, =0 {Aucune séance réalisée} one {# séance réalisée} other {# séances réalisées}}",
+    "clients": "{count, plural, =0 {Aucun client} one {# client accompagné} other {# clients accompagnés}}",
+    "rating": "Note {rating}/5 ({count} avis)",
+    "noRating": "Pas encore d'avis",
+    "memberSince": "Membre depuis {date}",
+    "issuedByMawhiba": "Délivré par MAWHIBA le {date}",
+    "issuedByMawhibaShort": "Délivré par MAWHIBA",
+    "qrHint": "Scannez pour vérifier ce CV en ligne",
+    "generated": "CV généré par MAWHIBA le {date}",
+    "status": {
+      "actif": "Athlète actif",
+      "retraite": "Athlète retraité",
+      "amateur": "Athlète amateur"
+    },
+    "levels": {
+      "local": "Local",
+      "regional": "Régional",
+      "national": "National",
+      "international": "International",
+      "olympique": "Olympique"
+    },
+    "backToProfile": "Retour au profil",
+    "print": "Imprimer",
+    "downloadPdf": "Télécharger le PDF",
+    "pdfClassic": "PDF classique",
+    "pdfModern": "PDF moderne"
+  },
+  "publicProfile": {
+    "book": "Réserver",
+    "seeCv": "Voir le CV",
+    "shareText": "Découvre le profil de {name} sur MAWHIBA :",
+    "about": "À propos",
+    "languages": "Langues",
+    "zones": "Zones d'intervention",
+    "specialties": "Spécialités",
+    "video": "Voir la vidéo",
+    "socials": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "linkedin": "LinkedIn"
+    },
+    "achievements": "Palmarès",
+    "experience": "Expérience",
+    "today": "aujourd'hui",
+    "certifications": "Certifications & badges",
+    "issuedByMawhiba": "délivré par MAWHIBA le {date}",
+    "verified": "Vérifié"
+  },
+  "share": {
+    "copy": "Copier le lien",
+    "copied": "Lien copié !",
+    "copyFailed": "Impossible de copier le lien.",
+    "whatsapp": "WhatsApp"
+  },
+  "myCv": {
+    "title": "Mon CV",
+    "complete": "Profil complet",
+    "nudge": "Ton profil est encore léger : complète-le pour inspirer confiance et générer un CV solide.",
+    "improve": "Compléter mon profil",
+    "preview": "Voir mon CV",
+    "pdf": "Télécharger le PDF",
+    "shareText": "Mon CV de coach sur MAWHIBA :",
+    "card": "Télécharger ma carte"
   }
 }
