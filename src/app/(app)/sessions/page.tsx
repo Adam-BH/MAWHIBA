@@ -1,0 +1,51 @@
+import Link from "next/link";
+import { CalendarX, History, Inbox } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageHeader } from "@/components/shared/page-header";
+import { BookingList } from "@/features/bookings/components/booking-list";
+import { listClientBookings, listCoachBookings } from "@/features/bookings/queries";
+import { requireRole } from "@/lib/auth";
+import { isUpcoming } from "@/lib/booking-rules";
+
+export default async function SessionsPage() {
+  const user = await requireRole(["client", "coach"]);
+  const isCoach = user.role === "coach";
+  const [t, bookings] = await Promise.all([
+    getTranslations("sessions"),
+    isCoach ? listCoachBookings(user.id) : listClientBookings(user.id),
+  ]);
+  const now = new Date();
+  const requests = isCoach ? bookings.filter((b) => b.status === "pending").reverse() : [];
+  const upcoming = bookings
+    .filter((b) => isUpcoming(b.status, new Date(b.slot.starts_at), now) && !(isCoach && b.status === "pending"))
+    .reverse();
+  const past = bookings.filter((b) => !requests.includes(b) && !upcoming.includes(b));
+  const viewer = isCoach ? "coach" : "client";
+  const findCoach = <Button asChild><Link href="/coaches">{t("findCoach")}</Link></Button>;
+
+  return (
+    <>
+      <PageHeader title={t("title")} description={isCoach ? t("coachSubtitle") : t("clientSubtitle")} />
+      <Tabs defaultValue={isCoach && requests.length ? "requests" : "upcoming"}>
+        <TabsList className="mb-4">
+          {isCoach && <TabsTrigger value="requests">{t("tabs.requests", { count: requests.length })}</TabsTrigger>}
+          <TabsTrigger value="upcoming">{t("tabs.upcoming")}</TabsTrigger>
+          <TabsTrigger value="past">{t("tabs.past")}</TabsTrigger>
+        </TabsList>
+        {isCoach && (
+          <TabsContent value="requests">
+            <BookingList bookings={requests} viewer={viewer} emptyIcon={Inbox} emptyTitle={t("empty.requests")} />
+          </TabsContent>
+        )}
+        <TabsContent value="upcoming">
+          <BookingList bookings={upcoming} viewer={viewer} emptyIcon={CalendarX} emptyTitle={t("empty.upcoming")} emptyAction={isCoach ? undefined : findCoach} />
+        </TabsContent>
+        <TabsContent value="past">
+          <BookingList bookings={past} viewer={viewer} emptyIcon={History} emptyTitle={t("empty.past")} />
+        </TabsContent>
+      </Tabs>
+    </>
+  );
+}
