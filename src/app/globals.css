@@ -44,7 +44,8 @@
   --input: color-mix(in oklab, var(--brand-ink) 16%, var(--brand-surface));
   --ring: var(--brand-purple);
   --radius: 1rem;
-  --shadow-lift: 0 12px 28px -12px color-mix(in oklab, var(--brand-purple) 35%, transparent);
+  --shadow-lift: 0 16px 40px -24px color-mix(in oklab, var(--brand-ink) 30%, transparent);
+  --duration-fast: 180ms;
 
   /* Sport families (athlete card gradients) and achievement levels. */
   --sport-aqua: oklch(0.6 0.13 230);
@@ -141,7 +142,13 @@
   }
   a,
   button {
-    @apply transition-colors duration-200 ease-out;
+    transition-property: color, background-color, border-color;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+  }
+  /* Numbers carry the product (prices, fees, payouts): fixed-width figures everywhere. */
+  body {
+    font-variant-numeric: tabular-nums;
   }
 }
 
@@ -150,14 +157,23 @@
   transform: scaleX(-1);
 }
 
-/* Gentle hover lift for interactive cards. */
+/* Interactive cards: the border darkens on hover, nothing moves. */
 @utility lift {
-  transition-property: transform, box-shadow, border-color;
-  transition-duration: 200ms;
+  transition-property: border-color, background-color;
+  transition-duration: var(--duration-fast);
   transition-timing-function: var(--ease-out);
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in oklab, var(--brand-purple) 45%, transparent);
+  }
+}
+
+@utility page-enter {
+  animation: page-fade var(--duration-fast) var(--ease-out);
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
   }
 }
 

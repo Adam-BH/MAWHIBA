@@ -9,7 +9,7 @@ export async function AppHeader({ user, home }: { user: CurrentUser; home: strin
   const [t, tAll] = await Promise.all([getTranslations("roles"), getTranslations()]);
   const menu = navItemsFor(user.role, "menu").map(({ href, icon, labelKey }) => ({ href, icon, label: tAll(labelKey) }));
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-background/85 px-4 backdrop-blur md:px-8">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-background px-4 md:px-8">
       <Logo href={home} className="md:hidden" />
       <Badge variant="outline" className="hidden sm:inline-flex">{t(user.role)}</Badge>
       <div className="ms-auto flex items-center gap-2">

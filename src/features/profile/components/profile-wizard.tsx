@@ -79,7 +79,7 @@ export function ProfileWizard({ coach, step, offersCount, aiEnabled, strengthBas
           </span>
         </div>
         <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
-          <section key={step} className="animate-in fade-in slide-in-from-right-4 duration-300">
+          <section key={step} className="page-enter">
             <h2 className="mb-1 text-xl font-semibold">{t(`steps.${STEP_NAMES[step - 1]}`)}</h2>
             <p className="mb-4 text-sm text-muted-foreground">{t(`stepHints.${STEP_NAMES[step - 1]}`)}</p>
             <WizardSteps step={step} />

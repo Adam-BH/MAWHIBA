@@ -11,7 +11,7 @@ export function StepNav({ pending = false, submit = true }: { pending?: boolean;
   const t = useTranslations("builder");
   const { step, goTo, next } = useWizard();
   return (
-    <div className="sticky bottom-16 z-10 -mx-4 mt-2 flex justify-between gap-2 border-t bg-background/95 px-4 py-3 backdrop-blur md:static md:mx-0 md:border-0 md:bg-transparent md:px-0">
+    <div className="sticky bottom-16 z-10 -mx-4 mt-2 flex justify-between gap-2 border-t bg-background px-4 py-3 md:static md:mx-0 md:border-0 md:bg-transparent md:px-0">
       <Button type="button" variant="outline" disabled={step === 1} onClick={() => goTo(step - 1)}><ArrowLeft />{t("previous")}</Button>
       {submit ? (
         <SubmitButton pending={pending}>{t("next")}<ArrowRight /></SubmitButton>

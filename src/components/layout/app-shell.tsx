@@ -31,7 +31,7 @@ export async function AppShell({ user, requestsCount, children }: {
         <AppHeader user={user} home={home} />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-6 pb-24 md:px-8 md:pt-8 md:pb-10">{children}</main>
       </div>
-      <nav className="fixed inset-x-0 bottom-0 z-40 flex border-t bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-40 flex border-t bg-card pb-[env(safe-area-inset-bottom)] md:hidden">
         {items.map((item) => <NavLink key={item.href} {...item} label={item.shortLabel} variant="bottom" />)}
       </nav>
     </div>
