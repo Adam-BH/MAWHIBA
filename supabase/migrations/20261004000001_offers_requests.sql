@@ -381,6 +381,16 @@ create policy proposals_select on public.proposals for select using (
 
 grant select on public.request_board to authenticated;
 
+-- Request owners must see the slots proposed to them, even once booked by someone else.
+-- anon needs the table privileges because the slots policy now looks at proposals/requests; RLS returns no rows.
+grant select on public.requests, public.proposals to anon;
+create policy slots_select_proposed on public.slots for select using (
+  exists (
+    select 1 from public.proposals p join public.requests r on r.id = p.request_id
+    where p.slot_id = slots.id and r.client_id = auth.uid()
+  )
+);
+
 revoke execute on function
   public.is_verified_coach(), public.has_inclusive_badge(uuid), public.touch_updated_at(),
   public.check_offer_rules(), public.sync_coach_price(), public.book_slot(uuid, text, uuid),

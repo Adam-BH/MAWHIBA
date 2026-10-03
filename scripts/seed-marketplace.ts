@@ -13,10 +13,11 @@ async function seedOffers(coaches: Coach[]) {
   }
 }
 
-async function firstFreeSlot(coachId: string) {
+/** Latest free slot, so demos that book the first slots don't collide with seeded proposals. */
+async function lateFreeSlot(coachId: string) {
   return must(
     await db.from("slots").select("id").eq("coach_id", coachId).eq("is_booked", false)
-      .gt("starts_at", new Date().toISOString()).order("starts_at").limit(1).single(),
+      .gt("starts_at", new Date().toISOString()).order("starts_at", { ascending: false }).limit(1).single(),
     "free slot",
   ).id;
 }
@@ -54,9 +55,9 @@ export async function seedMarketplace(verified: Coach[], ids: { demoClient: stri
   const amira = verified[0].id;
   const otherSwimmer = verified.find((v, i) => i > 0 && v.coach.sports.includes("Natation"))!.id;
   check(await db.from("proposals").insert([
-    { request_id: demo.id, coach_id: amira, slot_id: await firstFreeSlot(amira), price: 45,
+    { request_id: demo.id, coach_id: amira, slot_id: await lateFreeSlot(amira), price: 45,
       message: "Bonjour ! J'accompagne plusieurs enfants autistes : séances très structurées, avec un planning visuel. Je vous propose une première séance pour faire connaissance." },
-    { request_id: demo.id, coach_id: otherSwimmer, slot_id: await firstFreeSlot(otherSwimmer), price: 55,
+    { request_id: demo.id, coach_id: otherSwimmer, slot_id: await lateFreeSlot(otherSwimmer), price: 55,
       message: "Ancien nageur de l'équipe nationale junior, je peux venir à La Marsa le samedi." },
   ]), "demo proposals");
 
