@@ -1,30 +1,83 @@
-# MAWHIBA
+# MAWHIBA · موهبة
 
-Athletes become paid coaches. Clients top up a points wallet, book a session (insured by Star) and leave a review. Admins verify coaches, credit wallets and process withdrawals. This MVP was built for the Star Assurance hackathon (Tunisia). The UI is in French. 1 point = 1 TND.
+Athletes become paid coaches. Clients top up a points wallet, book a session (insured by Star) and leave a review. Admins verify coaches, credit wallets and process withdrawals. Built for the Star Assurance hackathon (Tunisia). The UI is in French. 1 point = 1 TND.
 
-It's a two-way marketplace. Clients browse **coach offers** (session types with their own prices) and book an offer + slot. They can also post a **request** ("Demande"); verified coaches answer it with **proposals**, and the client accepts one in a single step.
+Stack: Next.js 15 (App Router) + Supabase (Postgres, Auth, Storage) in one app, with three roles: client, coach and admin.
 
-One Next.js 15 app, one Supabase project. The client, coach and admin experiences share the app shell. Navigation is filtered by role, and every role-restricted page **and** server action is guarded on the server.
+---
 
-## Run it
+## Quick start (local, ~5 minutes)
 
-### Option 1: Local Supabase (Docker)
+### 1. Prerequisites
 
-Requires Docker and Node 20+.
+| Tool   | Version | Check            |
+| ------ | ------- | ---------------- |
+| Node   | 20+     | `node -v`        |
+| npm    | 10+     | `npm -v`         |
+| Docker | running | `docker info`    |
+
+> **Use npm, not pnpm or yarn.** The project is locked to npm (`package-lock.json` + `packageManager` field). pnpm refuses to install it.
+
+### 2. Install and set up (first time only)
 
 ```bash
 npm install
-npm run setup:local   # supabase start → db reset (migrations) → write .env.local → seed
-npm run dev           # http://localhost:3000
+npm run setup:local
 ```
 
-Supabase Studio: http://127.0.0.1:54323. Stop the containers with `npm run db:stop`.
+`setup:local` starts Supabase in Docker, applies the migrations, writes `.env.local` and seeds demo data. The first run downloads the Supabase images, which takes a few minutes.
 
-### Option 2: Cloud / external Supabase
+### 3. Start the app
 
-1. Create a Supabase project. In **Auth → Providers → Email**, turn off **Confirm email** for the demo.
-2. `cp .env.example .env.local` and fill in the URL, anon key and service role key.
-3. Then run:
+```bash
+npm run dev
+```
+
+Open **http://localhost:3000** and log in with a demo account (password `Mawhiba2026!` for all):
+
+| Role   | Email               | What you get                                        |
+| ------ | ------------------- | --------------------------------------------------- |
+| Client | `client@mawhiba.tn` | 150 points, one open request with 2 proposals       |
+| Coach  | `coach@mawhiba.tn`  | Amira Ben Salah, swimmer, verified, inclusive badge |
+| Admin  | `admin@mawhiba.tn`  | Verification queue, bookings, wallets               |
+
+### Every day after that
+
+```bash
+npm run db:start   # Supabase containers (skip if already running)
+npm run dev
+```
+
+Stop the database with `npm run db:stop`. Your data is kept between restarts.
+
+| URL                        | What                    |
+| -------------------------- | ----------------------- |
+| http://localhost:3000      | The app                 |
+| http://127.0.0.1:54323     | Supabase Studio (DB UI) |
+| http://127.0.0.1:54324     | Mailpit (caught e-mails) |
+
+---
+
+## Troubleshooting
+
+| Symptom | Fix |
+| ------- | --- |
+| `ERR_PNPM_IGNORED_BUILDS` or "configured to use npm" | You ran pnpm. Delete `pnpm-lock.yaml`, `pnpm-workspace.yaml` and `node_modules`, then run `npm install`. |
+| `Cannot connect to the Docker daemon` | Start Docker Desktop (or `sudo systemctl start docker`), then rerun the command. |
+| Pages fail with `fetch failed` / login does nothing | Supabase isn't running: `npm run db:start`. If the keys changed, run `npm run env:local`. |
+| `Port 3000 is in use` | `npm run dev -- -p 3001`. Login still works; only share links use `NEXT_PUBLIC_SITE_URL`. |
+| `port is already allocated` (5432x) | Another Supabase project is running. Stop it with `npx supabase stop --project-id <name>`. |
+| Want fresh demo data | `npm run db:reset && npm run seed` (**wipes the local DB**). |
+| AI bio button missing | Expected. It's off unless `ANTHROPIC_API_KEY` and `NEXT_PUBLIC_FEATURE_AI_BIO=true` are both in `.env.local`. Note: `npm run env:local` rewrites `.env.local`, so add them back afterwards. |
+| First `npm run build` fails offline | `next/font` downloads Montserrat, DM Sans and Cairo from Google Fonts at build time. Build once with internet. |
+
+---
+
+## Using a cloud Supabase project instead of Docker
+
+1. Create a Supabase project. In **Auth → Providers → Email**, turn off **Confirm email**.
+2. `cp .env.example .env.local` and fill in the project URL, anon key and service role key.
+3. Run:
    ```bash
    npx supabase link --project-ref <ref>
    npm run db:push    # applies supabase/migrations
@@ -32,98 +85,110 @@ Supabase Studio: http://127.0.0.1:54323. Stop the containers with `npm run db:st
    npm run dev
    ```
 
-## Demo accounts
+---
 
-Password for all: `Mawhiba2026!`
+## Things to try
 
-| Role   | Email               | Notes                                                       |
-| ------ | ------------------- | ----------------------------------------------------------- |
-| Admin  | `admin@mawhiba.tn`  |                                                             |
-| Coach  | `coach@mawhiba.tn`  | Amira Ben Salah, swimmer, verified, "Coaching inclusif" badge, 45 pts |
-| Client | `client@mawhiba.tn` | 150 points                                                  |
+**Book a session (client).** `client@` → **Trouver un coach** → open a coach → pick an offer and a slot → pay `price + 2` (Star insurance). Top up first via **Portefeuille** if needed (the Flouci payment is a mock and always succeeds).
 
-The seed also creates:
+**Answer a request (coach → client).**
+1. `client@` → **Mes demandes** → "Publier une demande". A description containing a phone number or e-mail is rejected.
+2. `coach@` → **Demandes clients** shows only the client's first name and city → send a proposal with one of your slots.
+3. `client@` accepts it: a confirmed booking is created, 47 pts are held, the other proposals are rejected and the request is fulfilled.
 
-- 1–3 offers per verified coach. Amira has "Natation enfants" (45 min, 40 pts), "Natation adulte" (60 min, 50 pts) and "Séance inclusive autisme" (60 min, 50 pts).
-- 6 open requests, including the demo client's "Coach de natation pour mon fils autiste (8 ans)" in La Marsa (30–50 pts). It already has 2 proposals: Amira at 45 (in budget) and Karim Bouazizi at 55 (hors budget).
-- 1 fulfilled request linked to a past completed booking
+**Full lifecycle.** Admin force-completes a booking in `/admin/bookings` → payout 38 / 7 / 2 (coach / platform / Star) → the client leaves a review → the coach requests a withdrawal → the admin approves it in `/admin/wallets`.
 
-- 15 more verified coaches and 3 unverified coaches with pending proofs (`*@coach.mawhiba.tn`)
-- 5 more clients (`*.client@mawhiba.tn`)
-- 14 days of slots for every verified coach
-- 20 past completed bookings with reviews and matching ledger entries
+**Coach profile & CV.** `coach@` → **Profil** is a 7-step wizard with a live athlete card and a strength meter.
+- Public profile: `/coaches/amira-ben-salah`
+- Web CV: `/cv/amira-ben-salah`
+- PDF: `/api/cv/amira-ben-salah/pdf?template=moderne` (or `classique`)
+- Share image: `/api/card/amira-ben-salah/og` (`?format=story` for 1080×1350)
+
+**Certification.** `coach@` → **Formation** → `/learn/coaching-inclusif-autisme`: 5 lessons, a 5-question quiz, and ≥ 4 earns the "Coaching inclusif" badge.
+
+**Admin.** `/admin/coaches` verifies new coaches (proofs open via signed URLs) and reviews palmarès & certifications.
+
+### What the seed creates
+
+- 16 verified coaches (1–3 offers each, 14 days of slots), 3 unverified coaches with pending proofs (`*@coach.mawhiba.tn`)
+- 6 clients (`*.client@mawhiba.tn`), 20 past completed bookings with reviews and ledger entries
+- 6 open requests, including the demo client's "Coach de natation pour mon fils autiste (8 ans)" with proposals from Amira (45, in budget) and Karim (55, over budget)
 - the inclusive-coaching module
 
-## Demo flows
-
-**Base flow.** Sign up a coach → profile + proof + slots → admin verifies → the coach passes the inclusive module → a client tops up the 100 pack (110) → books 45 + 2 = 47 → the coach accepts → admin force-completes → payout 38 / 7 / 2 → review → withdrawal.
-
-**A: Offers.** `coach@` → **Mes offres** → "Nouvelle offre". It appears on `/coaches/[id]` and `/explore/offers`, and the "à partir de" price updates if it's the cheapest. A client picks the offer, then a slot → `/book/[slotId]?offer=…` shows "offer price + 2". The booking stores `offer_id`.
-
-**B: Requests.**
-1. A client opens **Mes demandes** → "Publier une demande" (Natation, La Marsa, enfant 8 ans, besoins particuliers, 30–50). A description with a phone number is rejected with a friendly message.
-2. `coach@` → **Demandes clients**. The board shows only the client's first name + city. Amira sends a proposal at 45 with one of her slots.
-3. `karim.bouazizi@coach.mawhiba.tn` proposes 60, which shows the "Hors budget" tag.
-4. The client accepts Amira's proposal ("45 pts + 2 pts assurance Star = 47 pts"). The booking is created **confirmed**, the balance drops by 47, the other proposal is rejected, the request is fulfilled and the slot is booked.
-5. Then the normal lifecycle: complete → 38 / 7 / 2 → review.
-
-**Profile & CV.** `coach@` → **Profil** opens a 7-step wizard: live athlete-card preview, a strength meter (`src/lib/profile-strength.ts`), proofs per palmarès, and publish with confetti. Public profile: `/coaches/amira-ben-salah`. Web CV: `/cv/amira-ben-salah`. PDF: `/api/cv/<slug>/pdf?template=moderne|classique`. Share image: `/api/card/<slug>/og` (`?format=story` for 1080×1350). Admins review palmarès and certifications in `/admin/coaches` → "Palmarès & certifications". Optional AI bio: set `ANTHROPIC_API_KEY` + `NEXT_PUBLIC_FEATURE_AI_BIO=true`.
+---
 
 ## Scripts
 
-| Script                                       | What it does                                               |
-| -------------------------------------------- | ---------------------------------------------------------- |
-| `dev` / `build` / `start`                    | Next.js                                                    |
-| `lint` / `typecheck` / `test`                | ESLint, `tsc --noEmit`, Vitest                             |
-| `db:start` / `db:stop` / `db:reset`          | Local Supabase (Docker)                                    |
-| `db:push`                                    | Push migrations to the linked cloud project                |
-| `db:types`                                   | Regenerate `src/lib/supabase/database.types.ts`            |
-| `env:local`                                  | Write `.env.local` from `supabase status`                  |
-| `seed`                                       | Seed through the service role (works for local and cloud)  |
-| `setup:local`                                | Everything above for local mode                            |
+| Script                              | What it does                                              |
+| ----------------------------------- | --------------------------------------------------------- |
+| `dev` / `build` / `start`           | Next.js                                                   |
+| `lint` / `typecheck` / `test`       | ESLint, `tsc --noEmit`, Vitest                            |
+| `setup:local`                       | `db:start` → `db:reset` → `env:local` → `seed`            |
+| `db:start` / `db:stop`              | Start/stop local Supabase (Docker)                        |
+| `db:reset`                          | Wipe the local DB and reapply all migrations              |
+| `db:push`                           | Push migrations to the linked cloud project               |
+| `db:types`                          | Regenerate `src/lib/supabase/database.types.ts`           |
+| `env:local`                         | Write `.env.local` from `supabase status` (overwrites it) |
+| `seed`                              | Seed through the service role (local or cloud, idempotent) |
 
-## Business rules
+Before committing: `npm run lint && npm run typecheck && npm run test && npm run build`. `tests/money.test.ts` also checks the SQL money functions when `.env.local` points to a running database.
+
+---
+
+## How it works
+
+### Business rules
 
 - **Money is integers only.** A booking costs `price + 2` (the Star insurance fee). On completion: `coach = floor(price × 0.85)`, `platform = price − coach`, `Star = 2`. Example: 45 → client pays 47, coach gets 38, platform 7, Star 2.
-- **Wallet = append-only ledger** (`wallet_tx`). Balance = `sum(amount)`. No balance column exists. The system accounts are `PLATFORM` and `STAR_INSURANCE`.
-- **Escrow.** Booking immediately debits `price + fee` (`booking_hold`). A decline or cancellation refunds it in full. Payouts happen only when the booking is completed.
-- **State machine:** `pending → confirmed → completed`, `pending → declined`, `pending|confirmed → cancelled` (client, before start). Clients complete after the start time. Admins can force-complete.
-- **Withdrawals:** the request must be covered by `balance − pending withdrawals`. Admin approval writes the debit.
-- **Visibility:** only `verified` coaches show up in search and on public pages.
-- **Offers:** max 6 active per coach. "Inclusive" offers require the badge (DB trigger). `coach_profiles.price_per_session` is kept in sync as the cheapest active offer ("à partir de"). A coach with active offers is booked through an offer (`book_slot(slot, note, offer)`); coaches without offers keep the legacy direct booking. An offer that has been booked can only be deactivated.
-- **Requests:** max 3 open per client. Requests expire 14 days after creation, computed on read (`expires_at`, no cron). Coaches see requests only through the `request_board` view (verified coaches, safe columns, first name + city). Phone numbers and e-mails are rejected in SQL (`has_contact_info`), mirrored in `src/lib/contact-info.ts`.
-- **Proposals:** one active per coach per request, on one of the coach's future free slots. A coach can withdraw a pending proposal. `accept_proposal` runs one transaction: it checks the slot + balance, creates a **confirmed** booking at the proposal price, holds `price + 2`, books the slot, rejects the other proposals and fulfils the request. Closing a request rejects its pending proposals.
-- **Certification:** 5 lessons + 5 questions. A score ≥ 4 earns the "Coaching inclusif" badge. Scoring happens in SQL (`submit_quiz`), and the answer key (`certifications.answer_key`) has no API privileges.
+- **Wallet = append-only ledger** (`wallet_tx`). Balance = `sum(amount)`, and there is no balance column. The system accounts are `PLATFORM` and `STAR_INSURANCE`.
+- **Escrow.** Booking immediately debits `price + fee` (`booking_hold`). A decline or cancellation refunds it in full. Payouts happen only on completion.
+- **Booking states:** `pending → confirmed → completed`, `pending → declined`, `pending|confirmed → cancelled` (client, before start). Clients complete after the start time; admins can force-complete.
+- **Withdrawals** must be covered by `balance − pending withdrawals`. Admin approval writes the debit.
+- **Visibility:** only `verified` coaches appear in search and on public pages.
+- **Offers:** max 6 active per coach. "Inclusive" offers require the badge (DB trigger). `coach_profiles.price_per_session` is kept in sync with the cheapest active offer ("à partir de"). Coaches with active offers are booked through an offer; coaches without offers keep direct booking. A booked offer can only be deactivated.
+- **Requests:** max 3 open per client. They expire 14 days after creation, computed on read (no cron). Coaches see requests only through the `request_board` view (first name + city, no contact details). Phone numbers and e-mails are rejected in SQL (`has_contact_info`), mirrored in `src/lib/contact-info.ts`.
+- **Proposals:** one active per coach per request, on one of the coach's future free slots, withdrawable while pending. `accept_proposal` runs in one transaction: it checks the slot and balance, creates a **confirmed** booking at the proposal price, holds `price + 2`, books the slot, rejects the other proposals and fulfils the request.
+- **Certification:** scoring happens in SQL (`submit_quiz`). The answer key (`certifications.answer_key`) has no API privileges.
 
-All money logic lives in SQL RPCs (`supabase/migrations/*_functions.sql`). They run as security definer, check the role inside and lock rows. `src/lib/money.ts` mirrors the math for display. `tests/money.test.ts` checks the TS and SQL versions against the same cases (the SQL half runs when `.env.local` points to a running database).
+All money logic lives in SQL RPCs (`supabase/migrations/*_functions.sql`): security definer, role check inside, row locks. `src/lib/money.ts` only mirrors the math for display and tests.
 
-## Structure
+### Security
+
+- RLS on every table, with explicit table/column grants. `wallet_tx`, `bookings` and `withdrawals` are read-only to users, so every write goes through an RPC.
+- `profiles.role` and `coach_profiles.verified` can't be changed by users, and `admin` can't come from signup.
+- Storage: `avatars` is public read / owner write. `proofs` is private (owner + admin, signed URLs).
+
+### Project layout
 
 ```
-src/app/(public)     landing, /coaches, /coaches/[id], /explore/offers   (uses the app shell when logged in)
+src/app/(public)     landing, /coaches, /coaches/[slug], /explore/offers  (uses the app shell when logged in)
 src/app/(auth)       /login, /signup
-src/app/(app)        authenticated shell; role segments guard access in their layout.tsx
+src/app/(app)        authenticated pages; role segments guard access in their layout.tsx
+src/app/cv, api/     web CV, PDF and share-image routes
 src/features/*       one folder per domain: queries.ts, actions.ts, components/
-src/components       ui/ (shadcn), layout/ (shell, nav), shared/ (badges, stat-card, …)
-src/lib              config, money, booking-rules, auth (getCurrentUser/requireRole), nav, supabase clients, zod schemas
-supabase/migrations  schema → functions/RPCs/triggers → RLS/grants/storage
-scripts/             seed.ts, write-local-env.ts
+src/components       ui/ (shadcn), layout/ (shell, nav, logo), shared/ (cards, badges…)
+src/lib              config, money, auth (getCurrentUser/requireRole), nav, supabase clients, zod schemas
+supabase/migrations  schema → functions/RPCs/triggers → RLS/grants/storage → features
+scripts/             seed.ts (+ seed-data/), write-local-env.ts
 tests/               vitest
+messages/fr.json     every UI string (typed: a missing key fails tsc)
 ```
 
-- **Security:** RLS is enabled on every table. API roles get explicit table and column grants only. `wallet_tx`, `bookings` and `withdrawals` are read-only to clients, so every write goes through an RPC. `profiles.role` and `coach_profiles.verified` cannot be updated by users.
-- **Storage:** `avatars` is public read with owner-only writes. `proofs` is private (owner + admin), and admins view proofs through signed URLs.
-- **Design tokens** live in `src/app/globals.css`. Components use only semantic classes (`bg-primary`, `text-success`, …). `/dev/ui` (development only) shows every component and token.
+### Design system
 
-## Choices made
+- Brand tokens live in `src/app/globals.css`: purple `#4B3FE8`, lime `#C6F432`, ink `#120F2E`, surface `#F5F5F4`, with derived tints. Components use only semantic classes (`bg-primary`, `text-accent-foreground`…), never raw colours.
+- Lime is for highlights and CTAs **on purple**; never put lime text on light backgrounds.
+- Fonts: Montserrat 600 (headings, buttons), DM Sans 500 (body), Cairo (anything `lang="ar"`). Layouts use logical properties (`ms-`, `pe-`, `start-`), so they flip under `dir="rtl"`.
+- `src/features/cv/pdf/theme.ts` is the only file with hex colours (react-pdf and next/og can't read CSS variables). Keep it in sync with `globals.css`.
+- The logo is a text placeholder (`src/components/layout/logo.tsx`) until the official SVGs are added to `public/brand/`.
+- `/dev/ui` (development only) shows every component and token.
 
-- Bookings use a **partial unique index** (one *live* booking per slot) instead of `slot_id unique`, so a declined or cancelled slot can be booked again.
+### Choices made
+
+- Bookings use a partial unique index (one *live* booking per slot), so a declined or cancelled slot can be booked again.
 - `profiles.email` is copied from `auth.users` by the signup trigger so admins can search users.
-- The quiz stores its answers in a separate `answer_key` column hidden by column privileges (rather than a view).
-- Reviewer first names come from a `public_profiles` view (name/avatar/city only).
-- Booking without `?offer=` still works for coaches who have no offers, so older flows keep working. For coaches with offers, the checkout first asks which offer to book.
-- Proposal prices are pre-filled with the coach's cheapest matching offer (same sport, matching audience), capped at the client's budget max.
+- Reviewer names come from a `public_profiles` view (name/avatar/city only).
+- Proposal prices are pre-filled with the coach's cheapest matching offer, capped at the client's budget.
 - On mobile, "Profil" and "Formation" live in the user menu so the bottom bar keeps 6 items or fewer.
 - "Weekly" slot creation publishes the slot plus the same time on the next 2 weeks.
-- Time zone is `Africa/Tunis` for slot input and display.
-- Flouci payment is a mock dialog: it always succeeds and credits through `topup_wallet`.
+- Time zone is `Africa/Tunis`. Flouci payment is a mock that credits through `topup_wallet`.

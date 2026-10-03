@@ -27,8 +27,8 @@ export async function ClientDashboard({ user }: { user: CurrentUser }) {
         <StatCard icon={Wallet} label={t("balance")} value={<Points value={balance} />} />
         <StatCard icon={CalendarCheck} tone="accent" label={t("sessionsCount")} value={bookings.filter((b) => b.status === "completed").length} />
         <div className="flex flex-col gap-2">
-          <Button asChild size="lg" className="min-h-11 sm:h-full"><Link href="/coaches"><Search />{t("findCoach")}</Link></Button>
-          <Button asChild size="lg" variant="outline" className="min-h-11 sm:h-full"><Link href="/wallet"><Wallet />{t("topup")}</Link></Button>
+          <Button asChild size="lg" className="min-h-11 sm:flex-1"><Link href="/coaches"><Search />{t("findCoach")}</Link></Button>
+          <Button asChild size="lg" variant="outline" className="min-h-11 sm:flex-1"><Link href="/wallet"><Wallet />{t("topup")}</Link></Button>
         </div>
       </div>
       <div className="mt-6"><ClientRequestsWidget userId={user.id} /></div>

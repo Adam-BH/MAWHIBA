@@ -10,7 +10,8 @@ Next.js 15 (App Router) + Supabase in a single app, with three roles (client / c
 - Every role-restricted page calls `requireRole`. Role segments also guard in their `layout.tsx`, so the redirect is a real 307 that happens before any loading boundary.
 - Use Server Components by default. Add `"use client"` only on interactive leaves.
 - **Money logic only in SQL RPCs.** The app never computes or writes balances. `src/lib/money.ts` is for display and tests only and must match `split_payout` in SQL.
-- **Styling via tokens only:** use the semantic CSS variables in `src/app/globals.css` (Tailwind v4 `@theme inline`). No hard-coded colors (`bg-blue-600`, hex values) in components.
+- **npm only** (`packageManager` is pinned). Never add a pnpm/yarn lockfile.
+- **Styling via tokens only:** use the semantic CSS variables in `src/app/globals.css` (Tailwind v4 `@theme inline`). No hard-coded colors (`bg-blue-600`, hex values) in components. Brand = purple/lime/ink/surface; lime goes on purple (or as a fill with ink text), never as text on light backgrounds.
 - All UI strings go in `messages/fr.json` (typed, so missing keys fail `tsc`).
 - Use the generated DB types (`npm run db:types` after changing migrations).
 
