@@ -2,7 +2,7 @@ import path from "node:path";
 
 /**
  * The ONLY place with hard-coded colours: react-pdf and next/og (Satori) can't read CSS variables.
- * Values mirror the tokens in src/app/globals.css — update both together when the design system changes.
+ * Values mirror the tokens in src/app/globals.css; update both together when the design system changes.
  */
 export const THEME = {
   colors: {

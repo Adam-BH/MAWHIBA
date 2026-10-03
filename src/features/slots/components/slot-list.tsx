@@ -15,7 +15,7 @@ export function SlotList({ slots }: { slots: Slot[] }) {
       {slots.map((slot) => (
         <li key={slot.id} className="flex items-center gap-3 p-3">
           <div className="min-w-0 flex-1">
-            <p className="font-medium capitalize">{formatDateTime(slot.starts_at)} – {formatTime(slot.ends_at)}</p>
+            <p className="font-medium capitalize">{formatDateTime(slot.starts_at)}-{formatTime(slot.ends_at)}</p>
             <p className="flex items-center gap-1 truncate text-sm text-muted-foreground"><MapPin className="size-3.5 shrink-0" />{slot.location}</p>
           </div>
           {slot.is_booked ? <Badge variant="secondary">{t("booked")}</Badge> : <DeleteSlotButton slotId={slot.id} />}

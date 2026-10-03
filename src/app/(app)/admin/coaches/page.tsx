@@ -19,7 +19,7 @@ export default async function AdminCoachesPage({ searchParams }: { searchParams:
 
   return (
     <>
-      <PageHeader title={t("title")} description={t("subtitle")} />
+      <PageHeader title={t("title")} />
       <Tabs defaultValue={tab === "items" ? "items" : "coaches"}>
         <TabsList className="mb-4">
           <TabsTrigger value="coaches">{t("tabCoaches", { count: queue.length })}</TabsTrigger>
@@ -42,7 +42,7 @@ export default async function AdminCoachesPage({ searchParams }: { searchParams:
             <ul className="divide-y rounded-xl border bg-card">
               {items.achievements.map((a) => (
                 <CvItemReview key={a.id} kind="achievement" id={a.id} proofUrl={a.proofUrl} coach={a.coach.profile.full_name}
-                  title={`${a.year} — ${a.title}${a.result ? ` · ${a.result}` : ""}`} subtitle={[a.competition, tl(a.level)].filter(Boolean).join(" · ")} />
+                  title={`${a.year} · ${a.title}${a.result ? ` · ${a.result}` : ""}`} subtitle={[a.competition, tl(a.level)].filter(Boolean).join(" · ")} />
               ))}
               {items.certifications.map((c) => (
                 <CvItemReview key={c.id} kind="certification" id={c.id} proofUrl={c.proofUrl} coach={c.coach.profile.full_name}

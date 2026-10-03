@@ -10,14 +10,14 @@ export const DEMO_COACH_OFFERS: OfferRow[] = [
   { title: "Séance inclusive autisme", sport: "Natation", duration_min: 60, price: 50, audience: "tous", is_inclusive: true, description: "Séance structurée et prévisible, consignes visuelles, échange avec les parents." },
 ];
 
-/** 1–3 offers per coach; the cheapest equals the coach's seeded price, so "à partir de" stays consistent. */
+/** 1-3 offers per coach; the cheapest equals the coach's seeded price, so "à partir de" stays consistent. */
 export function offersFor(coach: SeedCoach): OfferRow[] {
   const sport = coach.sports[0];
   const offers: OfferRow[] = [
-    { title: `${sport} — séance découverte`, sport, duration_min: 60, price: coach.price, audience: "tous", description: "Bilan de niveau, objectifs et premiers exercices." },
+    { title: `${sport} : séance découverte`, sport, duration_min: 60, price: coach.price, audience: "tous", description: "Bilan de niveau, objectifs et premiers exercices." },
   ];
   if (coach.price + 15 <= 80) {
-    offers.push({ title: `${sport} — perfectionnement`, sport, duration_min: 75, price: coach.price + 15, audience: "adultes", description: "Technique avancée et plan de progression personnalisé." });
+    offers.push({ title: `${sport} : perfectionnement`, sport, duration_min: 75, price: coach.price + 15, audience: "adultes", description: "Technique avancée et plan de progression personnalisé." });
   }
   if (coach.inclusive) {
     offers.push({ title: "Séance inclusive (autisme)", sport, duration_min: 60, price: coach.price + 5, audience: "tous", is_inclusive: true, description: "Rythme adapté, routine rassurante et consignes visuelles." });

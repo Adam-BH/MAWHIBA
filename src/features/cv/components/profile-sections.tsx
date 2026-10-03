@@ -51,7 +51,7 @@ export function ProfileSections({ coach }: { coach: CoachFull }) {
             {coach.experiences.map((e) => (
               <li key={e.id}>
                 <p className="font-medium">{e.role} · <span className="text-primary">{e.organization}</span></p>
-                <p className="text-sm text-muted-foreground">{e.start_date.slice(0, 4)} – {e.end_date ? e.end_date.slice(0, 4) : t("today")}</p>
+                <p className="text-sm text-muted-foreground">{e.start_date.slice(0, 4)}-{e.end_date ? e.end_date.slice(0, 4) : t("today")}</p>
                 {e.description && <p className="text-sm">{e.description}</p>}
               </li>
             ))}

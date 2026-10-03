@@ -23,9 +23,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
   const avatar = coach.profile.avatar_url && /\.(png|jpe?g)(\?|$)/i.test(coach.profile.avatar_url) ? coach.profile.avatar_url : null;
   const initials = coach.profile.full_name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase();
   const stats = [
-    [t("rating"), coach.stats.ratingCount ? coach.stats.ratingAvg.toFixed(1) : "—"],
+    [t("rating"), coach.stats.ratingCount ? coach.stats.ratingAvg.toFixed(1) : "-"],
     [t("sessions"), String(coach.stats.completedSessions)],
-    [t("years"), coach.years_practice !== null ? String(coach.years_practice) : "—"],
+    [t("years"), coach.years_practice !== null ? String(coach.years_practice) : "-"],
   ];
   const badges = [t("badges.verified"), ...(coach.inclusive ? [t("badges.inclusive")] : [])];
   const avatarSize = story ? 300 : 220;

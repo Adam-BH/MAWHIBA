@@ -101,7 +101,7 @@ function Classic({ coach, qr, t, urls, generated }: Props) {
 /** A4 CV, same content as the web CV. */
 export function CvDocument(props: Props) {
   return (
-    <Document title={`CV MAWHIBA — ${props.coach.profile.full_name}`} author="MAWHIBA" language="fr">
+    <Document title={`CV MAWHIBA · ${props.coach.profile.full_name}`} author="MAWHIBA" language="fr">
       {props.template === "classique" ? <Classic {...props} /> : <Modern {...props} />}
     </Document>
   );

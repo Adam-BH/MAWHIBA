@@ -50,7 +50,7 @@ export function ProposalCard({ proposal, budget, actions }: {
         </div>
       )}
       <div className="grid gap-1 text-sm">
-        <p className="flex items-center gap-1.5 capitalize"><Clock className="size-3.5 text-muted-foreground" />{formatDateTime(proposal.slot.starts_at)} – {formatTime(proposal.slot.ends_at)}</p>
+        <p className="flex items-center gap-1.5 capitalize"><Clock className="size-3.5 text-muted-foreground" />{formatDateTime(proposal.slot.starts_at)}-{formatTime(proposal.slot.ends_at)}</p>
         <p className="flex items-center gap-1.5"><MapPin className="size-3.5 text-muted-foreground" />{proposal.slot.location}</p>
       </div>
       {proposal.message && <p className="rounded-lg bg-muted p-3 text-sm">{proposal.message}</p>}

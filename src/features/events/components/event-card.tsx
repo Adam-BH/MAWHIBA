@@ -21,7 +21,7 @@ export function EventCard({ event, viewer }: { event: NextEvent; viewer: Role | 
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <h3 className="text-xl font-semibold">{event.title}</h3>
         <div className="grid gap-1 text-sm text-muted-foreground">
-          <p className="flex items-center gap-2 capitalize"><Clock className="size-4" />{formatDateTime(event.starts_at)} – {formatTime(event.ends_at)}</p>
+          <p className="flex items-center gap-2 capitalize"><Clock className="size-4" />{formatDateTime(event.starts_at)}-{formatTime(event.ends_at)}</p>
           <p className="flex items-center gap-2"><MapPin className="size-4" />{event.location}</p>
           <p className="flex items-center gap-2"><Users className="size-4" />{left > 0 ? t("spotsLeft", { count: left }) : t("full")}</p>
         </div>

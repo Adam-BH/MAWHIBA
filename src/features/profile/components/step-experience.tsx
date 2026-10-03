@@ -52,7 +52,7 @@ export function StepExperience() {
               <li key={e.id} className="flex items-start gap-2 rounded-xl border bg-card p-3">
                 <div className="min-w-0 flex-1">
                   <p className="font-medium">{e.role} · <span className="text-primary">{e.organization}</span></p>
-                  <p className="text-sm text-muted-foreground">{e.start_date.slice(0, 4)} – {e.end_date ? e.end_date.slice(0, 4) : t("today")}</p>
+                  <p className="text-sm text-muted-foreground">{e.start_date.slice(0, 4)}-{e.end_date ? e.end_date.slice(0, 4) : t("today")}</p>
                   {e.description && <p className="mt-1 text-sm">{e.description}</p>}
                 </div>
                 <ItemFormDialog title={t("edit")} fields={fields} schema={experienceSchema}

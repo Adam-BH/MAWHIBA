@@ -23,7 +23,7 @@ export const AMIRA = {
   ] satisfies Achievement[],
   experiences: [
     { role: "Entraîneure natation jeunes", organization: "Club Nautique de La Marsa", start_date: "2022-01-10", end_date: null,
-      description: "Groupes 6–12 ans, de l'aisance aquatique aux premières compétitions." },
+      description: "Groupes 6-12 ans, de l'aisance aquatique aux premières compétitions." },
     { role: "Monitrice de natation", organization: "Camp d'été Hammamet Kids", start_date: "2021-07-01", end_date: "2021-08-31",
       description: "Encadrement de groupes de 8 enfants, sécurité et jeux aquatiques." },
   ],
@@ -40,7 +40,7 @@ const SPECIALTIES_BY_SPORT: Record<string, string[]> = {
   Handball: ["Compétition", "Adolescents", "Préparation physique"], Fitness: ["Perte de poids", "Seniors", "Femmes"],
 };
 
-/** Coherent, deterministic profile data. `tier` 0–3 controls how complete the profile is (strength ≈ 40% → 95%). */
+/** Coherent, deterministic profile data. `tier` 0-3 controls how complete the profile is (strength ≈ 40% → 95%). */
 export function profileFor(coach: SeedCoach, i: number) {
   const tier = i % 4;
   const sport = coach.sports[0];

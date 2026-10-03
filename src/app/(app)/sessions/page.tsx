@@ -27,7 +27,7 @@ export default async function SessionsPage() {
 
   return (
     <>
-      <PageHeader title={t("title")} description={isCoach ? t("coachSubtitle") : t("clientSubtitle")} />
+      <PageHeader title={t("title")} />
       <Tabs defaultValue={isCoach && requests.length ? "requests" : "upcoming"}>
         <TabsList className="mb-4">
           {isCoach && <TabsTrigger value="requests">{t("tabs.requests", { count: requests.length })}</TabsTrigger>}

@@ -9,7 +9,7 @@ export async function AdminDashboard() {
   const [t, metrics] = await Promise.all([getTranslations("admin"), getMetrics()]);
   return (
     <>
-      <PageHeader title={t("title")} description={t("subtitle")} actions={
+      <PageHeader title={t("title")} actions={
         <>
           <Button asChild><Link href="/admin/coaches">{t("goVerify", { count: metrics.coaches_pending })}</Link></Button>
           <Button asChild variant="outline"><Link href="/admin/payments">{t("goPayments")}</Link></Button>

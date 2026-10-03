@@ -59,7 +59,7 @@ export default async function BookPage({ params, searchParams }: {
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <div className="grid gap-1 text-sm">
-            <p className="flex items-center gap-2 capitalize"><Clock className="size-4 text-muted-foreground" />{formatDay(slot.starts_at)} · {formatTime(slot.starts_at)} – {formatTime(slot.ends_at)}</p>
+            <p className="flex items-center gap-2 capitalize"><Clock className="size-4 text-muted-foreground" />{formatDay(slot.starts_at)} · {formatTime(slot.starts_at)}-{formatTime(slot.ends_at)}</p>
             <p className="flex items-center gap-2"><MapPin className="size-4 text-muted-foreground" />{slot.location}</p>
           </div>
           <Separator />

@@ -15,7 +15,7 @@ export default async function SlotsPage() {
 
   return (
     <>
-      <PageHeader title={t("title")} description={t("subtitle")} />
+      <PageHeader title={t("title")} />
       <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
         <Card className="self-start">
           <CardHeader><CardTitle>{t("new")}</CardTitle></CardHeader>

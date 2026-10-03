@@ -112,7 +112,7 @@ Stop the database with `npm run db:stop`. Your data is kept between restarts.
 
 ### What the seed creates
 
-- 16 verified coaches (1–3 offers each, 14 days of slots), 3 unverified coaches with pending proofs (`*@coach.mawhiba.tn`)
+- 16 verified coaches (1-3 offers each, 14 days of slots), 3 unverified coaches with pending proofs (`*@coach.mawhiba.tn`)
 - 6 clients (`*.client@mawhiba.tn`), 20 past completed bookings with reviews and payments; upcoming paid bookings and one refund for the demo accounts
 - 6 open requests, including the demo client's "Coach de natation pour mon fils autiste (8 ans)" with proposals from Amira (45, in budget) and Karim (55, over budget)
 - formation badges for some coaches

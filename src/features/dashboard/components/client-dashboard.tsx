@@ -21,7 +21,7 @@ export async function ClientDashboard({ user }: { user: CurrentUser }) {
 
   return (
     <>
-      <PageHeader title={t("hello", { name: user.full_name.split(" ")[0] })} description={t("clientSubtitle")} />
+      <PageHeader title={t("title")} />
       <div className="grid gap-3 sm:grid-cols-3">
         <StatCard icon={CalendarClock} label={t("upcomingCount")} value={bookings.filter((b) => isUpcoming(b.status, new Date(b.slot.starts_at))).length} />
         <StatCard icon={CalendarCheck} tone="accent" label={t("sessionsCount")} value={bookings.filter((b) => b.status === "completed").length} />

@@ -21,7 +21,7 @@ export async function ClientRequests({ userId }: { userId: string }) {
 
   return (
     <>
-      <PageHeader title={t("clientTitle")} description={t("clientSubtitle")} actions={cta} />
+      <PageHeader title={t("clientTitle")} actions={cta} />
       {withStatus.length === 0 ? (
         <EmptyState icon={Megaphone} title={t("emptyClient")} description={t("emptyClientHint")} action={canPost ? cta : undefined} />
       ) : (

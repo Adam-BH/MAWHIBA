@@ -25,7 +25,7 @@ export const DEMO_COACH: SeedCoach = {
   sports: ["Natation"],
   price: 40, // = cheapest of her offers ("à partir de")
   headline: "Nageuse de l'équipe nationale, coach bienveillante",
-  achievements: "Équipe nationale de natation (2016–2022) · Médaillée d'or aux Jeux panarabes 2019 (200 m dos)",
+  achievements: "Équipe nationale de natation (2016-2022) · Médaillée d'or aux Jeux panarabes 2019 (200 m dos)",
   bio: "J'accompagne enfants et adultes, du premier plongeon au perfectionnement technique. Séances adaptées aux profils neuro-atypiques.",
   inclusive: true,
 };
@@ -40,7 +40,7 @@ const c = (
 
 export const VERIFIED_COACHES: SeedCoach[] = [
   c("youssef.trabelsi", "Youssef Trabelsi", "Tunis", ["Football"], 50, "Ex-milieu de l'Espérance, technique & tactique",
-    "Formé à l'Espérance, j'ai joué trois saisons en Ligue 1 avant une blessure au genou. Je travaille surtout avec les 10–16 ans : conduite de balle, jeu sans ballon, prise d'information. Chaque séance part d'une situation de match.",
+    "Formé à l'Espérance, j'ai joué trois saisons en Ligue 1 avant une blessure au genou. Je travaille surtout avec les 10-16 ans : conduite de balle, jeu sans ballon, prise d'information. Chaque séance part d'une situation de match.",
     "École de football Ennasr", [
       [2014, "Champion de Tunisie U19", "Championnat national U19", "national", "Titre"],
       [2016, "Trois saisons en Ligue 1", "Ligue 1 tunisienne", "national", "41 matchs"],
@@ -54,7 +54,7 @@ export const VERIFIED_COACHES: SeedCoach[] = [
   c("mehdi.hammami", "Mehdi Hammami", "Sousse", ["Boxe", "Fitness"], 40, "Boxe éducative et condition physique",
     "Je fais découvrir la boxe sans prendre de coups : travail aux pattes d'ours, corde, déplacements. C'est un excellent moyen de se remettre en forme et de gagner en confiance. Débutants bienvenus, gants fournis.",
     "Boxing Club Sahel", [
-      [2019, "Champion régional du Sahel (–75 kg)", "Championnat régional", "regional", "Titre"],
+      [2019, "Champion régional du Sahel (-75 kg)", "Championnat régional", "regional", "Titre"],
       [2017, "Sélection nationale junior", "Tournoi international de Tunis", "international", "Quart de finale"],
     ]),
   c("ines.gharbi", "Ines Gharbi", "Sfax", ["Athlétisme"], 35, "Sprint et préparation physique",
@@ -90,13 +90,13 @@ export const VERIFIED_COACHES: SeedCoach[] = [
     "Ceinture noire 3e dan, j'enseigne aux enfants à partir de 6 ans. Le taekwondo leur apprend la concentration, le respect et la coordination. Préparation aux passages de grades et aux compétitions.",
     "Association Taekwondo Bizerte", [
       [2018, "Médaille de bronze", "Championnats d'Afrique", "international", "3e place"],
-      [2017, "Champion de Tunisie (–68 kg)", "Championnat national", "national", "Titre"],
+      [2017, "Champion de Tunisie (-68 kg)", "Championnat national", "national", "Titre"],
     ]),
   c("yasmine.ferchichi", "Yasmine Ferchichi", "Tunis", ["Judo"], 45, "Judo et self-défense",
-    "Membre de l'équipe nationale en –57 kg pendant sept ans. Je donne des cours de judo pour enfants et des stages de self-défense pour femmes : chutes, dégagements, gestion du stress.",
+    "Membre de l'équipe nationale en -57 kg pendant sept ans. Je donne des cours de judo pour enfants et des stages de self-défense pour femmes : chutes, dégagements, gestion du stress.",
     "Judo Club El Menzah", [
-      [2020, "Championne arabe (–57 kg)", "Championnats arabes", "international", "Titre"],
-      [2018, "Championne de Tunisie (–57 kg)", "Championnat national", "national", "Titre"],
+      [2020, "Championne arabe (-57 kg)", "Championnats arabes", "international", "Titre"],
+      [2018, "Championne de Tunisie (-57 kg)", "Championnat national", "national", "Titre"],
     ]),
   c("omar.belhadj", "Omar Belhadj", "Sousse", ["Handball"], 40, "Handball : gardien et arrière",
     "Gardien puis arrière à l'Étoile du Sahel. Je fais des séances spécifiques gardiens (réflexes, placement) et du travail de tir pour les arrières. Je suis aussi les jeunes de 12 à 18 ans en club.",

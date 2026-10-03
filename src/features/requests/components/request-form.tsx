@@ -117,7 +117,7 @@ export function RequestForm({ defaults, firstName }: { defaults: RequestInput; f
           <legend className="mb-2 text-sm font-medium">{t("form.budget")}</legend>
           <div className="flex items-center gap-2">
             <Input type="number" inputMode="numeric" aria-label={t("form.budgetMin")} className="max-w-28" {...form.register("budget.min", { valueAsNumber: true })} />
-            <span className="text-muted-foreground">–</span>
+            <span className="text-muted-foreground">-</span>
             <Input type="number" inputMode="numeric" aria-label={t("form.budgetMax")} className="max-w-28" {...form.register("budget.max", { valueAsNumber: true })} />
             <span className="text-sm text-muted-foreground">{t("form.perSession")}</span>
           </div>

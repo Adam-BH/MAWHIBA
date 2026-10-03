@@ -45,7 +45,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6">
-      <PageHeader title={t("builderTitle")} description={t("builderSubtitle")} />
+      <PageHeader title={t("builderTitle")} />
       {!coach.verified && (
         <Card>
           <CardHeader>

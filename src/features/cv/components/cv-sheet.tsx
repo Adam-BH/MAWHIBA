@@ -23,7 +23,7 @@ function Verified({ label }: { label: string }) {
 export function CvSheet({ coach, qr }: { coach: CoachFull; qr: string }) {
   const t = useTranslations("cv");
   const s = coach.stats;
-  const years = (start: string, end: string | null) => `${start.slice(0, 4)} – ${end ? end.slice(0, 4) : t("today")}`;
+  const years = (start: string, end: string | null) => `${start.slice(0, 4)}-${end ? end.slice(0, 4) : t("today")}`;
 
   return (
     <article className="cv-sheet mx-auto w-full max-w-[210mm] bg-card text-foreground shadow-sm print:shadow-none">
@@ -52,7 +52,7 @@ export function CvSheet({ coach, qr }: { coach: CoachFull; qr: string }) {
                   <li key={a.id} className="grid grid-cols-[3rem_1fr] gap-2">
                     <span className="font-semibold text-primary">{a.year}</span>
                     <span>
-                      <span className="font-semibold">{a.title}</span>{a.result && ` — ${a.result}`}
+                      <span className="font-semibold">{a.title}</span>{a.result && `, ${a.result}`}
                       {a.verified && <Verified label={t("verified")} />}
                       {a.competition && <span className="block text-muted-foreground">{a.competition} · {t(`levels.${a.level}`)}</span>}
                     </span>

@@ -11,7 +11,7 @@ export default async function AdminEventsPage() {
   const [t, events] = await Promise.all([getTranslations("events"), listEvents()]);
   return (
     <>
-      <PageHeader title={t("adminTitle")} description={t("adminSubtitle")} />
+      <PageHeader title={t("adminTitle")} />
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="self-start">
           <CardHeader><CardTitle>{t("form.heading")}</CardTitle></CardHeader>

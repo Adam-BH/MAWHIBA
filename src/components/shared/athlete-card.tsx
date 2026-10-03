@@ -11,9 +11,9 @@ export function AthleteCard({ card, variant = "full", className }: { card: Athle
   const t = useTranslations("athleteCard");
   const compact = variant === "compact";
   const stats = [
-    { label: t("rating"), value: card.ratingCount ? card.rating.toFixed(1) : "—" },
+    { label: t("rating"), value: card.ratingCount ? card.rating.toFixed(1) : "-" },
     { label: t("sessions"), value: card.sessions },
-    { label: t("years"), value: card.years ?? "—" },
+    { label: t("years"), value: card.years ?? "-" },
   ];
 
   return (

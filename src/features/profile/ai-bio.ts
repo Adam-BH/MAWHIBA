@@ -31,7 +31,7 @@ export async function suggestBioAction(currentBio: string): Promise<ActionResult
     nom: coach.profile.full_name, ville: coach.profile.city, sport: coach.primary_sport, autres_sports: coach.sports,
     statut: coach.athlete_status, niveau_max: coach.highest_level, annees_pratique: coach.years_practice,
     annees_coaching: coach.years_coaching, specialites: coach.specialties, langues: coach.languages,
-    palmares: coach.achievements.map((a) => `${a.year} — ${a.title}${a.result ? ` (${a.result})` : ""}`),
+    palmares: coach.achievements.map((a) => `${a.year}: ${a.title}${a.result ? ` (${a.result})` : ""}`),
     experiences: coach.experiences.map((e) => `${e.role}, ${e.organization}`),
     formation: coach.education.map((e) => `${e.degree}, ${e.school}`),
     bio_actuelle: currentBio.slice(0, 1200),

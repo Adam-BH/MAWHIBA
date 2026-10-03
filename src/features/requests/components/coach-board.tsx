@@ -22,7 +22,7 @@ export async function VerificationRequired() {
 
 export async function CoachBoard({ user, city }: { user: CurrentUser; city?: string }) {
   const [t, coach] = await Promise.all([getTranslations("requests"), getMyCoachProfile(user.id)]);
-  const header = <PageHeader title={t("coachTitle")} description={t("coachSubtitle")} />;
+  const header = <PageHeader title={t("coachTitle")} />;
   if (!coach?.verified) return <>{header}<VerificationRequired /></>;
 
   // Default to the coach's city; "all" removes the filter.

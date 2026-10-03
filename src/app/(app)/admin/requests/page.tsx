@@ -16,7 +16,7 @@ export default async function AdminRequestsPage() {
 
   return (
     <>
-      <PageHeader title={t("title")} description={t("subtitle")} />
+      <PageHeader title={t("title")} />
       {requests.length === 0 ? <EmptyState icon={Megaphone} title={t("empty")} /> : (
         <div className="grid gap-3 lg:grid-cols-2">
           {requests.map((r) => {

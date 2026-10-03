@@ -14,7 +14,6 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return (
     <>
       <h1 className="mb-1 text-2xl font-semibold">{t("loginTitle")}</h1>
-      <p className="mb-6 text-sm text-muted-foreground">{t("loginSubtitle")}</p>
       <LoginForm next={next} />
     </>
   );

@@ -30,7 +30,7 @@ export async function CoachDashboard({ user }: { user: CurrentUser }) {
 
   return (
     <>
-      <PageHeader title={t("hello", { name: user.full_name.split(" ")[0] })} description={t("coachSubtitle")} />
+      <PageHeader title={t("title")} />
       <Alert className={status === "verified" ? "border-success/40 bg-success/10" : "border-warning/50 bg-warning/15"}>
         {status === "verified" ? <BadgeCheck /> : status === "pending" ? <Clock /> : <FileWarning />}
         <AlertTitle>{t(`verification.${status}Title`)}</AlertTitle>

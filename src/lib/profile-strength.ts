@@ -65,7 +65,7 @@ export function strengthLevel(score: number): StrengthLevel {
   return score >= 90 ? "elite" : score >= 70 ? "pro" : score >= 40 ? "solide" : "debutant";
 }
 
-/** Score 0–100, its level, and the missing item worth the most points. */
+/** Score 0-100, its level, and the missing item worth the most points. */
 export function profileStrength(input: StrengthInput) {
   const all = rules(input);
   const score = all.reduce((sum, [, pts]) => sum + pts, 0);

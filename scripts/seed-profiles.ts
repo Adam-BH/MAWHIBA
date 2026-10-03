@@ -65,5 +65,5 @@ export async function seedProfiles(verified: Coach[], inclusiveIds: Set<string>)
       zones: s.zones.length, video: false, socials: Object.keys(s.socials).length,
     }).score);
   }
-  console.log(`✔ coach profiles & CVs (strength ${Math.min(...scores)}–${Math.max(...scores)}%, Amira ${scores[0]}%)`);
+  console.log(`✔ coach profiles & CVs (strength ${Math.min(...scores)}-${Math.max(...scores)}%, Amira ${scores[0]}%)`);
 }

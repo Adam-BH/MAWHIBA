@@ -29,7 +29,7 @@ export default async function CoachesPage({ searchParams }: { searchParams: Prom
 
   return (
     <>
-      <PageHeader title={t("title")} description={t("subtitle")} />
+      <PageHeader title={t("title")} />
       <Suspense><CoachFilters /></Suspense>
       <p className="my-4 text-sm text-muted-foreground">{t("results", { count: coaches.length })}</p>
       {coaches.length === 0 ? (

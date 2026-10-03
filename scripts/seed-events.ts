@@ -2,7 +2,7 @@ import { addMonths, format, nextSaturday, startOfMonth } from "date-fns";
 import { fromLocal, formatMonthYear } from "../src/lib/dates";
 import { check, db, must } from "./seed-data/db";
 
-/** First Saturday of the month `offset` months from now, 09:00–13:00 Tunis time. */
+/** First Saturday of the month `offset` months from now, 09:00-13:00 Tunis time. */
 function firstSaturday(offset: number) {
   const day = nextSaturday(addMonths(startOfMonth(new Date()), offset).getTime() - 86_400_000);
   const starts = fromLocal(format(day, "yyyy-MM-dd"), "09:00");

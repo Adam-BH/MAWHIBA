@@ -26,7 +26,7 @@ export function BookingCard({ booking, viewer }: { booking: BookingRow; viewer: 
             <p className="truncate font-semibold">{other.full_name}</p>
             {viewer === "admin" && <p className="truncate text-xs text-muted-foreground">{t("clientLabel", { name: booking.client.full_name })}</p>}
             <p className="flex items-center gap-1 text-sm capitalize text-muted-foreground">
-              <Clock className="size-3.5" />{formatDateTime(booking.slot.starts_at)} – {formatTime(booking.slot.ends_at)}
+              <Clock className="size-3.5" />{formatDateTime(booking.slot.starts_at)}-{formatTime(booking.slot.ends_at)}
             </p>
             <p className="flex items-center gap-1 truncate text-sm text-muted-foreground"><MapPin className="size-3.5 shrink-0" />{booking.slot.location}</p>
           </div>

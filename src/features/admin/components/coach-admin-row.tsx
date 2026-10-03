@@ -17,8 +17,8 @@ export function CoachAdminRow({ coach }: { coach: AdminCoach }) {
           <p className="truncate font-medium">
             {coach.verified ? <Link className="hover:underline" href={`/coaches/${coach.slug ?? coach.user_id}`}>{coach.profile.full_name}</Link> : coach.profile.full_name}
           </p>
-          <p className="truncate text-sm text-muted-foreground">{coach.profile.email} · {coach.profile.city ?? "—"}</p>
-          <p className="truncate text-sm text-muted-foreground">{coach.sports.join(", ") || "—"} · <Price value={coach.price_per_session} /></p>
+          <p className="truncate text-sm text-muted-foreground">{coach.profile.email} · {coach.profile.city ?? "-"}</p>
+          <p className="truncate text-sm text-muted-foreground">{coach.sports.join(", ") || "-"} · <Price value={coach.price_per_session} /></p>
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2">

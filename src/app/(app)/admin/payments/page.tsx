@@ -9,7 +9,7 @@ export default async function AdminPaymentsPage() {
   const [t, payments] = await Promise.all([getTranslations("admin.payments"), listPayments()]);
   return (
     <>
-      <PageHeader title={t("title")} description={t("subtitle")} />
+      <PageHeader title={t("title")} />
       <PaymentList payments={payments} showClient />
     </>
   );

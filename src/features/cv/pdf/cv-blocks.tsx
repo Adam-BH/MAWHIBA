@@ -36,7 +36,7 @@ export function Achievements({ coach, t }: { coach: CoachFull; t: Labels }) {
           <Text style={styles.year}>{a.year}</Text>
           <View style={{ flex: 1 }}>
             <Text>
-              <Text style={styles.bold}>{a.title}</Text>{a.result ? ` — ${a.result}` : ""}
+              <Text style={styles.bold}>{a.title}</Text>{a.result ? `, ${a.result}` : ""}
               {a.verified ? <Text style={styles.verified}>  · {t("verified")}</Text> : null}
             </Text>
             {a.competition ? <Text style={styles.muted}>{a.competition} · {t(`levels.${a.level}`)}</Text> : null}
@@ -55,7 +55,7 @@ export function Experience({ coach, t }: { coach: CoachFull; t: Labels }) {
       {coach.experiences.map((e) => (
         <View key={e.id} style={{ marginBottom: 6 }} wrap={false}>
           <Text><Text style={styles.bold}>{e.role}</Text> · {e.organization}
-            <Text style={styles.muted}>  ({e.start_date.slice(0, 4)} – {e.end_date ? e.end_date.slice(0, 4) : t("today")})</Text></Text>
+            <Text style={styles.muted}>  ({e.start_date.slice(0, 4)}-{e.end_date ? e.end_date.slice(0, 4) : t("today")})</Text></Text>
           {e.description ? <Text style={styles.muted}>{e.description}</Text> : null}
         </View>
       ))}

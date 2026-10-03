@@ -14,7 +14,6 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
   return (
     <>
       <h1 className="mb-1 text-2xl font-semibold">{t("signupTitle")}</h1>
-      <p className="mb-6 text-sm text-muted-foreground">{t("signupSubtitle")}</p>
       <SignupForm next={next} defaultRole={role === "coach" ? "coach" : "client"} />
     </>
   );

@@ -31,7 +31,7 @@ export default async function OffersPage() {
 
   return (
     <>
-      <PageHeader title={t("pageTitle")} description={t("pageSubtitle", { max: MAX_ACTIVE_OFFERS })} actions={createButton} />
+      <PageHeader title={t("pageTitle")} actions={createButton} />
       <Alert className="mb-6">
         <Tag />
         <AlertDescription>{t("fromPreview")} <Price value={fromPrice} className="text-primary" /> · {t("activeCount", { count: active.length, max: MAX_ACTIVE_OFFERS })}</AlertDescription>

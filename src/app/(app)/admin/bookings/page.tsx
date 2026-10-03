@@ -18,7 +18,7 @@ export default async function AdminBookingsPage({ searchParams }: { searchParams
 
   return (
     <>
-      <PageHeader title={t("title")} description={t("subtitle")} />
+      <PageHeader title={t("title")} />
       <nav className="mb-4 flex flex-wrap gap-2" aria-label={t("filter")}>
         <Button asChild size="sm" variant={!status ? "default" : "outline"}><Link href="/admin/bookings">{t("all")}</Link></Button>
         {STATUSES.map((s) => (

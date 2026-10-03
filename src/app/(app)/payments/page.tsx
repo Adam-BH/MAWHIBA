@@ -18,7 +18,7 @@ export default async function PaymentsPage() {
   if (user.role === "client") {
     return (
       <>
-        <PageHeader title={t("clientTitle")} description={t("clientSubtitle")} />
+        <PageHeader title={t("clientTitle")} />
         <PaymentList payments={await listPayments(user.id)} />
       </>
     );

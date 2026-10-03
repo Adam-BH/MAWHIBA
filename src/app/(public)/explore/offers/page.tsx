@@ -33,7 +33,7 @@ export default async function ExploreOffersPage({ searchParams }: { searchParams
 
   return (
     <>
-      <PageHeader title={t("title")} description={t("subtitle")} />
+      <PageHeader title={t("title")} />
       <Suspense><CoachFilters withAudience /></Suspense>
       <p className="my-4 text-sm text-muted-foreground">{t("results", { count: offers.length })}</p>
       {offers.length === 0 ? <EmptyState icon={SearchX} title={t("empty")} /> : (

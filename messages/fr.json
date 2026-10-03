@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "MAWHIBA — Des athlètes devenus coachs",
+    "title": "MAWHIBA · Des athlètes devenus coachs",
     "description": "Réservez une séance avec un athlète tunisien vérifié. Chaque séance est assurée par Star."
   },
   "nav": {
@@ -88,9 +88,9 @@
     "REQUEST_CLOSED": "Cette demande n'est plus ouverte.",
     "SPORT_MISMATCH": "Ce sport ne fait pas partie de votre profil.",
     "ALREADY_PROPOSED": "Vous avez déjà envoyé une proposition pour cette demande.",
-    "SLUG_TAKEN": "Cette adresse de profil est déjà prise. Essaie une variante.",
-    "AI_QUOTA": "Limite atteinte : 5 suggestions par jour. Réessaie demain.",
-    "AI_UNAVAILABLE": "Suggestions indisponibles pour le moment. Ta bio actuelle est conservée.",
+    "SLUG_TAKEN": "Cette adresse de profil est déjà prise. Essayez une variante.",
+    "AI_QUOTA": "Limite atteinte : 5 suggestions par jour. Réessayez demain.",
+    "AI_UNAVAILABLE": "Suggestions indisponibles pour le moment. Votre bio actuelle est conservée.",
     "EVENT_FULL": "Cet événement est complet.",
     "EVENT_PAST": "Cet événement a déjà commencé."
   },
@@ -100,21 +100,19 @@
     "passwordHint": "8 caractères minimum.",
     "fullName": "Nom complet",
     "loginTitle": "Connexion",
-    "loginSubtitle": "Heureux de vous revoir !",
     "loginCta": "Se connecter",
     "signupTitle": "Créer un compte",
-    "signupSubtitle": "Rejoignez la communauté MAWHIBA.",
     "signupCta": "Créer mon compte",
     "noAccount": "Pas encore de compte ?",
     "haveAccount": "Déjà inscrit ?",
     "roleClient": "Je suis un client",
-    "roleCoach": "Je suis un athlète / coach",
-    "welcome": "Bienvenue sur MAWHIBA !"
+    "roleCoach": "Je suis athlète ou coach",
+    "welcome": "Bienvenue sur MAWHIBA"
   },
   "landing": {
     "eyebrow": "Avec Star Assurances",
     "heroTitle": "Des athlètes devenus coachs. Des séances assurées par Star.",
-    "heroText": "Réservez une séance avec un athlète tunisien vérifié : nageurs, footballeurs, judokas… Payez en ligne, on s'occupe du reste.",
+    "heroText": "Nageurs, footballeurs, judokas : réservez une séance avec un athlète tunisien vérifié et payez en ligne.",
     "ctaClient": "Je cherche un coach",
     "ctaCoach": "Je suis athlète, je deviens coach",
     "howTitle": "Comment ça marche",
@@ -133,7 +131,6 @@
   },
   "coaches": {
     "title": "Trouver un coach",
-    "subtitle": "Des athlètes vérifiés, près de chez vous.",
     "results": "{count, plural, =0 {Aucun coach} one {# coach} other {# coachs}}",
     "noResults": "Aucun coach ne correspond",
     "noResultsHint": "Essayez d'élargir vos filtres.",
@@ -183,17 +180,15 @@
     "proofTitle": "Justificatif d'athlète",
     "proofMissing": "Téléversez une preuve de votre parcours (licence, attestation de fédération…) pour être vérifié.",
     "proofPending": "Justificatif reçu : en attente de vérification par notre équipe.",
-    "proofVerified": "Votre profil est vérifié. Merci !",
+    "proofVerified": "Votre profil est vérifié.",
     "uploadProof": "Téléverser un justificatif",
     "replaceProof": "Remplacer le justificatif",
     "proofSaved": "Justificatif envoyé",
     "priceFromOffers": "Calculé automatiquement : prix de votre offre la moins chère.",
-    "builderTitle": "Mon profil de coach",
-    "builderSubtitle": "7 étapes pour un profil pro et un CV prêt à partager."
+    "builderTitle": "Mon profil de coach"
   },
   "slots": {
     "title": "Mes créneaux",
-    "subtitle": "Publiez vos disponibilités : les clients réservent directement.",
     "new": "Nouveau créneau",
     "date": "Date",
     "time": "Heure",
@@ -221,12 +216,10 @@
     "comment": "Commentaire (facultatif)",
     "commentPlaceholder": "Ce qui vous a plu, ce qui pourrait être amélioré…",
     "submit": "Publier l'avis",
-    "thanks": "Merci pour votre avis !"
+    "thanks": "Merci pour votre avis."
   },
   "sessions": {
     "title": "Mes séances",
-    "clientSubtitle": "Vos réservations à venir et passées.",
-    "coachSubtitle": "Demandes, séances à venir et historique.",
     "findCoach": "Trouver un coach",
     "clientLabel": "Client : {name}",
     "tabs": {
@@ -245,7 +238,7 @@
       "decline": "Refuser",
       "declined": "Demande refusée, le client est remboursé",
       "complete": "Séance terminée",
-      "completed": "Séance terminée, merci !",
+      "completed": "Séance marquée comme terminée",
       "cancel": "Annuler",
       "cancelConfirm": "Annuler cette réservation ? Vous serez remboursé intégralement.",
       "cancelled": "Réservation annulée et remboursée"
@@ -268,7 +261,7 @@
   },
   "learn": {
     "title": "Formation",
-    "subtitle": "Des modules courts pour mieux encadrer vos clients. Chaque quiz réussi ajoute un badge à votre profil.",
+    "subtitle": "Chaque quiz réussi ajoute un badge à votre profil.",
     "empty": "Aucun module disponible",
     "lessonsCount": "{count, plural, one {# leçon} other {# leçons}} + quiz",
     "passed": "Badge obtenu",
@@ -282,18 +275,15 @@
     "startQuiz": "Passer au quiz",
     "submit": "Valider mes réponses",
     "score": "Score : {score} / {total} (minimum {pass})",
-    "passedTitle": "Félicitations !",
+    "passedTitle": "Module validé",
     "badgeEarned": "Badge « {title} » obtenu",
-    "failedTitle": "Presque !",
+    "failedTitle": "Pas encore validé",
     "retry": "Réessayer",
     "seeProfile": "Voir mon profil",
     "progress": "{passed} / {total} badges obtenus",
     "minutes": "≈ {count} min"
   },
   "dashboard": {
-    "hello": "Bonjour {name} 👋",
-    "clientSubtitle": "Prêt pour votre prochaine séance ?",
-    "coachSubtitle": "Votre activité de coach en un coup d'œil.",
     "sessionsCount": "Séances terminées",
     "findCoach": "Trouver un coach",
     "nextSession": "Prochaine séance",
@@ -319,11 +309,11 @@
     "profileCard": "Mon profil",
     "earnBadge": "Obtenir le badge Coaching inclusif",
     "editProfile": "Modifier mon profil",
-    "mySessions": "Mes séances"
+    "mySessions": "Mes séances",
+    "title": "Accueil"
   },
   "admin": {
     "title": "Vue d'ensemble",
-    "subtitle": "Les chiffres clés de la plateforme.",
     "goVerify": "Vérifications ({count})",
     "goPayments": "Paiements",
     "metrics": {
@@ -347,7 +337,6 @@
     },
     "coaches": {
       "title": "Vérification des coachs",
-      "subtitle": "Contrôlez les justificatifs avant publication.",
       "queue": "File d'attente ({count})",
       "queueEmpty": "Aucun coach en attente",
       "all": "Tous les coachs ({count})",
@@ -365,14 +354,12 @@
     },
     "bookings": {
       "title": "Réservations",
-      "subtitle": "Toutes les réservations de la plateforme.",
       "filter": "Filtrer par statut",
       "all": "Toutes",
       "empty": "Aucune réservation"
     },
     "requests": {
       "title": "Demandes clients",
-      "subtitle": "Modération des demandes et de leurs propositions.",
       "empty": "Aucune demande"
     },
     "cvItems": {
@@ -385,13 +372,12 @@
       "rejectedToast": "Preuve rejetée"
     },
     "payments": {
-      "title": "Paiements",
-      "subtitle": "Paiements Konnect, remboursements et sommes dues aux coachs."
+      "title": "Paiements"
     }
   },
   "errorPage": {
-    "title": "Oups, quelque chose s'est mal passé",
-    "text": "Une erreur inattendue est survenue. Vous pouvez réessayer.",
+    "title": "Une erreur est survenue",
+    "text": "Réessayez dans un instant.",
     "retry": "Réessayer"
   },
   "notFound": {
@@ -430,7 +416,6 @@
   },
   "offers": {
     "pageTitle": "Mes offres",
-    "pageSubtitle": "Les types de séances que vous proposez (jusqu'à {max} actives).",
     "new": "Nouvelle offre",
     "newTitle": "Nouvelle offre",
     "editTitle": "Modifier l'offre",
@@ -469,15 +454,12 @@
   },
   "explore": {
     "title": "Toutes les offres",
-    "subtitle": "Les séances proposées par nos athlètes vérifiés.",
     "results": "{count, plural, =0 {Aucune offre} one {# offre} other {# offres}}",
     "empty": "Aucune offre ne correspond"
   },
   "requests": {
     "clientTitle": "Mes demandes",
-    "clientSubtitle": "Décrivez votre besoin, les coachs vous font des propositions.",
     "coachTitle": "Demandes clients",
-    "coachSubtitle": "Les besoins des clients dans vos sports. Faites une proposition !",
     "new": "Publier une demande",
     "newTitle": "Publier une demande",
     "newSubtitle": "Les coachs vérifiés de votre sport verront votre prénom et votre ville uniquement.",
@@ -485,7 +467,7 @@
     "emptyClient": "Aucune demande",
     "emptyClientHint": "Publiez une demande : les coachs vous envoient des propositions avec un créneau et un prix.",
     "newProposals": "{count, plural, one {# nouvelle proposition} other {# nouvelles propositions}}",
-    "budgetRange": "{min}–{max} DT",
+    "budgetRange": "{min}-{max} DT",
     "expired": "Expirée",
     "expiresInHours": "expire dans {hours} h",
     "expiresInDays": "expire dans {days} j",
@@ -502,14 +484,14 @@
       "enfant": "Un enfant",
       "adulte": "Un adulte"
     },
-    "published": "Demande publiée !",
+    "published": "Demande publiée",
     "close": "Fermer la demande",
     "closeConfirm": "Fermer cette demande ? Les propositions en attente seront refusées.",
     "closed": "Demande fermée",
     "back": "Retour aux demandes",
     "proposalsTitle": "Propositions ({count})",
     "noProposals": "Pas encore de proposition",
-    "noProposalsHint": "Les coachs correspondants voient votre demande. Revenez bientôt !",
+    "noProposalsHint": "Les coachs de ce sport voient votre demande.",
     "myProposal": "Ma proposition",
     "makeProposal": "Faire une proposition",
     "noLongerOpen": "Cette demande n'est plus ouverte.",
@@ -561,7 +543,7 @@
       "post": "Publier",
       "openCount": "{count, plural, =0 {Aucune demande ouverte} one {# demande ouverte} other {# demandes ouvertes}}",
       "newProposals": "{count, plural, one {# nouvelle proposition à examiner} other {# nouvelles propositions à examiner}}",
-      "clientHint": "Décrivez votre besoin et laissez les coachs venir à vous.",
+      "clientHint": "Décrivez votre besoin : les coachs vous proposent un créneau et un prix.",
       "matchingCount": "{count, plural, =0 {Aucune nouvelle demande} one {# demande sans réponse} other {# demandes sans réponse}}"
     },
     "slotTaken": "Créneau plus disponible : le coach doit en proposer un autre."
@@ -587,7 +569,7 @@
       "message": "Message",
       "messagePlaceholder": "Présentez-vous et expliquez comment vous adapterez la séance…",
       "submit": "Envoyer la proposition",
-      "sent": "Proposition envoyée !"
+      "sent": "Proposition envoyée"
     }
   },
   "levels": {
@@ -602,8 +584,8 @@
     "sessions": "Séances",
     "years": "Années",
     "verified": "Vérifié",
-    "yourName": "Ton nom",
-    "sport": "Ton sport",
+    "yourName": "Votre nom",
+    "sport": "Votre sport",
     "badges": {
       "verified": "Athlète vérifié",
       "inclusive": "Coaching inclusif",
@@ -620,27 +602,27 @@
       "elite": "Élite"
     },
     "hints": {
-      "avatar": "ajoute une photo",
-      "cover": "ajoute une photo de couverture",
-      "tagline": "écris ta phrase d'accroche",
-      "languages": "indique tes langues",
-      "city": "indique ta ville",
-      "primarySport": "choisis ton sport principal",
-      "athleteStatus": "précise ton statut d'athlète",
-      "yearsPractice": "indique tes années de pratique",
-      "highestLevel": "indique ton plus haut niveau",
-      "achievements": "{count, plural, one {ajoute # palmarès} other {ajoute # palmarès}}",
-      "verifiedAchievement": "fais vérifier un palmarès (ajoute une preuve)",
-      "experience": "ajoute une expérience de coaching",
-      "yearsCoaching": "indique tes années de coaching",
-      "specialties": "choisis au moins 2 spécialités",
-      "education": "ajoute ta formation",
-      "certification": "ajoute une certification",
-      "mawhibaBadge": "obtiens un badge MAWHIBA dans Formation",
-      "bio": "écris une bio d'au moins 150 caractères",
-      "zones": "indique tes zones d'intervention",
-      "video": "ajoute une vidéo",
-      "socials": "ajoute un réseau social"
+      "avatar": "ajoutez une photo",
+      "cover": "ajoutez une photo de couverture",
+      "tagline": "écrivez votre phrase d'accroche",
+      "languages": "indiquez vos langues",
+      "city": "indiquez votre ville",
+      "primarySport": "choisissez votre sport principal",
+      "athleteStatus": "précisez votre statut d'athlète",
+      "yearsPractice": "indiquez vos années de pratique",
+      "highestLevel": "indiquez votre plus haut niveau",
+      "achievements": "{count, plural, one {ajoutez # palmarès} other {ajoutez # palmarès}}",
+      "verifiedAchievement": "faites vérifier un palmarès (ajoutez une preuve)",
+      "experience": "ajoutez une expérience de coaching",
+      "yearsCoaching": "indiquez vos années de coaching",
+      "specialties": "choisissez au moins 2 spécialités",
+      "education": "ajoutez votre formation",
+      "certification": "ajoutez une certification",
+      "mawhibaBadge": "obtenez un badge MAWHIBA dans Formation",
+      "bio": "écrivez une bio d'au moins 150 caractères",
+      "zones": "indiquez vos zones d'intervention",
+      "video": "ajoutez une vidéo",
+      "socials": "ajoutez un réseau social"
     }
   },
   "builder": {
@@ -654,7 +636,7 @@
     "optional": "facultatif",
     "steps": {
       "identity": "Identité",
-      "sport": "Ton sport",
+      "sport": "Sport",
       "achievements": "Palmarès",
       "experience": "Expérience",
       "education": "Formation",
@@ -662,13 +644,13 @@
       "publish": "Publication"
     },
     "stepHints": {
-      "identity": "La première impression : photo, nom et une phrase qui te ressemble.",
-      "sport": "Ton sport et ton parcours d'athlète.",
-      "achievements": "Tes résultats marquants. Ajoute une preuve pour obtenir la mention « Vérifié ».",
-      "experience": "Où et avec qui tu as déjà coaché.",
-      "education": "Tes diplômes et certifications. Les badges MAWHIBA s'ajoutent automatiquement.",
-      "coaching": "Ta bio, tes zones et tes réseaux.",
-      "publish": "Vérifie l'aperçu, choisis ton modèle de CV et publie !"
+      "identity": "Votre photo, votre nom et une phrase qui vous ressemble.",
+      "sport": "Votre sport et votre parcours d'athlète.",
+      "achievements": "Vos résultats marquants. Ajoutez une preuve pour obtenir la mention « Vérifié ».",
+      "experience": "Où et avec qui vous avez déjà coaché.",
+      "education": "Vos diplômes et certifications. Les badges MAWHIBA s'ajoutent automatiquement.",
+      "coaching": "Votre bio, vos zones et vos réseaux.",
+      "publish": "Vérifiez l'aperçu, choisissez un modèle de CV et publiez."
     },
     "identity": {
       "cover": "Couverture",
@@ -680,9 +662,9 @@
       "tagline": "Phrase d'accroche",
       "taglinePlaceholder": "Ex. : Ex-nageuse nationale, je rends l'eau rassurante",
       "example1": "Ancien athlète national, je transmets la rigueur du haut niveau",
-      "example2": "Le sport accessible à tous, à ton rythme",
-      "example3": "Je t'aide à progresser avec méthode et bonne humeur",
-      "slug": "Adresse de ton profil",
+      "example2": "Le sport accessible à tous, à votre rythme",
+      "example3": "Je vous aide à progresser avec méthode et bonne humeur",
+      "slug": "Adresse de votre profil",
       "languages": "Langues parlées"
     },
     "sport": {
@@ -703,7 +685,7 @@
       "delete": "Supprimer",
       "deleteConfirm": "Supprimer ce palmarès ?",
       "empty": "Aucun palmarès pour l'instant",
-      "emptyHint": "Titres, médailles, sélections… même régionaux, ils comptent !",
+      "emptyHint": "Titres, médailles, sélections : même régionaux, ils comptent.",
       "title": "Titre",
       "titlePlaceholder": "Ex. : Championne de Tunisie 100 m dos",
       "competition": "Compétition",
@@ -721,7 +703,7 @@
       "delete": "Supprimer",
       "deleteConfirm": "Supprimer cette expérience ?",
       "empty": "Aucune expérience pour l'instant",
-      "emptyHint": "Club, stage d'été, cours particuliers… tout compte.",
+      "emptyHint": "Club, stage d'été, cours particuliers : tout compte.",
       "role": "Rôle",
       "rolePlaceholder": "Ex. : Entraîneur natation jeunes",
       "organization": "Club / organisation",
@@ -760,11 +742,11 @@
     },
     "coaching": {
       "bio": "Bio",
-      "bioPlaceholder": "Raconte ton parcours, ta méthode et à qui tu t'adresses.",
-      "prompt1": "Ton parcours",
-      "prompt2": "Ta méthode",
+      "bioPlaceholder": "Votre parcours, votre méthode et à qui vous vous adressez.",
+      "prompt1": "Votre parcours",
+      "prompt2": "Votre méthode",
       "prompt3": "Pour qui ?",
-      "aiImprove": "✨ Améliorer ma bio",
+      "aiImprove": "Améliorer ma bio",
       "aiLoading": "Rédaction en cours…",
       "aiUse": "Utiliser cette version",
       "zones": "Zones d'intervention",
@@ -779,7 +761,7 @@
       },
       "price": "Prix « à partir de » (DT)",
       "duration": "Durée d'une séance (min)",
-      "priceFromOffers": "Calculé automatiquement depuis tes offres."
+      "priceFromOffers": "Calculé automatiquement depuis vos offres."
     },
     "publish": {
       "template": "Modèle de CV",
@@ -788,14 +770,14 @@
         "classique": "Classique"
       },
       "public": "CV public (visible par tous)",
-      "publicHint": "Si décoché, seul toi et l'équipe MAWHIBA pouvez voir ton CV.",
+      "publicHint": "Si décoché, seuls vous et l'équipe MAWHIBA voyez votre CV.",
       "seeProfile": "Voir mon profil public",
       "seeCv": "Voir mon CV",
       "downloadPdf": "Télécharger le PDF",
       "publish": "Publier mon profil",
-      "celebrateTitle": "Ton profil est en ligne !",
-      "celebrateText": "Partage-le : les clients peuvent réserver directement, et ton CV est prêt à être envoyé.",
-      "celebratePending": "Ton profil est prêt. Il sera visible publiquement dès que notre équipe aura vérifié ton justificatif.",
+      "celebrateTitle": "Votre profil est en ligne",
+      "celebrateText": "Les clients peuvent vous réserver dès maintenant, et votre CV est prêt à partager.",
+      "celebratePending": "Votre profil est prêt. Il sera public dès que notre équipe aura vérifié votre justificatif.",
       "editAgain": "Modifier encore"
     },
     "proof": {
@@ -886,9 +868,8 @@
   },
   "payments": {
     "clientTitle": "Paiements",
-    "clientSubtitle": "L'historique de vos paiements et remboursements.",
     "coachTitle": "Revenus",
-    "coachSubtitle": "Ce que vous rapportent vos séances terminées, commission déduite.",
+    "coachSubtitle": "Montants nets, commission déduite.",
     "empty": "Aucun paiement pour l'instant",
     "emptyEarnings": "Aucune séance terminée pour l'instant",
     "month": "Ce mois-ci",
@@ -931,7 +912,6 @@
     "loginToRegister": "Se connecter pour s'inscrire",
     "registeredCount": "{count} / {capacity} inscrits",
     "adminTitle": "Événements",
-    "adminSubtitle": "Publiez l'événement du mois et suivez les inscriptions.",
     "listHeading": "Tous les événements",
     "empty": "Aucun événement pour l'instant",
     "form": {
