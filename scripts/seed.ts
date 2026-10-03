@@ -14,8 +14,8 @@ const PASSWORD = "Mawhiba2026!";
 const DAY = 86_400_000;
 const avatar = (name: string) => `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(name)}`;
 
-function must<T>(res: { data: T; error: { message: string } | null }, what: string): T {
-  if (res.error) throw new Error(`${what}: ${res.error.message}`);
+function must<T>(res: { data: T; error: { message: string } | null }, what: string): NonNullable<T> {
+  if (res.error || res.data === null || res.data === undefined) throw new Error(`${what}: ${res.error?.message ?? "no data"}`);
   return res.data;
 }
 
@@ -23,11 +23,11 @@ async function ensureUser(email: string, name: string, role: "client" | "coach",
   const { data } = await db.auth.admin.listUsers({ perPage: 1000 });
   let id = data.users.find((u) => u.email === email)?.id;
   if (!id) {
-    const created = must(
-      await db.auth.admin.createUser({ email, password: PASSWORD, email_confirm: true, user_metadata: { role, full_name: name } }),
-      `create ${email}`,
-    );
-    id = created.user!.id;
+    const { data: created, error } = await db.auth.admin.createUser({
+      email, password: PASSWORD, email_confirm: true, user_metadata: { role, full_name: name },
+    });
+    if (error || !created.user) throw new Error(`create ${email}: ${error?.message}`);
+    id = created.user.id;
   }
   must(await db.from("profiles").update({ full_name: name, city, avatar_url: avatar(name) }).eq("id", id), "profile");
   return id;

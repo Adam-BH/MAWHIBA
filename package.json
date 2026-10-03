@@ -6,7 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:push": "supabase db push",
+    "db:types": "supabase gen types typescript --local > src/lib/supabase/database.types.ts",
+    "env:local": "tsx scripts/write-local-env.ts",
+    "seed": "tsx scripts/seed.ts",
+    "setup:local": "npm run db:start && npm run db:reset && npm run env:local && npm run seed"
   },
   "dependencies": {
     "@date-fns/tz": "^1.5.0",
