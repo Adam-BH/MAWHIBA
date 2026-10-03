@@ -67,6 +67,8 @@ The seed also creates:
 4. The client accepts Amira's proposal ("45 pts + 2 pts assurance Star = 47 pts"). The booking is created **confirmed**, the balance drops by 47, the other proposal is rejected, the request is fulfilled and the slot is booked.
 5. Then the normal lifecycle: complete → 38 / 7 / 2 → review.
 
+**Profile & CV.** `coach@` → **Profil** opens a 7-step wizard: live athlete-card preview, a strength meter (`src/lib/profile-strength.ts`), proofs per palmarès, and publish with confetti. Public profile: `/coaches/amira-ben-salah`. Web CV: `/cv/amira-ben-salah`. PDF: `/api/cv/<slug>/pdf?template=moderne|classique`. Share image: `/api/card/<slug>/og` (`?format=story` for 1080×1350). Admins review palmarès and certifications in `/admin/coaches` → "Palmarès & certifications". Optional AI bio: set `ANTHROPIC_API_KEY` + `NEXT_PUBLIC_FEATURE_AI_BIO=true`.
+
 ## Scripts
 
 | Script                                       | What it does                                               |

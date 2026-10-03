@@ -23,6 +23,10 @@ Next.js 15 (App Router) + Supabase in a single app, with three roles (client / c
 - Offers: max 6 active and inclusive-only-with-badge are enforced by trigger. `price_per_session` is derived from offers by trigger, so don't write it when the coach has active offers.
 - Requests/proposals: all status changes go through RPCs (`create_request`, `close_request`, `create_proposal`, `withdraw_proposal`, `accept_proposal`). Coaches read requests only through the `request_board` view: never expose `client_id`, last names, e-mail or phone to coaches.
 - Free text in requests/proposals is checked with `has_contact_info` (SQL, source of truth) and `hasContactInfo` (TS, same patterns). Keep both in sync; `tests/requests.test.ts` checks parity.
+- Colour exception: `src/features/cv/pdf/theme.ts` is the ONLY file allowed hard-coded colours (react-pdf and next/og can't read CSS variables). It mirrors the tokens in `globals.css`, so update both together.
+- Public coach URLs use `coach_profiles.slug` (`src/lib/slug.ts` mirrors SQL `slugify`). The middleware 308-redirects `/coaches/<uuid>` to the slug.
+- CV items (`athletic_achievements`, `coaching_experiences`, `education`, `external_certifications`) are publicly readable only if the coach is verified and `cv_public`. `verified` is admin-only (RPCs), and a coach's edit resets it (trigger).
+- The AI bio (`src/features/profile/ai-bio.ts`) is off unless `ANTHROPIC_API_KEY` and `NEXT_PUBLIC_FEATURE_AI_BIO=true` are both set. It's rate-limited to 5 per coach per day in SQL. Everything must work without it.
 - Expiry is computed on read (`expires_at < now()`, see `effectiveRequestStatus`). There's no cron.
 
 ## Checks before committing
