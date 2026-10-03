@@ -16,7 +16,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 function Verified({ label }: { label: string }) {
-  return <span className="ml-1 inline-flex items-center gap-0.5 text-[11px] font-semibold text-success"><BadgeCheck className="size-3" />{label}</span>;
+  return <span className="ms-1 inline-flex items-center gap-0.5 text-[11px] font-semibold text-success"><BadgeCheck className="size-3" />{label}</span>;
 }
 
 /** One-page printable CV. Contact = booking link on MAWHIBA, never phone/e-mail. */

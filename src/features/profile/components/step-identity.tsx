@@ -49,7 +49,7 @@ export function StepIdentity() {
       className="grid gap-5" noValidate>
       <div className="overflow-hidden rounded-xl border bg-card">
         <div className="relative h-28 bg-muted bg-cover bg-center" style={cover ? { backgroundImage: `url(${cover})` } : undefined}>
-          <div className="absolute right-2 bottom-2">
+          <div className="absolute end-2 bottom-2">
             <FileUpload action={uploadCoverAction} accept={IMAGE_TYPES} label={t("cover")} success={t("coverSaved")} size="sm" />
           </div>
         </div>
@@ -75,7 +75,7 @@ export function StepIdentity() {
         <div className="flex flex-wrap gap-2">
           {(["example1", "example2", "example3"] as const).map((k) => (
             <button key={k} type="button" onClick={() => form.setValue("tagline", t(k), { shouldDirty: true })}
-              className="rounded-full bg-secondary px-3 py-1 text-left text-xs text-primary hover:bg-secondary/70">
+              className="rounded-full bg-secondary px-3 py-1 text-start text-xs text-primary hover:bg-secondary/70">
               {t(k)}
             </button>
           ))}
@@ -84,9 +84,9 @@ export function StepIdentity() {
       </div>
       <div className="grid gap-2">
         <Label htmlFor="slug">{t("slug")}</Label>
-        <div className="flex items-center rounded-lg border border-input bg-card pl-3 text-sm focus-within:ring-3 focus-within:ring-ring/50">
+        <div dir="ltr" className="flex items-center rounded-xl border border-input bg-card ps-3.5 text-sm focus-within:ring-3 focus-within:ring-ring/50">
           <span className="shrink-0 text-muted-foreground">/coaches/</span>
-          <input id="slug" className="h-9 min-w-0 flex-1 bg-transparent pr-3 outline-none" {...form.register("slug", { setValueAs: (s: string) => slugify(s) })}
+          <input id="slug" className="h-10 min-w-0 flex-1 bg-transparent pe-3.5 outline-none" {...form.register("slug", { setValueAs: (s: string) => slugify(s) })}
             aria-invalid={!!errors.slug} />
         </div>
         <FieldError message={errors.slug?.message} />

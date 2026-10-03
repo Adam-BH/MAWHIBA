@@ -91,7 +91,7 @@ export function ProfileWizard({ coach, step, offersCount, aiEnabled, strengthBas
         </div>
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="secondary" size="sm" className="fixed right-4 bottom-20 z-30 shadow-lg lg:hidden"><Eye />{t("preview")}</Button>
+            <Button variant="secondary" size="sm" className="fixed end-4 bottom-20 z-30 shadow-lg lg:hidden"><Eye />{t("preview")}</Button>
           </SheetTrigger>
           <SheetContent side="bottom" className="max-h-[85dvh] overflow-y-auto rounded-t-2xl px-4 pb-6">
             <SheetHeader className="px-0"><SheetTitle>{t("preview")}</SheetTitle></SheetHeader>

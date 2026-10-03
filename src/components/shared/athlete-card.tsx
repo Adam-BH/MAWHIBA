@@ -27,9 +27,9 @@ export function AthleteCard({ card, variant = "full", className }: { card: Athle
       )}
       style={{ "--card-from": `var(--sport-${sportFamily(card.sport)})` } as React.CSSProperties}
     >
-      <div aria-hidden className="pointer-events-none absolute -top-16 -right-16 size-48 rounded-full border-[24px] border-primary-foreground/10" />
+      <div aria-hidden className="pointer-events-none absolute -top-16 -end-16 size-48 rounded-full border-[24px] border-primary-foreground/10" />
       {card.verified && (
-        <span className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-primary-foreground/15 px-2 py-0.5 text-xs font-semibold backdrop-blur">
+        <span className="absolute top-3 end-3 flex items-center gap-1 rounded-full bg-primary-foreground/15 px-2 py-0.5 text-xs font-semibold backdrop-blur">
           <BadgeCheck className="size-3.5" />{t("verified")}
         </span>
       )}
@@ -50,7 +50,7 @@ export function AthleteCard({ card, variant = "full", className }: { card: Athle
         {stats.map((s) => (
           <div key={s.label} className="rounded-xl bg-primary-foreground/10 px-2 py-1.5 text-center">
             <dd className={cn("font-display font-semibold", compact ? "text-base" : "text-xl")}>
-              {s.label === t("rating") && card.ratingCount > 0 && <Star className="mr-0.5 mb-0.5 inline size-3.5 fill-accent text-accent" />}
+              {s.label === t("rating") && card.ratingCount > 0 && <Star className="me-0.5 mb-0.5 inline size-3.5 fill-accent text-accent" />}
               {s.value}
             </dd>
             <dt className="text-[11px] tracking-wide text-primary-foreground/70 uppercase">{s.label}</dt>

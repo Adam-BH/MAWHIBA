@@ -34,7 +34,7 @@ export function TopupPacks() {
           <Card key={pack.id} className="relative">
             <CardContent className="flex flex-col items-center gap-2 text-center">
               {pack.points > pack.pay && (
-                <Badge className="absolute top-3 right-3 border-transparent bg-accent text-accent-foreground"><Gift />+{pack.points - pack.pay}</Badge>
+                <Badge className="absolute top-3 end-3 border-transparent bg-accent text-accent-foreground"><Gift />+{pack.points - pack.pay}</Badge>
               )}
               <Points value={pack.points} className="text-2xl text-primary" />
               <p className="text-sm text-muted-foreground">{t("price", { pay: pack.pay })}</p>

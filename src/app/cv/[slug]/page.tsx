@@ -41,7 +41,7 @@ export default async function CvPage({ params }: Props) {
     <main className="min-h-dvh bg-muted px-0 py-0 sm:px-4 sm:py-8 print:bg-card print:p-0">
       <div className="mx-auto mb-4 flex max-w-[210mm] flex-wrap gap-2 px-4 sm:px-0 print:hidden">
         <Button asChild variant="ghost"><Link href={`/coaches/${coach.slug}`}><ArrowLeft />{t("backToProfile")}</Link></Button>
-        <div className="ml-auto flex flex-wrap gap-2">
+        <div className="ms-auto flex flex-wrap gap-2">
           <PrintButton />
           <Button asChild><a href={`/api/cv/${coach.slug}/pdf?template=${coach.cv_template}`}><Download />{t("downloadPdf")}</a></Button>
           <Button asChild variant="outline"><a href={`/api/cv/${coach.slug}/pdf?template=${coach.cv_template === "moderne" ? "classique" : "moderne"}`}>

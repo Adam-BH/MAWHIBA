@@ -8,10 +8,10 @@ export function AchievementsTimeline({ achievements }: { achievements: CoachFull
   const t = useTranslations("cv");
   const byYear = Map.groupBy([...achievements].sort((a, b) => b.year - a.year), (a) => a.year);
   return (
-    <ol className="relative ml-2 border-l-2 border-border">
+    <ol className="relative ms-2 border-s-2 border-border">
       {[...byYear.entries()].map(([year, items]) => (
-        <li key={year} className="mb-5 ml-5">
-          <span className="absolute -left-[9px] mt-1 size-4 rounded-full border-2 border-card bg-primary" aria-hidden />
+        <li key={year} className="mb-5 ms-5">
+          <span className="absolute -start-[9px] mt-1 size-4 rounded-full border-2 border-card bg-primary" aria-hidden />
           <p className="font-display text-lg font-semibold text-primary">{year}</p>
           <ul className="mt-1 flex flex-col gap-2">
             {items.map((a) => (

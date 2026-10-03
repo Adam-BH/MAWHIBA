@@ -17,7 +17,7 @@ export default async function LandingPage() {
   return (
     <div className="flex flex-col gap-14">
       <section className="relative overflow-hidden rounded-4xl bg-primary px-6 [--ring:var(--accent)] py-12 text-primary-foreground sm:px-12 sm:py-16">
-        <div className="absolute -top-16 -right-16 size-64 rounded-full bg-accent/30 blur-3xl" aria-hidden />
+        <div className="absolute -top-16 -end-16 size-64 rounded-full bg-accent/30 blur-3xl" aria-hidden />
         <p className="mb-3 text-sm font-semibold tracking-wide text-accent uppercase">{t("eyebrow")}</p>
         <h1 className="max-w-2xl text-4xl font-semibold sm:text-5xl">{t("heroTitle")}</h1>
         <p className="mt-4 max-w-xl text-primary-foreground/80">{t("heroText")}</p>

@@ -145,6 +145,11 @@
   }
 }
 
+/* Mirror directional icons in RTL. */
+[dir="rtl"] :is(.lucide-arrow-left, .lucide-arrow-right, .lucide-chevron-left, .lucide-chevron-right) {
+  transform: scaleX(-1);
+}
+
 /* Gentle hover lift for interactive cards. */
 @utility lift {
   transition-property: transform, box-shadow, border-color;

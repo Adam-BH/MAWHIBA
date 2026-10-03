@@ -25,7 +25,7 @@ export default async function LearnPage() {
               </CardHeader>
               <CardContent className="flex items-center gap-2 text-sm text-muted-foreground">
                 <BookOpen className="size-4" />{t("lessonsCount", { count: cert.lessonCount })}
-                {cert.status?.passed && <span className="ml-auto flex items-center gap-1 font-medium text-success"><CheckCircle2 className="size-4" />{t("passed")}</span>}
+                {cert.status?.passed && <span className="ms-auto flex items-center gap-1 font-medium text-success"><CheckCircle2 className="size-4" />{t("passed")}</span>}
               </CardContent>
               <CardFooter>
                 <Button asChild variant={cert.status?.passed ? "outline" : "default"}>
