@@ -20,8 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr">
-      <body className={`${montserrat.variable} ${dmSans.variable} ${cairo.variable}`}>
+    <html lang="fr" className={`${montserrat.variable} ${dmSans.variable} ${cairo.variable}`}>
+      <body>
         <NextIntlClientProvider>
           {children}
           <Toaster position="top-center" richColors />

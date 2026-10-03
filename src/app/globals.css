@@ -21,16 +21,16 @@
   --popover-foreground: var(--foreground);
 
   --primary: var(--brand-purple);
-  --primary-hover: color-mix(in oklch, var(--brand-purple), var(--brand-ink) 18%);
+  --primary-hover: color-mix(in oklab, var(--brand-purple), var(--brand-ink) 18%);
   --primary-foreground: var(--brand-surface);
-  --secondary: color-mix(in oklch, var(--brand-purple) 10%, oklch(1 0 0)); /* soft purple tint */
+  --secondary: color-mix(in oklab, var(--brand-purple) 10%, oklch(1 0 0)); /* soft purple tint */
   --secondary-foreground: var(--brand-purple);
   /* Lime: only on purple/ink surfaces or as a fill with ink text. Never lime text on light backgrounds. */
   --accent: var(--brand-lime);
-  --accent-hover: color-mix(in oklch, var(--brand-lime), var(--brand-ink) 8%);
+  --accent-hover: color-mix(in oklab, var(--brand-lime), var(--brand-ink) 8%);
   --accent-foreground: var(--brand-ink);
-  --muted: color-mix(in oklch, var(--brand-ink) 5%, var(--brand-surface));
-  --muted-foreground: color-mix(in oklch, var(--brand-ink) 70%, var(--brand-surface)); /* ≥ 4.5:1 on surface and card */
+  --muted: color-mix(in oklab, var(--brand-ink) 5%, var(--brand-surface));
+  --muted-foreground: color-mix(in oklab, var(--brand-ink) 70%, var(--brand-surface)); /* ≥ 4.5:1 on surface and card */
 
   /* Functional status colours (pre-existing, not brand hues). */
   --success: oklch(0.55 0.15 152);
@@ -40,11 +40,11 @@
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.98 0.01 27);
 
-  --border: color-mix(in oklch, var(--brand-ink) 10%, var(--brand-surface));
-  --input: color-mix(in oklch, var(--brand-ink) 16%, var(--brand-surface));
+  --border: color-mix(in oklab, var(--brand-ink) 10%, var(--brand-surface));
+  --input: color-mix(in oklab, var(--brand-ink) 16%, var(--brand-surface));
   --ring: var(--brand-purple);
   --radius: 1rem;
-  --shadow-lift: 0 12px 28px -12px color-mix(in oklch, var(--brand-purple) 35%, transparent);
+  --shadow-lift: 0 12px 28px -12px color-mix(in oklab, var(--brand-purple) 35%, transparent);
 
   /* Sport families (athlete card gradients) and achievement levels. */
   --sport-aqua: oklch(0.6 0.13 230);
