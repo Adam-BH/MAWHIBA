@@ -14,6 +14,10 @@ const PASSWORD = "Mawhiba2026!";
 const DAY = 86_400_000;
 const avatar = (name: string) => `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(name)}`;
 
+function check(res: { error: { message: string } | null }, what: string) {
+  if (res.error) throw new Error(`${what}: ${res.error.message}`);
+}
+
 function must<T>(res: { data: T; error: { message: string } | null }, what: string): NonNullable<T> {
   if (res.error || res.data === null || res.data === undefined) throw new Error(`${what}: ${res.error?.message ?? "no data"}`);
   return res.data;
@@ -29,7 +33,7 @@ async function ensureUser(email: string, name: string, role: "client" | "coach",
     if (error || !created.user) throw new Error(`create ${email}: ${error?.message}`);
     id = created.user.id;
   }
-  must(await db.from("profiles").update({ full_name: name, city, avatar_url: avatar(name) }).eq("id", id), "profile");
+  check(await db.from("profiles").update({ full_name: name, city, avatar_url: avatar(name) }).eq("id", id), "profile");
   return id;
 }
 
@@ -39,9 +43,9 @@ async function seedCoach(coach: SeedCoach, verified: boolean) {
   if (!verified) {
     proof_path = `${id}/justificatif.pdf`;
     const pdf = "%PDF-1.1\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF\n";
-    must(await db.storage.from("proofs").upload(proof_path, pdf, { contentType: "application/pdf", upsert: true }), "proof");
+    check(await db.storage.from("proofs").upload(proof_path, pdf, { contentType: "application/pdf", upsert: true }), "proof");
   }
-  must(
+  check(
     await db.from("coach_profiles").update({
       sports: coach.sports, headline: coach.headline, bio: coach.bio, achievements: coach.achievements,
       price_per_session: coach.price, verified, proof_path,
@@ -57,7 +61,7 @@ async function seedCertification(inclusiveCoachIds: string[]) {
     "certification",
   );
   const rows = inclusiveCoachIds.map((coach_id) => ({ coach_id, certification_id: cert.id, score: 5, passed: true }));
-  must(await db.from("coach_certifications").upsert(rows), "badges");
+  check(await db.from("coach_certifications").upsert(rows), "badges");
 }
 
 async function seedFutureSlots(coaches: { id: string; coach: SeedCoach }[]) {
@@ -74,12 +78,12 @@ async function seedFutureSlots(coaches: { id: string; coach: SeedCoach }[]) {
         ends_at: new Date(today + d * DAY + (h + 1) * 3_600_000).toISOString(),
       })),
     );
-    must(await db.from("slots").insert(rows), "slots");
+    check(await db.from("slots").insert(rows), "slots");
   }
 }
 
 async function credit(owner_id: string, amount: number, reason: string) {
-  must(await db.from("wallet_tx").insert({ owner_id, amount, type: "admin_credit", meta: { reason, seed: true } }), "credit");
+  check(await db.from("wallet_tx").insert({ owner_id, amount, type: "admin_credit", meta: { reason, seed: true } }), "credit");
 }
 
 async function seedHistory(coaches: { id: string; coach: SeedCoach }[], clients: { id: string; balance: number }[]) {
@@ -105,13 +109,13 @@ async function seedHistory(coaches: { id: string; coach: SeedCoach }[], clients:
       created_at: new Date(starts.getTime() - 3 * DAY).toISOString(), updated_at: starts.toISOString(),
     }).select("id").single(), "booking");
     const [split] = must(await db.rpc("split_payout", { p_price: price }), "split");
-    must(await db.from("wallet_tx").insert([
+    check(await db.from("wallet_tx").insert([
       { owner_id: client.id, amount: -(price + 2), type: "booking_hold", booking_id: booking.id },
       { owner_id: coach.id, amount: split.coach, type: "coach_payout", booking_id: booking.id },
       { system_account: "PLATFORM", amount: split.platform, type: "commission", booking_id: booking.id },
       { system_account: "STAR_INSURANCE", amount: split.star, type: "insurance", booking_id: booking.id },
     ]), "ledger");
-    must(await db.from("reviews").insert({
+    check(await db.from("reviews").insert({
       booking_id: booking.id, coach_id: coach.id, client_id: client.id,
       rating: i % 4 === 3 ? 4 : 5, comment: REVIEW_COMMENTS[i % REVIEW_COMMENTS.length],
     }), "review");
@@ -121,7 +125,7 @@ async function seedHistory(coaches: { id: string; coach: SeedCoach }[], clients:
 
 async function main() {
   const admin = await ensureUser("admin@mawhiba.tn", "Admin Mawhiba", "client", "Tunis");
-  must(await db.from("profiles").update({ role: "admin" }).eq("id", admin), "admin role");
+  check(await db.from("profiles").update({ role: "admin" }).eq("id", admin), "admin role");
 
   const demoClient = await ensureUser("client@mawhiba.tn", "Mehdi Client", "client", "Tunis");
   const { count: demoTx } = await db.from("wallet_tx").select("id", { count: "exact", head: true }).eq("owner_id", demoClient);
