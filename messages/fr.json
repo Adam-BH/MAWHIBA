@@ -18,7 +18,12 @@
     "userMenu": "Menu utilisateur",
     "logout": "Se déconnecter",
     "login": "Connexion",
-    "signup": "Inscription"
+    "signup": "Inscription",
+    "myOffers": "Mes offres",
+    "myRequests": "Mes demandes",
+    "clientRequests": "Demandes clients",
+    "adminRequests": "Demandes",
+    "exploreOffers": "Offres"
   },
   "roles": {
     "client": "Client",
@@ -37,7 +42,13 @@
     "declined": "Refusée",
     "cancelled": "Annulée",
     "paid": "Payé",
-    "rejected": "Rejeté"
+    "rejected": "Rejeté",
+    "open": "Ouverte",
+    "fulfilled": "Pourvue",
+    "closed": "Fermée",
+    "expired": "Expirée",
+    "accepted": "Acceptée",
+    "withdrawn": "Retirée"
   },
   "badges": {
     "verified": "Athlète vérifié",
@@ -64,7 +75,17 @@
     "UPLOAD_INVALID": "Fichier invalide (format ou taille).",
     "ALREADY_REVIEWED": "Vous avez déjà laissé un avis pour cette séance.",
     "NOT_FOUND": "Élément introuvable.",
-    "generic": "Une erreur est survenue. Réessayez."
+    "generic": "Une erreur est survenue. Réessayez.",
+    "OFFER_HAS_BOOKINGS": "Cette offre a déjà été réservée : vous pouvez seulement la désactiver.",
+    "MAX_OFFERS": "Vous avez déjà 6 offres actives. Désactivez-en une d'abord.",
+    "INCLUSIVE_BADGE_REQUIRED": "Le badge « Coaching inclusif » est requis pour une offre inclusive.",
+    "OFFER_UNAVAILABLE": "Cette offre n'est plus disponible.",
+    "OFFER_REQUIRED": "Choisissez une offre pour réserver ce coach.",
+    "MAX_OPEN_REQUESTS": "Vous avez déjà 3 demandes ouvertes. Fermez-en une pour en publier une nouvelle.",
+    "CONTACT_INFO": "Pas de numéro de téléphone ni d'e-mail : les échanges passent par MAWHIBA pour garantir l'assurance Star et la protection de votre paiement.",
+    "REQUEST_CLOSED": "Cette demande n'est plus ouverte.",
+    "SPORT_MISMATCH": "Ce sport ne fait pas partie de votre profil.",
+    "ALREADY_PROPOSED": "Vous avez déjà envoyé une proposition pour cette demande."
   },
   "auth": {
     "email": "E-mail",
@@ -100,7 +121,8 @@
     "seeAll": "Voir tous les coachs",
     "starTitle": "Chaque séance est assurée par Star",
     "starText": "Une assurance de {fee} pts est incluse dans chaque réservation : vous vous entraînez l'esprit tranquille.",
-    "footer": "MAWHIBA · Hackathon Star Assurances · 1 point = 1 TND"
+    "footer": "MAWHIBA · Hackathon Star Assurances · 1 point = 1 TND",
+    "seeOffers": "Explorer les offres"
   },
   "coaches": {
     "title": "Trouver un coach",
@@ -123,8 +145,13 @@
       "allCities": "Toutes les villes",
       "maxPrice": "Prix max (pts)",
       "inclusive": "Coaching inclusif",
-      "reset": "Réinitialiser"
-    }
+      "reset": "Réinitialiser",
+      "audience": "Public",
+      "allAudiences": "Tous les publics"
+    },
+    "from": "à partir de",
+    "offers": "Offres",
+    "offersHint": "Choisissez une offre, puis un créneau."
   },
   "profile": {
     "title": "Mon profil",
@@ -152,7 +179,8 @@
     "proofVerified": "Votre profil est vérifié. Merci !",
     "uploadProof": "Téléverser un justificatif",
     "replaceProof": "Remplacer le justificatif",
-    "proofSaved": "Justificatif envoyé"
+    "proofSaved": "Justificatif envoyé",
+    "priceFromOffers": "Calculé automatiquement : prix de votre offre la moins chère."
   },
   "slots": {
     "title": "Mes créneaux",
@@ -231,7 +259,9 @@
     "confirm": "Confirmer et payer {total} pts",
     "booked": "Demande envoyée au coach !",
     "unavailable": "Ce créneau n'est plus disponible",
-    "back": "Voir les coachs"
+    "back": "Voir les coachs",
+    "chooseOffer": "Choisissez une offre",
+    "chooseOfferHint": "Ce coach propose plusieurs types de séances."
   },
   "wallet": {
     "title": "Portefeuille",
@@ -344,7 +374,12 @@
       "commission": "Commission plateforme",
       "insurance": "Assurance Star collectée",
       "bookingsTotal": "Réservations",
-      "byStatus": "Réservations par statut"
+      "byStatus": "Réservations par statut",
+      "activeOffers": "Offres actives",
+      "openRequests": "Demandes ouvertes",
+      "proposals": "Propositions envoyées",
+      "conversion": "Conversion demandes",
+      "conversionHint": "demandes → réservations"
     },
     "coaches": {
       "title": "Vérification des coachs",
@@ -388,6 +423,11 @@
       "approved": "Retrait payé",
       "reject": "Rejeter",
       "rejected": "Retrait rejeté"
+    },
+    "requests": {
+      "title": "Demandes clients",
+      "subtitle": "Modération des demandes et de leurs propositions.",
+      "empty": "Aucune demande"
     }
   },
   "errorPage": {
@@ -408,7 +448,8 @@
     "buttons": "Boutons",
     "badges": "Badges",
     "cards": "Cartes",
-    "forms": "Formulaires"
+    "forms": "Formulaires",
+    "marketplace": "Offres & demandes"
   },
   "navShort": {
     "dashboard": "Accueil",
@@ -421,6 +462,173 @@
     "verify": "Vérifier",
     "bookings": "Résas",
     "wallets": "Soldes",
-    "profile": "Profil"
+    "profile": "Profil",
+    "myOffers": "Offres",
+    "requests": "Demandes"
+  },
+  "offers": {
+    "pageTitle": "Mes offres",
+    "pageSubtitle": "Les types de séances que vous proposez (jusqu'à {max} actives).",
+    "new": "Nouvelle offre",
+    "newTitle": "Nouvelle offre",
+    "editTitle": "Modifier l'offre",
+    "title": "Titre",
+    "titlePlaceholder": "Ex. : Natation enfants",
+    "sport": "Sport",
+    "audienceLabel": "Public",
+    "durationLabel": "Durée (min)",
+    "priceLabel": "Prix (pts)",
+    "description": "Description",
+    "inclusiveLabel": "Séance inclusive (autisme)",
+    "inclusiveLocked": "Séance inclusive : obtenez d'abord le badge « Coaching inclusif »",
+    "activeLabel": "Offre active (visible publiquement)",
+    "save": "Enregistrer",
+    "saved": "Offre enregistrée",
+    "duration": "{min} min",
+    "inclusive": "Inclusive",
+    "inactive": "Inactive",
+    "audience": {
+      "tous": "Tous publics",
+      "enfants": "Enfants",
+      "adultes": "Adultes"
+    },
+    "activate": "Activer",
+    "deactivate": "Désactiver",
+    "activated": "Offre activée",
+    "deactivated": "Offre désactivée",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "deleteConfirm": "Supprimer définitivement cette offre ?",
+    "deleted": "Offre supprimée",
+    "fromPreview": "Prix affiché « à partir de » :",
+    "activeCount": "{count} / {max} offres actives",
+    "empty": "Aucune offre pour l'instant",
+    "emptyHint": "Créez vos types de séances : les clients réservent une offre + un créneau."
+  },
+  "explore": {
+    "title": "Toutes les offres",
+    "subtitle": "Les séances proposées par nos athlètes vérifiés.",
+    "results": "{count, plural, =0 {Aucune offre} one {# offre} other {# offres}}",
+    "empty": "Aucune offre ne correspond"
+  },
+  "requests": {
+    "clientTitle": "Mes demandes",
+    "clientSubtitle": "Décrivez votre besoin, les coachs vous font des propositions.",
+    "coachTitle": "Demandes clients",
+    "coachSubtitle": "Les besoins des clients dans vos sports. Faites une proposition !",
+    "new": "Publier une demande",
+    "newTitle": "Publier une demande",
+    "newSubtitle": "Les coachs vérifiés de votre sport verront votre prénom et votre ville uniquement.",
+    "maxOpen": "Maximum {max} demandes ouvertes.",
+    "emptyClient": "Aucune demande",
+    "emptyClientHint": "Publiez une demande : les coachs vous envoient des propositions avec un créneau et un prix.",
+    "newProposals": "{count, plural, one {# nouvelle proposition} other {# nouvelles propositions}}",
+    "budgetRange": "{min}–{max} pts",
+    "expired": "Expirée",
+    "expiresInHours": "expire dans {hours} h",
+    "expiresInDays": "expire dans {days} j",
+    "child": "Enfant, {age} ans",
+    "adult": "Adulte",
+    "specialNeeds": "Besoins particuliers",
+    "proposalsCount": "{count, plural, =0 {Aucune proposition} one {# proposition} other {# propositions}}",
+    "level": {
+      "debutant": "Débutant",
+      "intermediaire": "Intermédiaire",
+      "avance": "Avancé"
+    },
+    "audience": {
+      "enfant": "Un enfant",
+      "adulte": "Un adulte"
+    },
+    "published": "Demande publiée !",
+    "close": "Fermer la demande",
+    "closeConfirm": "Fermer cette demande ? Les propositions en attente seront refusées.",
+    "closed": "Demande fermée",
+    "back": "Retour aux demandes",
+    "proposalsTitle": "Propositions ({count})",
+    "noProposals": "Pas encore de proposition",
+    "noProposalsHint": "Les coachs correspondants voient votre demande. Revenez bientôt !",
+    "myProposal": "Ma proposition",
+    "makeProposal": "Faire une proposition",
+    "noLongerOpen": "Cette demande n'est plus ouverte.",
+    "validation": {
+      "contact": "Pas de numéro de téléphone ni d'e-mail : les échanges passent par MAWHIBA pour garantir l'assurance Star et la protection de votre paiement.",
+      "budget": "Le budget minimum doit être inférieur ou égal au maximum.",
+      "childAge": "Indiquez l'âge de l'enfant."
+    },
+    "form": {
+      "sport": "Sport",
+      "city": "Ville",
+      "title": "Titre",
+      "titlePlaceholder": "Ex. : Coach de natation pour mon fils",
+      "description": "Description",
+      "descriptionPlaceholder": "Objectifs, expérience, ce qui est important pour vous…",
+      "privacyHint": "Ne mettez pas vos coordonnées : tout passe par la plateforme.",
+      "audience": "Pour qui ?",
+      "childAge": "Âge de l'enfant",
+      "level": "Niveau",
+      "schedule": "Disponibilités",
+      "schedulePlaceholder": "Ex. : samedi matin",
+      "specialNeeds": "Besoins particuliers (autisme, handicap…)",
+      "specialNeedsNote": "Précisez (facultatif)",
+      "specialNeedsPlaceholder": "Ex. : autisme, a besoin de routine",
+      "budget": "Budget par séance",
+      "budgetMin": "Budget minimum",
+      "budgetMax": "Budget maximum",
+      "perSession": "pts / séance",
+      "submit": "Publier la demande",
+      "preview": "Aperçu vu par les coachs"
+    },
+    "board": {
+      "verificationTitle": "Vérification requise",
+      "verificationText": "Les demandes clients sont réservées aux coachs vérifiés. Téléversez votre justificatif depuis votre profil.",
+      "verificationCta": "Compléter mon profil",
+      "noSports": "Ajoutez vos sports à votre profil pour voir les demandes.",
+      "completeProfile": "Compléter mon profil",
+      "empty": "Aucune demande ouverte pour le moment",
+      "emptyHint": "Nous affichons les demandes en {sports}. Essayez une autre ville.",
+      "accepted": "Acceptée",
+      "sent": "Proposition envoyée",
+      "city": "Ville",
+      "allCities": "Toutes les villes"
+    },
+    "widget": {
+      "clientTitle": "Mes demandes",
+      "coachTitle": "Demandes correspondantes",
+      "see": "Voir",
+      "post": "Publier",
+      "openCount": "{count, plural, =0 {Aucune demande ouverte} one {# demande ouverte} other {# demandes ouvertes}}",
+      "newProposals": "{count, plural, one {# nouvelle proposition à examiner} other {# nouvelles propositions à examiner}}",
+      "clientHint": "Décrivez votre besoin et laissez les coachs venir à vous.",
+      "matchingCount": "{count, plural, =0 {Aucune nouvelle demande} one {# demande sans réponse} other {# demandes sans réponse}}"
+    }
+  },
+  "proposals": {
+    "outOfBudget": "Hors budget",
+    "withdraw": "Retirer",
+    "withdrawn": "Proposition retirée",
+    "accept": {
+      "cta": "Accepter",
+      "title": "Accepter la proposition de {name}",
+      "description": "La séance est confirmée immédiatement : le coach a déjà donné son accord.",
+      "summary": "{price} pts + {fee} pts assurance Star = {total} pts",
+      "lowBalance": "Solde insuffisant : vous avez {balance} pts, il en faut {total}.",
+      "topup": "Recharger mon portefeuille",
+      "balanceAfter": "Solde après réservation : {after} pts",
+      "confirm": "Confirmer et payer {total} pts",
+      "done": "Séance confirmée !"
+    },
+    "form": {
+      "slot": "Créneau proposé",
+      "otherSlot": "Créer un autre créneau",
+      "noSlots": "Vous n'avez aucun créneau libre à venir.",
+      "createSlot": "Créer un créneau",
+      "price": "Prix (pts)",
+      "outOfBudget": "Hors budget",
+      "message": "Message",
+      "messagePlaceholder": "Présentez-vous et expliquez comment vous adapterez la séance…",
+      "submit": "Envoyer la proposition",
+      "sent": "Proposition envoyée !"
+    }
   }
 }

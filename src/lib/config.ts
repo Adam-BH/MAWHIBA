@@ -13,3 +13,9 @@ export const INCLUSIVE_CERT_SLUG = "coaching-inclusif-autisme";
 
 export type TopupPackId = (typeof TOPUP_PACKS)[number]["id"];
 export type Sport = (typeof SPORTS)[number];
+
+export const MAX_ACTIVE_OFFERS = 6;
+export const MAX_OPEN_REQUESTS = 3;
+export const OFFER_AUDIENCES = ["tous", "enfants", "adultes"] as const;
+export const REQUEST_AUDIENCES = ["enfant", "adulte"] as const;
+export const SKILL_LEVELS = ["debutant", "intermediaire", "avance"] as const;

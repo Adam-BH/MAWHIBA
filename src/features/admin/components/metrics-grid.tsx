@@ -1,4 +1,4 @@
-import { BadgeCheck, CalendarCheck, Clock, Coins, HandCoins, ShieldCheck, TrendingUp, Users } from "lucide-react";
+import { BadgeCheck, CalendarCheck, Clock, Coins, HandCoins, Megaphone, Percent, Send, ShieldCheck, Tag, TrendingUp, Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Points } from "@/components/shared/points";
 import { StatCard } from "@/components/shared/stat-card";
@@ -23,6 +23,10 @@ export async function MetricsGrid({ metrics: m }: { metrics: Metrics }) {
         <StatCard icon={ShieldCheck} tone="success" label={t("insurance")} value={<Points value={m.insurance} />} />
         <StatCard icon={CalendarCheck} label={t("bookingsTotal")}
           value={Object.values(m.bookings_by_status).reduce((a, b) => a + (b ?? 0), 0)} />
+        <StatCard icon={Tag} label={t("activeOffers")} value={m.active_offers} />
+        <StatCard icon={Megaphone} tone="accent" label={t("openRequests")} value={m.open_requests} />
+        <StatCard icon={Send} label={t("proposals")} value={m.proposals_total} />
+        <StatCard icon={Percent} tone="success" label={t("conversion")} value={`${m.request_conversion_pct} %`} hint={t("conversionHint")} />
       </div>
       <Card>
         <CardHeader><CardTitle>{t("byStatus")}</CardTitle></CardHeader>

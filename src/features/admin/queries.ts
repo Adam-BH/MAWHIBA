@@ -12,6 +12,10 @@ export type Metrics = {
   insurance: number;
   pending_withdrawals_count: number;
   pending_withdrawals_amount: number;
+  active_offers: number;
+  open_requests: number;
+  proposals_total: number;
+  request_conversion_pct: number;
 };
 
 export async function getMetrics(): Promise<Metrics> {

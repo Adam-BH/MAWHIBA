@@ -5,12 +5,18 @@ import { AppHeader } from "@/components/layout/app-header";
 import { Logo } from "@/components/layout/logo";
 import { NavLink } from "@/components/layout/nav-link";
 
-export async function AppShell({ user, balance, children }: { user: CurrentUser; balance: number | null; children: React.ReactNode }) {
+export async function AppShell({ user, balance, requestsCount, children }: {
+  user: CurrentUser;
+  balance: number | null;
+  requestsCount: number;
+  children: React.ReactNode;
+}) {
   const t = await getTranslations();
   const items = navItemsFor(user.role).map((item) => ({
     ...item,
     label: t(item.labelKey),
     shortLabel: t(item.shortLabelKey),
+    count: item.href === "/requests" ? requestsCount : 0,
   }));
 
   return (
@@ -26,7 +32,7 @@ export async function AppShell({ user, balance, children }: { user: CurrentUser;
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-6 pb-24 md:px-8 md:pb-10">{children}</main>
       </div>
       <nav className="fixed inset-x-0 bottom-0 z-40 flex border-t bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
-        {items.map((item) => <NavLink key={item.href} {...item} label={item.shortLabel} variant="bottom" />)}
+        {items.filter((item) => item.mobile).map((item) => <NavLink key={item.href} {...item} label={item.shortLabel} variant="bottom" />)}
       </nav>
     </div>
   );

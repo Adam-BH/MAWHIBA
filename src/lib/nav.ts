@@ -1,17 +1,22 @@
 import type { Role } from "@/lib/auth";
 
+// `mobile: false` items stay in the sidebar and user menu only, keeping the bottom bar ≤ 6 items.
 export const NAV_ITEMS = [
-  { href: "/dashboard", labelKey: "nav.dashboard", shortLabelKey: "navShort.dashboard", icon: "LayoutDashboard", roles: ["client", "coach", "admin"] },
-  { href: "/coaches", labelKey: "nav.findCoach", shortLabelKey: "navShort.findCoach", icon: "Search", roles: ["client"] },
-  { href: "/sessions", labelKey: "nav.sessions", shortLabelKey: "navShort.sessions", icon: "CalendarCheck", roles: ["client", "coach"] },
-  { href: "/slots", labelKey: "nav.slots", shortLabelKey: "navShort.slots", icon: "CalendarPlus", roles: ["coach"] },
-  { href: "/learn", labelKey: "nav.learn", shortLabelKey: "navShort.learn", icon: "GraduationCap", roles: ["coach"] },
-  { href: "/wallet", labelKey: "nav.wallet", shortLabelKey: "navShort.wallet", icon: "Wallet", roles: ["client", "coach"] },
-  { href: "/admin", labelKey: "nav.admin", shortLabelKey: "navShort.admin", icon: "Shield", roles: ["admin"] },
-  { href: "/admin/coaches", labelKey: "nav.verify", shortLabelKey: "navShort.verify", icon: "BadgeCheck", roles: ["admin"] },
-  { href: "/admin/bookings", labelKey: "nav.bookings", shortLabelKey: "navShort.bookings", icon: "ListChecks", roles: ["admin"] },
-  { href: "/admin/wallets", labelKey: "nav.wallets", shortLabelKey: "navShort.wallets", icon: "Coins", roles: ["admin"] },
-  { href: "/profile", labelKey: "nav.profile", shortLabelKey: "navShort.profile", icon: "User", roles: ["client", "coach", "admin"] },
+  { href: "/dashboard", labelKey: "nav.dashboard", shortLabelKey: "navShort.dashboard", icon: "LayoutDashboard", roles: ["client", "coach", "admin"], mobile: true },
+  { href: "/coaches", labelKey: "nav.findCoach", shortLabelKey: "navShort.findCoach", icon: "Search", roles: ["client"], mobile: true },
+  { href: "/sessions", labelKey: "nav.sessions", shortLabelKey: "navShort.sessions", icon: "CalendarCheck", roles: ["client", "coach"], mobile: true },
+  { href: "/requests", labelKey: "nav.myRequests", shortLabelKey: "navShort.requests", icon: "Megaphone", roles: ["client"], mobile: true },
+  { href: "/slots", labelKey: "nav.slots", shortLabelKey: "navShort.slots", icon: "CalendarPlus", roles: ["coach"], mobile: true },
+  { href: "/offers", labelKey: "nav.myOffers", shortLabelKey: "navShort.myOffers", icon: "Tag", roles: ["coach"], mobile: true },
+  { href: "/requests", labelKey: "nav.clientRequests", shortLabelKey: "navShort.requests", icon: "Megaphone", roles: ["coach"], mobile: true },
+  { href: "/learn", labelKey: "nav.learn", shortLabelKey: "navShort.learn", icon: "GraduationCap", roles: ["coach"], mobile: false },
+  { href: "/wallet", labelKey: "nav.wallet", shortLabelKey: "navShort.wallet", icon: "Wallet", roles: ["client", "coach"], mobile: true },
+  { href: "/admin", labelKey: "nav.admin", shortLabelKey: "navShort.admin", icon: "Shield", roles: ["admin"], mobile: true },
+  { href: "/admin/coaches", labelKey: "nav.verify", shortLabelKey: "navShort.verify", icon: "BadgeCheck", roles: ["admin"], mobile: true },
+  { href: "/admin/bookings", labelKey: "nav.bookings", shortLabelKey: "navShort.bookings", icon: "ListChecks", roles: ["admin"], mobile: true },
+  { href: "/admin/requests", labelKey: "nav.adminRequests", shortLabelKey: "navShort.requests", icon: "Megaphone", roles: ["admin"], mobile: true },
+  { href: "/admin/wallets", labelKey: "nav.wallets", shortLabelKey: "navShort.wallets", icon: "Coins", roles: ["admin"], mobile: true },
+  { href: "/profile", labelKey: "nav.profile", shortLabelKey: "navShort.profile", icon: "User", roles: ["client", "coach", "admin"], mobile: false },
 ] as const;
 
 export type NavItem = (typeof NAV_ITEMS)[number];

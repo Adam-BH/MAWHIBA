@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LogOut, User } from "lucide-react";
+import { GraduationCap, LogOut, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -9,11 +9,12 @@ import {
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { signOutAction } from "@/features/auth/actions";
 
-export function UserMenu({ name, email, avatarUrl, roleLabel }: {
+export function UserMenu({ name, email, avatarUrl, roleLabel, isCoach }: {
   name: string;
   email: string | null;
   avatarUrl: string | null;
   roleLabel: string;
+  isCoach: boolean;
 }) {
   const t = useTranslations("nav");
   return (
@@ -28,6 +29,7 @@ export function UserMenu({ name, email, avatarUrl, roleLabel }: {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild><Link href="/profile"><User />{t("profile")}</Link></DropdownMenuItem>
+        {isCoach && <DropdownMenuItem asChild><Link href="/learn"><GraduationCap />{t("learn")}</Link></DropdownMenuItem>}
         <DropdownMenuItem onSelect={() => signOutAction()}><LogOut />{t("logout")}</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

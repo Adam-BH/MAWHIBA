@@ -13,6 +13,7 @@ import { StatCard } from "@/components/shared/stat-card";
 import { BookingCard } from "@/features/bookings/components/booking-card";
 import { listCoachBookings } from "@/features/bookings/queries";
 import { getMyCoachProfile, listInclusiveCoachIds, profileCompleteness } from "@/features/coaches/queries";
+import { CoachRequestsWidget } from "@/features/requests/components/requests-widget";
 import { getCoachEarnings } from "@/features/wallet/queries";
 import type { CurrentUser } from "@/lib/auth";
 import { isUpcoming } from "@/lib/booking-rules";
@@ -46,6 +47,10 @@ export async function CoachDashboard({ user }: { user: CurrentUser }) {
         <StatCard icon={TrendingUp} tone="accent" label={t("earningsMonth")} value={<Points value={earnings.month} />} />
         <StatCard icon={Coins} tone="success" label={t("earningsTotal")} value={<Points value={earnings.total} />} />
       </div>
+
+      {coach.verified && coach.sports.length > 0 && (
+        <div className="mt-6"><CoachRequestsWidget userId={user.id} sports={coach.sports} city={user.city} /></div>
+      )}
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_320px]">
         <section>

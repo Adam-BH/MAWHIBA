@@ -10,6 +10,7 @@ import { BookingCard } from "@/features/bookings/components/booking-card";
 import { listClientBookings, nextSession } from "@/features/bookings/queries";
 import { CoachCard } from "@/features/coaches/components/coach-card";
 import { listCoaches } from "@/features/coaches/queries";
+import { ClientRequestsWidget } from "@/features/requests/components/requests-widget";
 import { getBalance } from "@/features/wallet/queries";
 import type { CurrentUser } from "@/lib/auth";
 
@@ -30,6 +31,7 @@ export async function ClientDashboard({ user }: { user: CurrentUser }) {
           <Button asChild size="lg" variant="outline" className="min-h-11 sm:h-full"><Link href="/wallet"><Wallet />{t("topup")}</Link></Button>
         </div>
       </div>
+      <div className="mt-6"><ClientRequestsWidget userId={user.id} /></div>
       <section className="mt-8">
         <h2 className="mb-3 text-xl font-bold">{t("nextSession")}</h2>
         {next ? <BookingCard booking={next} viewer="client" /> : (

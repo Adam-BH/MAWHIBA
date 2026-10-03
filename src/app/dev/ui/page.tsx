@@ -19,12 +19,19 @@ import { RatingStars } from "@/components/shared/rating-stars";
 import { StatCard } from "@/components/shared/stat-card";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { UserAvatar } from "@/components/shared/user-avatar";
+import { BudgetRange } from "@/components/shared/budget-range";
+import { TimeLeft } from "@/components/shared/time-left";
+import { OfferCard } from "@/features/offers/components/offer-card";
+import { ProposalCard } from "@/features/proposals/components/proposal-card";
+import { RequestCard } from "@/features/requests/components/request-card";
 
 const TOKENS = [
   "background", "foreground", "primary", "primary-foreground", "secondary", "accent", "muted",
   "muted-foreground", "success", "warning", "destructive", "border", "input", "ring",
 ];
-const STATUSES = ["pending", "confirmed", "completed", "declined", "cancelled", "paid", "rejected"] as const;
+const STATUSES = ["pending", "confirmed", "completed", "declined", "cancelled", "paid", "rejected", "open", "fulfilled", "closed", "expired", "accepted", "withdrawn"] as const;
+const IN_5_DAYS = new Date(Date.now() + 5 * 86_400_000).toISOString();
+const SLOT = { starts_at: IN_5_DAYS, ends_at: IN_5_DAYS, location: "Piscine olympique de Radès" };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -85,6 +92,16 @@ export default async function DevUiPage() {
         <Alert><ShieldCheck /><AlertTitle>Alert</AlertTitle><AlertDescription>{t("sample")}</AlertDescription></Alert>
         <Alert variant="destructive"><ShieldCheck /><AlertTitle>Destructive</AlertTitle><AlertDescription>{t("sample")}</AlertDescription></Alert>
         <EmptyState icon={CalendarX} title="EmptyState" description={t("sample")} />
+      </Section>
+      <Section title={t("marketplace")}>
+        <div className="flex flex-wrap items-center gap-4"><BudgetRange min={30} max={50} /><TimeLeft expiresAt={IN_5_DAYS} /></div>
+        <div className="grid gap-3 md:grid-cols-2">
+          <OfferCard offer={{ title: "Natation enfants", sport: "Natation", description: "Premières nages.", duration_min: 45, price: 40, audience: "enfants", is_inclusive: false }} />
+          <OfferCard selected offer={{ title: "Séance inclusive", sport: "Natation", description: "", duration_min: 60, price: 50, audience: "tous", is_inclusive: true }} />
+          <RequestCard request={{ sport: "Natation", city: "La Marsa", title: "Coach pour mon fils (8 ans)", audience: "enfant", child_age: 8, level: "debutant",
+            special_needs: true, schedule_note: "Samedi matin", budget_min: 30, budget_max: 50, status: "open", expires_at: IN_5_DAYS, client_first_name: "Mehdi", proposals_count: 2 }} />
+          <ProposalCard budget={{ min: 30, max: 50 }} proposal={{ price: 60, message: "Disponible samedi.", status: "pending", slot: SLOT }} />
+        </div>
       </Section>
       <Section title={t("forms")}>
         <div className="grid max-w-md gap-3">

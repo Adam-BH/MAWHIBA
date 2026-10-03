@@ -20,7 +20,7 @@ export async function AppHeader({ user, balance }: { user: CurrentUser; balance:
             <Points value={balance} />
           </Link>
         )}
-        <UserMenu name={user.full_name} email={user.email} avatarUrl={user.avatar_url} roleLabel={t(user.role)} />
+        <UserMenu name={user.full_name} email={user.email} avatarUrl={user.avatar_url} roleLabel={t(user.role)} isCoach={user.role === "coach"} />
       </div>
     </header>
   );
