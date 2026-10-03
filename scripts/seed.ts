@@ -1,6 +1,7 @@
 import { DEMO_COACH, EXTRA_CLIENTS, LOCATIONS, PENDING_COACHES, REVIEW_COMMENTS, VERIFIED_COACHES, type SeedCoach } from "./seed-data/coaches";
-import { INCLUSIVE_CERTIFICATION } from "./seed-data/certification";
 import { check, db, must } from "./seed-data/db";
+import { INCLUSIVE_CERT_SLUG, INSURANCE_FEE } from "../src/lib/config";
+import { seedEvents } from "./seed-events";
 import { seedMarketplace } from "./seed-marketplace";
 import { seedProfiles } from "./seed-profiles";
 
@@ -40,12 +41,15 @@ async function seedCoach(coach: SeedCoach, verified: boolean) {
   return { id, coach };
 }
 
-async function seedCertification(inclusiveCoachIds: string[]) {
-  const cert = must(
-    await db.from("certifications").upsert(INCLUSIVE_CERTIFICATION, { onConflict: "slug" }).select("id").single(),
-    "certification",
-  );
-  const rows = inclusiveCoachIds.map((coach_id) => ({ coach_id, certification_id: cert.id, score: 5, passed: true }));
+/** Formations ship with the schema (migration); the seed only hands out badges. */
+async function seedBadges(verified: { id: string; coach: SeedCoach }[]) {
+  const certs = must(await db.from("certifications").select("id, slug"), "certifications");
+  const id = (slug: string) => certs.find((c) => c.slug === slug)?.id;
+  const rows = verified.flatMap(({ id: coach_id, coach }, i) => [
+    coach.inclusive && id(INCLUSIVE_CERT_SLUG),
+    (i === 0 || i % 3 === 1) && id("premiers-secours-seance"),
+    (i === 0 || i % 5 === 2) && id("coacher-les-enfants"),
+  ].filter((c): c is string => !!c).map((certification_id) => ({ coach_id, certification_id, score: 5, passed: true })));
   check(await db.from("coach_certifications").upsert(rows), "badges");
 }
 
@@ -67,20 +71,22 @@ async function seedFutureSlots(coaches: { id: string; coach: SeedCoach }[]) {
   }
 }
 
-async function credit(owner_id: string, amount: number, reason: string) {
-  check(await db.from("wallet_tx").insert({ owner_id, amount, type: "admin_credit", meta: { reason, seed: true } }), "credit");
+/** A settled Konnect payment, as the gateway webhook would have left it. */
+async function insertPayment(p: { client_id: string; slot_id: string; booking_id: string; price: number; status: "paid" | "refunded"; at: string }) {
+  check(await db.from("payments").insert({
+    client_id: p.client_id, slot_id: p.slot_id, booking_id: p.booking_id, price: p.price, insurance_fee: INSURANCE_FEE,
+    status: p.status, provider_ref: `seed_${p.booking_id.slice(0, 8)}`, created_at: p.at, expires_at: p.at, paid_at: p.at,
+    refunded_at: p.status === "refunded" ? new Date().toISOString() : null,
+  }), "payment");
 }
 
-async function seedHistory(coaches: { id: string; coach: SeedCoach }[], clients: { id: string; balance: number }[]) {
+async function seedHistory(coaches: { id: string; coach: SeedCoach }[], clients: string[]) {
   const { count } = await db.from("bookings").select("id", { count: "exact", head: true }).eq("status", "completed");
   if (count) return console.log("• history already seeded");
 
-  const spent = new Map<string, number>();
   const plan = Array.from({ length: 20 }, (_, i) => ({
     coach: coaches[i % coaches.length], client: clients[i % clients.length], daysAgo: 2 + i, i,
   }));
-  for (const { coach, client } of plan) spent.set(client.id, (spent.get(client.id) ?? 0) + coach.coach.price + 2);
-  for (const client of clients) await credit(client.id, client.balance + (spent.get(client.id) ?? 0), "Dépôt en espèces");
 
   for (const { coach, client, daysAgo, i } of plan) {
     const starts = new Date(Date.now() - daysAgo * DAY);
@@ -89,23 +95,45 @@ async function seedHistory(coaches: { id: string; coach: SeedCoach }[], clients:
       starts_at: starts.toISOString(), ends_at: new Date(starts.getTime() + 3_600_000).toISOString(),
     }).select("id").single(), "past slot");
     const price = coach.coach.price;
+    const paidAt = new Date(starts.getTime() - 3 * DAY).toISOString();
     const booking = must(await db.from("bookings").insert({
-      slot_id: slot.id, coach_id: coach.id, client_id: client.id, price, insurance_fee: 2, status: "completed",
-      created_at: new Date(starts.getTime() - 3 * DAY).toISOString(), updated_at: starts.toISOString(),
+      slot_id: slot.id, coach_id: coach.id, client_id: client, price, insurance_fee: INSURANCE_FEE, status: "completed",
+      created_at: paidAt, updated_at: starts.toISOString(),
     }).select("id").single(), "booking");
-    const [split] = must(await db.rpc("split_payout", { p_price: price }), "split");
-    check(await db.from("wallet_tx").insert([
-      { owner_id: client.id, amount: -(price + 2), type: "booking_hold", booking_id: booking.id },
-      { owner_id: coach.id, amount: split.coach, type: "coach_payout", booking_id: booking.id },
-      { system_account: "PLATFORM", amount: split.platform, type: "commission", booking_id: booking.id },
-      { system_account: "STAR_INSURANCE", amount: split.star, type: "insurance", booking_id: booking.id },
-    ]), "ledger");
+    await insertPayment({ client_id: client, slot_id: slot.id, booking_id: booking.id, price, status: "paid", at: paidAt });
     check(await db.from("reviews").insert({
-      booking_id: booking.id, coach_id: coach.id, client_id: client.id,
+      booking_id: booking.id, coach_id: coach.id, client_id: client,
       rating: i % 4 === 3 ? 4 : 5, comment: REVIEW_COMMENTS[i % REVIEW_COMMENTS.length],
     }), "review");
   }
   console.log("✔ 20 completed bookings with reviews");
+}
+
+/** Paid upcoming bookings (one confirmed, two awaiting the coach) and one refunded cancellation, so every dashboard has something to act on. */
+async function seedUpcoming(amira: string, youssef: string, demoClient: string, leila: string) {
+  const { count } = await db.from("bookings").select("id", { count: "exact", head: true }).in("status", ["pending", "confirmed"]);
+  if (count) return console.log("• upcoming bookings already seeded");
+
+  const plan = [
+    { coach: amira, client: demoClient, status: "confirmed" as const, skip: 0 },
+    { coach: youssef, client: demoClient, status: "pending" as const, skip: 0 },
+    { coach: amira, client: leila, status: "pending" as const, skip: 2 },
+    { coach: youssef, client: demoClient, status: "cancelled" as const, skip: 1 },
+  ];
+  for (const b of plan) {
+    const slot = must(await db.from("slots").select("id").eq("coach_id", b.coach).eq("is_booked", false)
+      .gt("starts_at", new Date().toISOString()).order("starts_at").range(b.skip, b.skip).single(), "upcoming slot");
+    const offer = must(await db.from("offers").select("id, price").eq("coach_id", b.coach).eq("is_active", true)
+      .order("price").limit(1).single(), "offer");
+    const booking = must(await db.from("bookings").insert({
+      slot_id: slot.id, coach_id: b.coach, client_id: b.client, offer_id: offer.id, price: offer.price, insurance_fee: INSURANCE_FEE, status: b.status,
+    }).select("id").single(), "upcoming booking");
+    const cancelled = b.status === "cancelled";
+    if (!cancelled) check(await db.from("slots").update({ is_booked: true }).eq("id", slot.id), "book slot");
+    await insertPayment({ client_id: b.client, slot_id: slot.id, booking_id: booking.id, price: offer.price,
+      status: cancelled ? "refunded" : "paid", at: new Date(Date.now() - DAY).toISOString() });
+  }
+  console.log("✔ 3 upcoming paid bookings, 1 refunded cancellation");
 }
 
 async function main() {
@@ -113,8 +141,6 @@ async function main() {
   check(await db.from("profiles").update({ role: "admin" }).eq("id", admin), "admin role");
 
   const demoClient = await ensureUser("client@mawhiba.tn", "Mehdi Client", "client", "Tunis");
-  const { count: demoTx } = await db.from("wallet_tx").select("id", { count: "exact", head: true }).eq("owner_id", demoClient);
-  if (!demoTx) await credit(demoClient, 150, "Crédit de bienvenue");
 
   const verified = [await seedCoach(DEMO_COACH, true)];
   for (const coach of VERIFIED_COACHES) verified.push(await seedCoach(coach, true));
@@ -122,14 +148,16 @@ async function main() {
   console.log(`✔ ${verified.length} verified coaches, ${PENDING_COACHES.length} pending`);
 
   const inclusiveIds = verified.filter((v) => v.coach.inclusive).map((v) => v.id);
-  await seedCertification(inclusiveIds);
+  await seedBadges(verified);
   await seedProfiles(verified, new Set(inclusiveIds));
   await seedFutureSlots(verified);
 
-  const clients = [];
-  for (const c of EXTRA_CLIENTS) clients.push({ id: await ensureUser(c.email, c.name, "client", c.city), balance: c.balance });
+  const clients: string[] = [];
+  for (const c of EXTRA_CLIENTS) clients.push(await ensureUser(c.email, c.name, "client", c.city));
   await seedHistory(verified, clients);
-  await seedMarketplace(verified, { demoClient, clients: clients.map((c) => c.id) });
+  await seedMarketplace(verified, { demoClient, clients });
+  await seedUpcoming(verified[0].id, verified[1].id, demoClient, clients[0]);
+  await seedEvents([...clients, ...verified.slice(1, 8).map((v) => v.id)]);
 
   console.log(`✔ Seed done. Demo accounts (password ${PASSWORD}): admin@ / coach@ / client@mawhiba.tn`);
 }

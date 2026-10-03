@@ -7,6 +7,12 @@ const CERT_FIELDS = "id, slug, title, description, lessons, quiz, pass_score";
 export type Lesson = { title: string; body: string[] };
 export type QuizQuestion = { question: string; options: string[] };
 
+/** ~200 words/min for lessons, plus half a minute per quiz question. */
+function readingMinutes(lessons: Lesson[], questions: number) {
+  const words = lessons.flatMap((l) => l.body).join(" ").split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200 + questions / 2));
+}
+
 export async function listCertifications(coachId: string) {
   const supabase = await createClient();
   const [{ data: certs }, { data: mine }] = await Promise.all([
@@ -17,6 +23,7 @@ export async function listCertifications(coachId: string) {
   return (certs ?? []).map((c) => ({
     ...c,
     lessonCount: (c.lessons as Lesson[]).length,
+    minutes: readingMinutes(c.lessons as Lesson[], (c.quiz as QuizQuestion[]).length),
     status: status.get(c.id) ?? null,
   }));
 }

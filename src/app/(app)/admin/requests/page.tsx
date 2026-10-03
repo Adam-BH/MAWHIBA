@@ -2,7 +2,7 @@ import { Megaphone } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { CloseRequestButton } from "@/features/requests/components/close-request-button";
 import { RequestCard } from "@/features/requests/components/request-card";
@@ -30,7 +30,7 @@ export default async function AdminRequestsPage() {
                         {r.proposals.map((p) => (
                           <li key={p.id} className="flex items-center justify-between gap-2 px-3 py-2">
                             <span className="truncate">{p.coach.profile.full_name}</span>
-                            <span className="flex items-center gap-2"><Points value={p.price} /><StatusBadge status={p.status} /></span>
+                            <span className="flex items-center gap-2"><Price value={p.price} /><StatusBadge status={p.status} /></span>
                           </li>
                         ))}
                       </ul>

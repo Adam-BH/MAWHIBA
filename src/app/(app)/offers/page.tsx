@@ -4,7 +4,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { getMyCoachProfile, listInclusiveCoachIds } from "@/features/coaches/queries";
 import { OfferCard } from "@/features/offers/components/offer-card";
 import { OfferFormDialog } from "@/features/offers/components/offer-form-dialog";
@@ -34,7 +34,7 @@ export default async function OffersPage() {
       <PageHeader title={t("pageTitle")} description={t("pageSubtitle", { max: MAX_ACTIVE_OFFERS })} actions={createButton} />
       <Alert className="mb-6">
         <Tag />
-        <AlertDescription>{t("fromPreview")} <Points value={fromPrice} className="text-primary" /> · {t("activeCount", { count: active.length, max: MAX_ACTIVE_OFFERS })}</AlertDescription>
+        <AlertDescription>{t("fromPreview")} <Price value={fromPrice} className="text-primary" /> · {t("activeCount", { count: active.length, max: MAX_ACTIVE_OFFERS })}</AlertDescription>
       </Alert>
       {offers.length === 0 ? (
         <EmptyState icon={Tag} title={t("empty")} description={t("emptyHint")} action={createButton} />

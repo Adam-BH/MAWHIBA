@@ -7,20 +7,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CoachBadges } from "@/components/shared/coach-badges";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { StatCard } from "@/components/shared/stat-card";
 import { BookingCard } from "@/features/bookings/components/booking-card";
 import { listCoachBookings } from "@/features/bookings/queries";
 import { getMyCoachProfile, listInclusiveCoachIds } from "@/features/coaches/queries";
 import { MyCvCard } from "@/features/cv/components/my-cv-card";
 import { CoachRequestsWidget } from "@/features/requests/components/requests-widget";
-import { getCoachEarnings } from "@/features/wallet/queries";
+import { getEarnings } from "@/features/payments/queries";
 import type { CurrentUser } from "@/lib/auth";
 import { isUpcoming } from "@/lib/booking-rules";
 
 export async function CoachDashboard({ user }: { user: CurrentUser }) {
   const [t, coach, bookings, earnings, inclusiveIds] = await Promise.all([
-    getTranslations("dashboard"), getMyCoachProfile(user.id), listCoachBookings(user.id), getCoachEarnings(user.id), listInclusiveCoachIds(),
+    getTranslations("dashboard"), getMyCoachProfile(user.id), listCoachBookings(user.id), getEarnings(), listInclusiveCoachIds(),
   ]);
   if (!coach) return null;
   const pending = bookings.filter((b) => b.status === "pending").length;
@@ -43,8 +43,8 @@ export async function CoachDashboard({ user }: { user: CurrentUser }) {
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard icon={Inbox} tone="warning" label={t("pendingRequests")} value={pending} />
         <StatCard icon={CalendarClock} label={t("upcomingCount")} value={upcoming.length} />
-        <StatCard icon={TrendingUp} tone="accent" label={t("earningsMonth")} value={<Points value={earnings.month} />} />
-        <StatCard icon={Coins} tone="success" label={t("earningsTotal")} value={<Points value={earnings.total} />} />
+        <StatCard icon={TrendingUp} tone="accent" label={t("earningsMonth")} value={<Price value={earnings.month} />} />
+        <StatCard icon={Coins} tone="success" label={t("earningsTotal")} value={<Price value={earnings.total} />} />
       </div>
 
       <div className="mt-6"><MyCvCard coachId={user.id} /></div>

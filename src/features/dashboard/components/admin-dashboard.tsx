@@ -12,7 +12,7 @@ export async function AdminDashboard() {
       <PageHeader title={t("title")} description={t("subtitle")} actions={
         <>
           <Button asChild><Link href="/admin/coaches">{t("goVerify", { count: metrics.coaches_pending })}</Link></Button>
-          <Button asChild variant="outline"><Link href="/admin/wallets">{t("goWallets")}</Link></Button>
+          <Button asChild variant="outline"><Link href="/admin/payments">{t("goPayments")}</Link></Button>
         </>
       } />
       <MetricsGrid metrics={metrics} />

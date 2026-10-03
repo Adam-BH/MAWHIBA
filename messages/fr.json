@@ -9,11 +9,11 @@
     "sessions": "Séances",
     "slots": "Créneaux",
     "learn": "Formation",
-    "wallet": "Portefeuille",
+    "payments": "Paiements",
     "admin": "Vue d'ensemble",
     "verify": "Vérifications",
     "bookings": "Réservations",
-    "wallets": "Portefeuilles",
+    "adminPayments": "Paiements",
     "profile": "Profil",
     "userMenu": "Menu utilisateur",
     "logout": "Se déconnecter",
@@ -23,7 +23,9 @@
     "myRequests": "Mes demandes",
     "clientRequests": "Demandes clients",
     "adminRequests": "Demandes",
-    "exploreOffers": "Offres"
+    "exploreOffers": "Offres",
+    "earnings": "Revenus",
+    "adminEvents": "Événements"
   },
   "roles": {
     "client": "Client",
@@ -31,7 +33,7 @@
     "admin": "Admin"
   },
   "common": {
-    "points": "{count, plural, one {# pt} other {# pts}}",
+    "price": "{amount} DT",
     "ratingLabel": "Note : {rating} sur 5",
     "noRating": "Nouveau"
   },
@@ -48,7 +50,9 @@
     "closed": "Fermée",
     "expired": "Expirée",
     "accepted": "Acceptée",
-    "withdrawn": "Retirée"
+    "withdrawn": "Retirée",
+    "failed": "Échoué",
+    "refunded": "Remboursé"
   },
   "badges": {
     "verified": "Athlète vérifié",
@@ -56,7 +60,6 @@
   },
   "errors": {
     "FORBIDDEN": "Action non autorisée.",
-    "INSUFFICIENT_FUNDS": "Solde insuffisant.",
     "SLOT_NOT_FOUND": "Ce créneau n'existe plus.",
     "SLOT_UNAVAILABLE": "Ce créneau n'est plus disponible.",
     "COACH_NOT_VERIFIED": "Ce coach n'est pas encore vérifié.",
@@ -64,7 +67,6 @@
     "INVALID_TRANSITION": "Cette action n'est plus possible pour cette réservation.",
     "SESSION_STARTED": "La séance a déjà commencé.",
     "SESSION_NOT_STARTED": "La séance n'a pas encore commencé.",
-    "INVALID_PACK": "Pack de recharge inconnu.",
     "INVALID_AMOUNT": "Montant invalide.",
     "INVALID_ANSWERS": "Réponses invalides.",
     "INVALID_CREDENTIALS": "E-mail ou mot de passe incorrect.",
@@ -88,7 +90,9 @@
     "ALREADY_PROPOSED": "Vous avez déjà envoyé une proposition pour cette demande.",
     "SLUG_TAKEN": "Cette adresse de profil est déjà prise. Essaie une variante.",
     "AI_QUOTA": "Limite atteinte : 5 suggestions par jour. Réessaie demain.",
-    "AI_UNAVAILABLE": "Suggestions indisponibles pour le moment. Ta bio actuelle est conservée."
+    "AI_UNAVAILABLE": "Suggestions indisponibles pour le moment. Ta bio actuelle est conservée.",
+    "EVENT_FULL": "Cet événement est complet.",
+    "EVENT_PAST": "Cet événement a déjà commencé."
   },
   "auth": {
     "email": "E-mail",
@@ -110,21 +114,21 @@
   "landing": {
     "eyebrow": "Avec Star Assurances",
     "heroTitle": "Des athlètes devenus coachs. Des séances assurées par Star.",
-    "heroText": "Réservez une séance avec un athlète tunisien vérifié : nageurs, footballeurs, judokas… Payez en points, on s'occupe du reste.",
+    "heroText": "Réservez une séance avec un athlète tunisien vérifié : nageurs, footballeurs, judokas… Payez en ligne, on s'occupe du reste.",
     "ctaClient": "Je cherche un coach",
     "ctaCoach": "Je suis athlète, je deviens coach",
     "howTitle": "Comment ça marche",
     "step1Title": "Trouvez votre coach",
     "step1Text": "Filtrez par sport, ville, prix ou coaching inclusif. Tous nos coachs sont vérifiés.",
     "step2Title": "Réservez un créneau",
-    "step2Text": "Payez avec vos points. Le montant reste bloqué jusqu'à la fin de la séance.",
+    "step2Text": "Payez en ligne par carte ou e-DINAR. Remboursement intégral si le coach refuse ou si vous annulez à temps.",
     "step3Title": "Progressez, assuré",
     "step3Text": "Chaque séance est couverte par Star. Laissez un avis après la séance.",
     "featuredTitle": "Coachs à la une",
     "seeAll": "Voir tous les coachs",
     "starTitle": "Chaque séance est assurée par Star",
-    "starText": "Une assurance de {fee} pts est incluse dans chaque réservation : vous vous entraînez l'esprit tranquille.",
-    "footer": "MAWHIBA · Hackathon Star Assurances · 1 point = 1 TND",
+    "starText": "Une assurance de {fee} DT est incluse dans chaque réservation : vous vous entraînez l'esprit tranquille.",
+    "footer": "MAWHIBA · Hackathon Star Assurances",
     "seeOffers": "Explorer les offres"
   },
   "coaches": {
@@ -146,7 +150,7 @@
       "allSports": "Tous les sports",
       "city": "Ville",
       "allCities": "Toutes les villes",
-      "maxPrice": "Prix max (pts)",
+      "maxPrice": "Prix max (DT)",
       "inclusive": "Coaching inclusif",
       "reset": "Réinitialiser",
       "audience": "Public",
@@ -164,7 +168,7 @@
     "phone": "Téléphone",
     "city": "Ville",
     "chooseCity": "Choisir une ville",
-    "price": "Prix (pts)",
+    "price": "Prix (DT)",
     "duration": "Durée (min)",
     "sports": "Sports",
     "headline": "Accroche",
@@ -252,66 +256,19 @@
     "session": "Séance",
     "insurance": "Assurance Star",
     "total": "Total",
-    "summary": "Séance {price} pts + Assurance Star {fee} pts = {total} pts",
-    "balanceLine": "Solde actuel : {balance} pts · après réservation : {after} pts",
     "note": "Note pour le coach",
     "notePlaceholder": "niveau, besoins particuliers…",
     "insuredTitle": "Séance assurée par Star",
-    "insuredText": "Le montant est bloqué jusqu'à la fin de la séance et remboursé intégralement en cas d'annulation ou de refus.",
-    "lowBalance": "Solde insuffisant",
-    "lowBalanceText": "Vous avez {balance} pts, il en faut {total}.",
-    "topup": "Recharger mon portefeuille",
-    "confirm": "Confirmer et payer {total} pts",
-    "booked": "Demande envoyée au coach !",
+    "insuredText": "Paiement sécurisé par Konnect. Remboursement intégral si le coach refuse ou si vous annulez avant la séance.",
+    "pay": "Payer {total} DT",
     "unavailable": "Ce créneau n'est plus disponible",
     "back": "Voir les coachs",
     "chooseOffer": "Choisissez une offre",
     "chooseOfferHint": "Ce coach propose plusieurs types de séances."
   },
-  "wallet": {
-    "title": "Portefeuille",
-    "clientSubtitle": "Rechargez vos points et suivez vos paiements.",
-    "coachSubtitle": "Vos gains et vos retraits.",
-    "balance": "Solde disponible",
-    "pendingWithdrawal": "dont {amount} pts en cours de retrait",
-    "history": "Historique",
-    "earningsHistory": "Historique des gains",
-    "noTx": "Aucune transaction pour l'instant",
-    "tx": {
-      "topup": "Recharge Flouci",
-      "booking_hold": "Réservation (montant bloqué)",
-      "booking_refund": "Remboursement",
-      "coach_payout": "Gain de séance",
-      "commission": "Commission plateforme",
-      "insurance": "Assurance Star",
-      "withdrawal": "Retrait",
-      "admin_credit": "Crédit administrateur"
-    },
-    "topup": {
-      "title": "Recharger",
-      "price": "{pay} TND",
-      "choose": "Choisir",
-      "flouciTitle": "Payer avec Flouci",
-      "flouciMock": "Paiement de démonstration : aucun montant réel n'est débité.",
-      "amountDue": "Montant à payer",
-      "youGet": "Vous recevez",
-      "cancel": "Annuler",
-      "pay": "Payer",
-      "success": "{points} pts ajoutés à votre portefeuille"
-    },
-    "withdraw": {
-      "title": "Demander un retrait",
-      "history": "Mes retraits",
-      "amount": "Montant (pts)",
-      "available": "Disponible : {available} pts",
-      "submit": "Demander le retrait",
-      "requested": "Demande de retrait envoyée",
-      "none": "Aucun retrait pour l'instant."
-    }
-  },
   "learn": {
     "title": "Formation",
-    "subtitle": "Gagnez des badges et rassurez les familles.",
+    "subtitle": "Des modules courts pour mieux encadrer vos clients. Chaque quiz réussi ajoute un badge à votre profil.",
     "empty": "Aucun module disponible",
     "lessonsCount": "{count, plural, one {# leçon} other {# leçons}} + quiz",
     "passed": "Badge obtenu",
@@ -326,19 +283,19 @@
     "submit": "Valider mes réponses",
     "score": "Score : {score} / {total} (minimum {pass})",
     "passedTitle": "Félicitations !",
-    "badgeEarned": "Badge « Coaching inclusif » obtenu",
+    "badgeEarned": "Badge « {title} » obtenu",
     "failedTitle": "Presque !",
     "retry": "Réessayer",
-    "seeProfile": "Voir mon profil"
+    "seeProfile": "Voir mon profil",
+    "progress": "{passed} / {total} badges obtenus",
+    "minutes": "≈ {count} min"
   },
   "dashboard": {
     "hello": "Bonjour {name} 👋",
     "clientSubtitle": "Prêt pour votre prochaine séance ?",
     "coachSubtitle": "Votre activité de coach en un coup d'œil.",
-    "balance": "Solde",
     "sessionsCount": "Séances terminées",
     "findCoach": "Trouver un coach",
-    "topup": "Recharger",
     "nextSession": "Prochaine séance",
     "noNextSession": "Aucune séance prévue",
     "recommended": "Coachs recommandés",
@@ -361,20 +318,19 @@
     "addSlots": "Ajouter des créneaux",
     "profileCard": "Mon profil",
     "earnBadge": "Obtenir le badge Coaching inclusif",
-    "editProfile": "Modifier mon profil"
+    "editProfile": "Modifier mon profil",
+    "mySessions": "Mes séances"
   },
   "admin": {
     "title": "Vue d'ensemble",
     "subtitle": "Les chiffres clés de la plateforme.",
     "goVerify": "Vérifications ({count})",
-    "goWallets": "Portefeuilles",
+    "goPayments": "Paiements",
     "metrics": {
       "coachesVerified": "Coachs vérifiés",
       "ofTotal": "sur {total} inscrits",
       "coachesPending": "Coachs en attente",
       "clients": "Clients",
-      "pendingWithdrawals": "Retraits en attente",
-      "amount": "{amount} pts",
       "gmv": "Volume des séances (GMV)",
       "commission": "Commission plateforme",
       "insurance": "Assurance Star collectée",
@@ -384,7 +340,10 @@
       "openRequests": "Demandes ouvertes",
       "proposals": "Propositions envoyées",
       "conversion": "Conversion demandes",
-      "conversionHint": "demandes → réservations"
+      "conversionHint": "demandes → réservations",
+      "collected": "Encaissé",
+      "refunded": "Remboursé",
+      "coachDue": "Dû aux coachs"
     },
     "coaches": {
       "title": "Vérification des coachs",
@@ -411,27 +370,6 @@
       "all": "Toutes",
       "empty": "Aucune réservation"
     },
-    "wallets": {
-      "title": "Portefeuilles",
-      "subtitle": "Créditez les dépôts en espèces et traitez les retraits.",
-      "creditSection": "Créditer un utilisateur",
-      "searchPlaceholder": "Nom ou e-mail",
-      "search": "Rechercher",
-      "noUsers": "Aucun utilisateur trouvé",
-      "credit": "Créditer",
-      "creditTitle": "Créditer le portefeuille",
-      "amount": "Montant (pts)",
-      "reason": "Motif",
-      "defaultReason": "Dépôt en espèces",
-      "confirmCredit": "Créditer",
-      "credited": "Portefeuille crédité",
-      "withdrawals": "Demandes de retrait",
-      "noWithdrawals": "Aucune demande de retrait",
-      "approve": "Approuver",
-      "approved": "Retrait payé",
-      "reject": "Rejeter",
-      "rejected": "Retrait rejeté"
-    },
     "requests": {
       "title": "Demandes clients",
       "subtitle": "Modération des demandes et de leurs propositions.",
@@ -445,6 +383,10 @@
       "reject": "Rejeter",
       "verifiedToast": "Marqué comme vérifié",
       "rejectedToast": "Preuve rejetée"
+    },
+    "payments": {
+      "title": "Paiements",
+      "subtitle": "Paiements Konnect, remboursements et sommes dues aux coachs."
     }
   },
   "errorPage": {
@@ -475,14 +417,16 @@
     "sessions": "Séances",
     "slots": "Créneaux",
     "learn": "Formation",
-    "wallet": "Solde",
+    "payments": "Paiements",
     "admin": "Stats",
     "verify": "Vérifier",
     "bookings": "Résas",
-    "wallets": "Soldes",
+    "adminPayments": "Paiements",
     "profile": "Profil",
     "myOffers": "Offres",
-    "requests": "Demandes"
+    "requests": "Demandes",
+    "earnings": "Revenus",
+    "adminEvents": "Événements"
   },
   "offers": {
     "pageTitle": "Mes offres",
@@ -495,7 +439,7 @@
     "sport": "Sport",
     "audienceLabel": "Public",
     "durationLabel": "Durée (min)",
-    "priceLabel": "Prix (pts)",
+    "priceLabel": "Prix (DT)",
     "description": "Description",
     "inclusiveLabel": "Séance inclusive (autisme)",
     "inclusiveLocked": "Séance inclusive : obtenez d'abord le badge « Coaching inclusif »",
@@ -541,7 +485,7 @@
     "emptyClient": "Aucune demande",
     "emptyClientHint": "Publiez une demande : les coachs vous envoient des propositions avec un créneau et un prix.",
     "newProposals": "{count, plural, one {# nouvelle proposition} other {# nouvelles propositions}}",
-    "budgetRange": "{min}–{max} pts",
+    "budgetRange": "{min}–{max} DT",
     "expired": "Expirée",
     "expiresInHours": "expire dans {hours} h",
     "expiresInDays": "expire dans {days} j",
@@ -593,7 +537,7 @@
       "budget": "Budget par séance",
       "budgetMin": "Budget minimum",
       "budgetMax": "Budget maximum",
-      "perSession": "pts / séance",
+      "perSession": "DT / séance",
       "submit": "Publier la demande",
       "preview": "Aperçu vu par les coachs"
     },
@@ -629,20 +573,16 @@
     "accept": {
       "cta": "Accepter",
       "title": "Accepter la proposition de {name}",
-      "description": "La séance est confirmée immédiatement : le coach a déjà donné son accord.",
-      "summary": "{price} pts + {fee} pts assurance Star = {total} pts",
-      "lowBalance": "Solde insuffisant : vous avez {balance} pts, il en faut {total}.",
-      "topup": "Recharger mon portefeuille",
-      "balanceAfter": "Solde après réservation : {after} pts",
-      "confirm": "Confirmer et payer {total} pts",
-      "done": "Séance confirmée !"
+      "description": "Le coach a déjà donné son accord : la séance est confirmée dès le paiement.",
+      "summary": "{price} DT + {fee} DT assurance Star = {total} DT",
+      "confirm": "Payer {total} DT"
     },
     "form": {
       "slot": "Créneau proposé",
       "otherSlot": "Créer un autre créneau",
       "noSlots": "Vous n'avez aucun créneau libre à venir.",
       "createSlot": "Créer un créneau",
-      "price": "Prix (pts)",
+      "price": "Prix (DT)",
       "outOfBudget": "Hors budget",
       "message": "Message",
       "messagePlaceholder": "Présentez-vous et expliquez comment vous adapterez la séance…",
@@ -837,7 +777,7 @@
         "tiktok": "TikTok",
         "linkedin": "LinkedIn"
       },
-      "price": "Prix « à partir de » (pts)",
+      "price": "Prix « à partir de » (DT)",
       "duration": "Durée d'une séance (min)",
       "priceFromOffers": "Calculé automatiquement depuis tes offres."
     },
@@ -943,5 +883,69 @@
     "pdf": "Télécharger le PDF",
     "shareText": "Mon CV de coach sur MAWHIBA :",
     "card": "Télécharger ma carte"
+  },
+  "payments": {
+    "clientTitle": "Paiements",
+    "clientSubtitle": "L'historique de vos paiements et remboursements.",
+    "coachTitle": "Revenus",
+    "coachSubtitle": "Ce que vous rapportent vos séances terminées, commission déduite.",
+    "empty": "Aucun paiement pour l'instant",
+    "emptyEarnings": "Aucune séance terminée pour l'instant",
+    "month": "Ce mois-ci",
+    "total": "Total",
+    "sessions": "Séances terminées",
+    "history": "Détail par séance",
+    "gross": "Prix",
+    "commission": "Commission",
+    "net": "Net",
+    "payoutNote": "Les revenus sont versés chaque mois par virement."
+  },
+  "pay": {
+    "title": "Paiement",
+    "gateway": "Konnect",
+    "testMode": "Mode test : aucune carte n'est débitée.",
+    "merchant": "Bénéficiaire",
+    "description": "Séance avec {coach}",
+    "amount": "Montant à payer",
+    "expiresIn": "Créneau réservé pour vous jusqu'à {time}.",
+    "pay": "Payer {total} DT",
+    "fail": "Simuler un échec",
+    "cancel": "Annuler et revenir",
+    "success": "Paiement accepté : demande envoyée au coach !",
+    "successProposal": "Paiement accepté : séance confirmée !",
+    "failed": "Paiement refusé. Aucun montant n'a été débité.",
+    "lost": "Le créneau n'est plus disponible : vous avez été remboursé.",
+    "expired": "Ce paiement a expiré. Recommencez la réservation.",
+    "done": "Ce paiement est déjà traité."
+  },
+  "events": {
+    "sectionTitle": "Le rendez-vous du mois",
+    "sectionText": "Chaque mois, coachs et sportifs se retrouvent pour une matinée d'ateliers et de rencontres. Gratuit, sur inscription.",
+    "spotsLeft": "{count, plural, one {# place restante} other {# places restantes}}",
+    "full": "Complet",
+    "register": "Je m'inscris",
+    "registered": "Inscription confirmée",
+    "unregister": "Se désinscrire",
+    "registeredToast": "C'est noté, à bientôt !",
+    "unregisteredToast": "Inscription annulée",
+    "loginToRegister": "Se connecter pour s'inscrire",
+    "registeredCount": "{count} / {capacity} inscrits",
+    "adminTitle": "Événements",
+    "adminSubtitle": "Publiez l'événement du mois et suivez les inscriptions.",
+    "listHeading": "Tous les événements",
+    "empty": "Aucun événement pour l'instant",
+    "form": {
+      "heading": "Nouvel événement",
+      "title": "Titre",
+      "titlePlaceholder": "Matinée multisports à La Marsa",
+      "date": "Date",
+      "time": "Début",
+      "duration": "Durée (min)",
+      "capacity": "Places",
+      "location": "Lieu",
+      "description": "Description",
+      "submit": "Publier l'événement",
+      "created": "Événement publié"
+    }
   }
 }

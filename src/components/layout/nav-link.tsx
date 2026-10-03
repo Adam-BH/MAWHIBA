@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  BadgeCheck, CalendarCheck, CalendarPlus, Coins, GraduationCap, LayoutDashboard,
-  ListChecks, Megaphone, Search, Shield, Tag, User, Wallet, type LucideIcon,
+  BadgeCheck, CalendarCheck, CalendarHeart, CalendarPlus, GraduationCap, LayoutDashboard,
+  ListChecks, Megaphone, Receipt, Search, Shield, Tag, TrendingUp, User, type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { NavItem } from "@/lib/nav";
 
 const ICONS: Record<NavItem["icon"], LucideIcon> = {
-  LayoutDashboard, Search, CalendarCheck, CalendarPlus, GraduationCap, Wallet, Shield, BadgeCheck, ListChecks, Coins, User, Tag, Megaphone,
+  LayoutDashboard, Search, CalendarCheck, CalendarHeart, CalendarPlus, GraduationCap, Receipt, TrendingUp, Shield, BadgeCheck, ListChecks, User, Tag, Megaphone,
 };
 
 export function NavLink({ href, icon, label, variant, count = 0 }: {

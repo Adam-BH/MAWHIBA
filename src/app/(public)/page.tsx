@@ -4,10 +4,16 @@ import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { CoachCard } from "@/features/coaches/components/coach-card";
 import { listCoaches } from "@/features/coaches/queries";
+import { EventCard } from "@/features/events/components/event-card";
+import { getNextEvent } from "@/features/events/queries";
+import { getCurrentUser } from "@/lib/auth";
 import { INSURANCE_FEE } from "@/lib/config";
 
 export default async function LandingPage() {
-  const [t, coaches] = await Promise.all([getTranslations("landing"), listCoaches({}, 6)]);
+  const user = await getCurrentUser();
+  const [t, te, coaches, event] = await Promise.all([
+    getTranslations("landing"), getTranslations("events"), listCoaches({}, 6), getNextEvent(user?.id),
+  ]);
   const steps = [
     { icon: Search, title: t("step1Title"), text: t("step1Text") },
     { icon: CalendarCheck, title: t("step2Title"), text: t("step2Text") },
@@ -30,6 +36,14 @@ export default async function LandingPage() {
           </Button>
         </div>
       </section>
+
+      {event && (
+        <section>
+          <h2 className="text-2xl font-semibold">{te("sectionTitle")}</h2>
+          <p className="mt-1 mb-6 max-w-2xl text-muted-foreground">{te("sectionText")}</p>
+          <EventCard event={event} viewer={user?.role ?? null} />
+        </section>
+      )}
 
       <section>
         <h2 className="mb-6 text-2xl font-semibold">{t("howTitle")}</h2>

@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CoachBadges } from "@/components/shared/coach-badges";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { RatingStars } from "@/components/shared/rating-stars";
 import { StatCard } from "@/components/shared/stat-card";
 import { StatusBadge } from "@/components/shared/status-badge";
@@ -82,13 +82,13 @@ export default async function DevUiPage() {
         </div>
         <CoachBadges verified inclusive />
         <div className="flex flex-wrap items-center gap-4">
-          <RatingStars rating={4.6} count={23} /><Points value={47} /><Points value={38} signed className="text-success" />
+          <RatingStars rating={4.6} count={23} /><Price value={47} />
           <UserAvatar name="Amira Ben Salah" />
         </div>
       </Section>
       <Section title={t("cards")}>
         <div className="grid gap-3 sm:grid-cols-3">
-          <StatCard icon={Coins} label="primary" value={<Points value={110} />} />
+          <StatCard icon={Coins} label="primary" value={<Price value={110} />} />
           <StatCard icon={Coins} tone="accent" label="accent" value={42} />
           <StatCard icon={ShieldCheck} tone="success" label="success" value={7} hint="hint" />
         </div>

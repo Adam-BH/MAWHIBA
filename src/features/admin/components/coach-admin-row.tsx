@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FileText } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { VerifyActions } from "@/features/admin/components/verify-actions";
 import type { AdminCoach } from "@/features/admin/queries";
@@ -18,7 +18,7 @@ export function CoachAdminRow({ coach }: { coach: AdminCoach }) {
             {coach.verified ? <Link className="hover:underline" href={`/coaches/${coach.slug ?? coach.user_id}`}>{coach.profile.full_name}</Link> : coach.profile.full_name}
           </p>
           <p className="truncate text-sm text-muted-foreground">{coach.profile.email} · {coach.profile.city ?? "—"}</p>
-          <p className="truncate text-sm text-muted-foreground">{coach.sports.join(", ") || "—"} · <Points value={coach.price_per_session} /></p>
+          <p className="truncate text-sm text-muted-foreground">{coach.sports.join(", ") || "—"} · <Price value={coach.price_per_session} /></p>
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2">

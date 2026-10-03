@@ -12,7 +12,7 @@ export default async function LearnModulePage({ params }: { params: Promise<{ sl
   return (
     <div className="mx-auto max-w-2xl">
       <PageHeader title={cert.title} />
-      <LearnStepper slug={cert.slug} lessons={cert.lessons} quiz={cert.quiz} passScore={cert.pass_score} />
+      <LearnStepper slug={cert.slug} title={cert.title} lessons={cert.lessons} quiz={cert.quiz} passScore={cert.pass_score} />
     </div>
   );
 }

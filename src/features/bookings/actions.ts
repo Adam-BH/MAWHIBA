@@ -3,23 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { fail, invalid, ok, type ActionResult } from "@/lib/action-result";
-import { bookingSchema, uuid } from "@/lib/validations/forms";
+import { fail, ok, type ActionResult } from "@/lib/action-result";
+import { uuid } from "@/lib/validations/forms";
 
 function revalidateBookings() {
   revalidatePath("/", "layout");
-}
-
-export async function bookSlotAction(input: { slotId: string; offerId?: string; note?: string }): Promise<ActionResult<string>> {
-  await requireRole(["client"]);
-  const parsed = bookingSchema.safeParse(input);
-  if (!parsed.success) return invalid(parsed.error.issues[0].message);
-  const supabase = await createClient();
-  const { slotId, offerId, note } = parsed.data;
-  const { data, error } = await supabase.rpc("book_slot", { slot_id: slotId, offer_id: offerId, note });
-  if (error) return fail(error);
-  revalidateBookings();
-  return ok(data);
 }
 
 export async function respondBookingAction(bookingId: string, accept: boolean): Promise<ActionResult> {

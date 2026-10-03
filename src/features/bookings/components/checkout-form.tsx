@@ -1,28 +1,25 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ShieldCheck, Wallet } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { SubmitButton } from "@/components/shared/submit-button";
-import { bookSlotAction } from "@/features/bookings/actions";
+import { startCheckoutAction } from "@/features/payments/actions";
 import { useAction } from "@/lib/use-action";
 
-export function CheckoutForm({ slotId, offerId, total, balance }: { slotId: string; offerId?: string; total: number; balance: number }) {
+export function CheckoutForm({ slotId, offerId, total }: { slotId: string; offerId?: string; total: number }) {
   const t = useTranslations("checkout");
   const router = useRouter();
   const [note, setNote] = useState("");
   const { pending, run } = useAction();
-  const short = balance < total;
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    run(() => bookSlotAction({ slotId, offerId, note }), { success: t("booked"), onSuccess: () => router.push("/sessions") });
+    run(() => startCheckoutAction({ slotId, offerId, note }), { onSuccess: (payUrl) => router.push(payUrl) });
   }
 
   return (
@@ -36,18 +33,7 @@ export function CheckoutForm({ slotId, offerId, total, balance }: { slotId: stri
         <AlertTitle>{t("insuredTitle")}</AlertTitle>
         <AlertDescription>{t("insuredText")}</AlertDescription>
       </Alert>
-      {short ? (
-        <Alert variant="destructive">
-          <Wallet />
-          <AlertTitle>{t("lowBalance")}</AlertTitle>
-          <AlertDescription>
-            {t("lowBalanceText", { balance, total })}
-            <Button asChild size="sm" className="mt-2"><Link href="/wallet">{t("topup")}</Link></Button>
-          </AlertDescription>
-        </Alert>
-      ) : (
-        <SubmitButton pending={pending} size="lg" className="w-full">{t("confirm", { total })}</SubmitButton>
-      )}
+      <SubmitButton pending={pending} size="lg" className="w-full">{t("pay", { total })}</SubmitButton>
     </form>
   );
 }

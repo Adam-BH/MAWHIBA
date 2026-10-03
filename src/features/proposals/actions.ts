@@ -34,14 +34,3 @@ export async function withdrawProposalAction(proposalId: string): Promise<Action
   revalidatePath("/", "layout");
   return ok(null);
 }
-
-/** Creates a confirmed booking and holds the funds in one RPC transaction. */
-export async function acceptProposalAction(proposalId: string): Promise<ActionResult<string>> {
-  await requireRole(["client"]);
-  if (!uuid.safeParse(proposalId).success) return fail("NOT_FOUND");
-  const supabase = await createClient();
-  const { data, error } = await supabase.rpc("accept_proposal", { proposal_id: proposalId });
-  if (error) return fail(error);
-  revalidatePath("/", "layout");
-  return ok(data);
-}

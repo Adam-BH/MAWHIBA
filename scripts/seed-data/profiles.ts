@@ -40,21 +40,12 @@ const SPECIALTIES_BY_SPORT: Record<string, string[]> = {
   Handball: ["Compétition", "Adolescents", "Préparation physique"], Fitness: ["Perte de poids", "Seniors", "Femmes"],
 };
 
-function levelOf(text: string): Level {
-  const t = text.toLowerCase();
-  if (/(afrique|arabe|panarab|itf|international)/.test(t)) return "international";
-  if (/(nationale|national|tunisie|ligue 1|ligue 2)/.test(t)) return "national";
-  if (/(régional|regional|sahel|sfax)/.test(t)) return "regional";
-  return "local";
-}
-
 /** Coherent, deterministic profile data. `tier` 0–3 controls how complete the profile is (strength ≈ 40% → 95%). */
 export function profileFor(coach: SeedCoach, i: number) {
   const tier = i % 4;
   const sport = coach.sports[0];
-  const parts = coach.achievements.split("·").map((s) => s.trim()).filter(Boolean);
-  const achievements = parts.slice(0, tier === 0 ? 1 : 3).map((title, k) => ({
-    year: 2021 - k * 2 - (i % 3), title, competition: "", level: levelOf(title), result: "", verified: tier >= 2 && k === 0,
+  const achievements = (coach.cv ?? []).slice(0, tier === 0 ? 1 : 3).map(([year, title, competition, level, result], k) => ({
+    year, title, competition, level, result, verified: tier >= 2 && k === 0,
   }));
   const levels: Level[] = ["local", "regional", "national", "international", "olympique"];
   const highest = achievements.reduce<Level>((best, a) => (levels.indexOf(a.level) > levels.indexOf(best) ? a.level : best), "local");
@@ -70,12 +61,12 @@ export function profileFor(coach: SeedCoach, i: number) {
       specialties: tier >= 1 ? (SPECIALTIES_BY_SPORT[sport] ?? ["Débutants"]).slice(0, tier >= 2 ? 3 : 2) : [],
       zones: tier >= 2 ? [coach.city] : [],
       socials: tier >= 3 ? { instagram: coach.email.split("@")[0].replace(/\./g, "_") } : {},
-      bio: tier >= 2 ? `${coach.bio} ${coach.headline}. Séances personnalisées, bilan à chaque étape et objectifs clairs pour progresser durablement.` : coach.bio,
+      bio: coach.bio,
       builder_step: tier >= 3 ? 7 : 2 + tier,
       published_at: tier >= 3 ? new Date().toISOString() : null,
     },
     achievements,
-    experiences: tier >= 1 ? [{ role: `Coach ${sport.toLowerCase()}`, organization: `Club sportif de ${coach.city}`, start_date: `${2019 + (i % 4)}-09-01`, end_date: null as string | null, description: "" }] : [],
+    experiences: tier >= 1 ? [{ role: `Coach ${sport.toLowerCase()}`, organization: coach.club ?? `Club sportif de ${coach.city}`, start_date: `${2019 + (i % 4)}-09-01`, end_date: null as string | null, description: "" }] : [],
     education: tier >= 2 ? [{ degree: "Licence en sciences et techniques des activités physiques", school: "ISSEP Ksar Saïd", year: 2015 + (i % 6) }] : [],
     certifications: tier >= 3 ? [{ title: `Brevet d'entraîneur ${sport.toLowerCase()} 1er degré`, issuer: `Fédération tunisienne de ${sport.toLowerCase()}`, year: 2020, verified: false }] : [],
     cover: tier >= 3,

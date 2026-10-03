@@ -6,13 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
 import { PageHeader } from "@/components/shared/page-header";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { CheckoutForm } from "@/features/bookings/components/checkout-form";
 import { OfferCard } from "@/features/offers/components/offer-card";
 import { listCoachOffers } from "@/features/offers/queries";
 import { getBookableSlot } from "@/features/slots/queries";
-import { getBalance } from "@/features/wallet/queries";
 import { requireRole } from "@/lib/auth";
 import { INSURANCE_FEE } from "@/lib/config";
 import { formatDay, formatTime } from "@/lib/dates";
@@ -23,13 +22,13 @@ export default async function BookPage({ params, searchParams }: {
   params: Promise<{ slotId: string }>;
   searchParams: Promise<{ offer?: string }>;
 }) {
-  const user = await requireRole(["client"]);
+  await requireRole(["client"]);
   const [{ slotId }, { offer: offerId }, t] = await Promise.all([params, searchParams, getTranslations("checkout")]);
   const slot = uuid.safeParse(slotId).success ? await getBookableSlot(slotId) : null;
   if (!slot) {
     return <EmptyState icon={CalendarX} title={t("unavailable")} action={<Button asChild><Link href="/coaches">{t("back")}</Link></Button>} />;
   }
-  const [offers, balance] = await Promise.all([listCoachOffers(slot.coach.user_id), getBalance(user.id)]);
+  const offers = await listCoachOffers(slot.coach.user_id);
   const offer = offers.find((o) => o.id === offerId);
 
   // Coaches with offers are booked through an offer: ask for one if missing.
@@ -65,13 +64,11 @@ export default async function BookPage({ params, searchParams }: {
           </div>
           <Separator />
           <dl className="grid gap-2 text-sm">
-            <div className="flex justify-between gap-2"><dt>{offer?.title ?? t("session")}</dt><dd><Points value={price} /></dd></div>
-            <div className="flex justify-between"><dt>{t("insurance")}</dt><dd><Points value={INSURANCE_FEE} /></dd></div>
-            <div className="flex justify-between border-t pt-2 text-base font-semibold"><dt>{t("total")}</dt><dd><Points value={total} className="text-primary" /></dd></div>
+            <div className="flex justify-between gap-2"><dt>{offer?.title ?? t("session")}</dt><dd><Price value={price} /></dd></div>
+            <div className="flex justify-between"><dt>{t("insurance")}</dt><dd><Price value={INSURANCE_FEE} /></dd></div>
+            <div className="flex justify-between border-t pt-2 text-base font-semibold"><dt>{t("total")}</dt><dd><Price value={total} className="text-primary" /></dd></div>
           </dl>
-          <p className="rounded-lg bg-muted p-3 text-center text-sm font-medium">{t("summary", { price, fee: INSURANCE_FEE, total })}</p>
-          {balance >= total && <p className="text-sm text-muted-foreground">{t("balanceLine", { balance, after: balance - total })}</p>}
-          <CheckoutForm slotId={slot.id} offerId={offer?.id} total={total} balance={balance} />
+          <CheckoutForm slotId={slot.id} offerId={offer?.id} total={total} />
         </CardContent>
       </Card>
     </div>

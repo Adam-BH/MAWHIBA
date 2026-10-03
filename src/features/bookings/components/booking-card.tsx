@@ -1,7 +1,7 @@
 import { Clock, MapPin, MessageSquareText, Phone } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { RatingStars } from "@/components/shared/rating-stars";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { UserAvatar } from "@/components/shared/user-avatar";
@@ -40,7 +40,7 @@ export function BookingCard({ booking, viewer }: { booking: BookingRow; viewer: 
         )}
         <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-3">
           <span className="text-sm text-muted-foreground">
-            {viewer === "coach" ? <Points value={booking.price} /> : <Points value={booking.price + booking.insurance_fee} />}
+            {viewer === "coach" ? <Price value={booking.price} /> : <Price value={booking.price + booking.insurance_fee} />}
           </span>
           {booking.review && <RatingStars rating={booking.review.rating} />}
           <div className="flex flex-wrap gap-2">

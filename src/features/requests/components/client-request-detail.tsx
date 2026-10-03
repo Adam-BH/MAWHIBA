@@ -9,11 +9,10 @@ import { ProposalCard } from "@/features/proposals/components/proposal-card";
 import { CloseRequestButton } from "@/features/requests/components/close-request-button";
 import { RequestCard } from "@/features/requests/components/request-card";
 import { getMyRequest } from "@/features/requests/queries";
-import { getBalance } from "@/features/wallet/queries";
 import { canAcceptProposal, effectiveRequestStatus } from "@/lib/request-rules";
 
 export async function ClientRequestDetail({ requestId, userId }: { requestId: string; userId: string }) {
-  const [t, request, balance] = await Promise.all([getTranslations("requests"), getMyRequest(requestId, userId), getBalance(userId)]);
+  const [t, request] = await Promise.all([getTranslations("requests"), getMyRequest(requestId, userId)]);
   if (!request) notFound();
   const expiresAt = new Date(request.expires_at);
   const status = effectiveRequestStatus(request.status, expiresAt);
@@ -34,7 +33,7 @@ export async function ClientRequestDetail({ requestId, userId }: { requestId: st
                 actions={canAcceptProposal(p.status, request.status, expiresAt) && (
                   p.slot.is_booked || new Date(p.slot.starts_at) <= new Date()
                     ? <span className="text-sm text-muted-foreground">{t("slotTaken")}</span>
-                    : <AcceptProposalDialog proposalId={p.id} price={p.price} coachName={p.coach.profile.full_name} balance={balance} />
+                    : <AcceptProposalDialog proposalId={p.id} price={p.price} coachName={p.coach.profile.full_name} />
                 )} />
             ))}
           </div>

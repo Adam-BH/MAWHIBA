@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AthleteCard } from "@/components/shared/athlete-card";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { AvailableSlots } from "@/features/coaches/components/available-slots";
 import { ProfileSections } from "@/features/cv/components/profile-sections";
 import { ShareButtons } from "@/features/cv/components/share-buttons";
@@ -97,9 +97,9 @@ export default async function CoachPage({ params, searchParams }: Props) {
               <CardTitle>{t("availability")}</CardTitle>
               <p className="text-sm text-muted-foreground">
                 {selected ? (
-                  <>{selected.title} · <Points value={selected.price} className="text-primary" /> · {t("duration", { min: selected.duration_min })}</>
+                  <>{selected.title} · <Price value={selected.price} className="text-primary" /> · {t("duration", { min: selected.duration_min })}</>
                 ) : (
-                  <><Points value={coach.price_per_session} className="text-primary" /> {t("perSession")} · {t("duration", { min: coach.session_duration_min })}</>
+                  <><Price value={coach.price_per_session} className="text-primary" /> {t("perSession")} · {t("duration", { min: coach.session_duration_min })}</>
                 )}
               </p>
             </CardHeader>

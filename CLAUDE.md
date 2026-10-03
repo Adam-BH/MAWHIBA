@@ -9,7 +9,8 @@ Next.js 15 (App Router) + Supabase in a single app, with three roles (client / c
 - Every server action validates input with zod (`src/lib/validations`), calls `requireRole([...])` first and returns `ActionResult` (`{ ok: true, data } | { ok: false, error }`). The UI runs actions through `useAction()`, which shows a toast.
 - Every role-restricted page calls `requireRole`. Role segments also guard in their `layout.tsx`, so the redirect is a real 307 that happens before any loading boundary.
 - Use Server Components by default. Add `"use client"` only on interactive leaves.
-- **Money logic only in SQL RPCs.** The app never computes or writes balances. `src/lib/money.ts` is for display and tests only and must match `split_payout` in SQL.
+- **Money logic only in SQL RPCs.** The app never computes or writes amounts, payments or earnings. `src/lib/money.ts` is for display and tests only and must match `split_payout` in SQL.
+- **Payments:** one Konnect payment per booking (`payments` table). Only `confirm_payment` (service role = gateway webhook) creates the booking; never call it from user-facing code except the mock gateway action. Konnect is mocked in `src/lib/payments/konnect.ts` while `KONNECT_API_KEY` is unset.
 - **npm only** (`packageManager` is pinned). Never add a pnpm/yarn lockfile.
 - **Styling via tokens only:** use the semantic CSS variables in `src/app/globals.css` (Tailwind v4 `@theme inline`). No hard-coded colors (`bg-blue-600`, hex values) in components. Brand = purple/lime/ink/surface; lime goes on purple (or as a fill with ink text), never as text on light backgrounds.
 - All UI strings go in `messages/fr.json` (typed, so missing keys fail `tsc`).
@@ -22,7 +23,7 @@ Next.js 15 (App Router) + Supabase in a single app, with three roles (client / c
 - Never edit an applied migration; add a new one.
 - When an RLS policy references another table, `anon` needs SELECT on that table too (RLS still returns no rows). Otherwise public pages fail with `permission denied`.
 - Offers: max 6 active and inclusive-only-with-badge are enforced by trigger. `price_per_session` is derived from offers by trigger, so don't write it when the coach has active offers.
-- Requests/proposals: all status changes go through RPCs (`create_request`, `close_request`, `create_proposal`, `withdraw_proposal`, `accept_proposal`). Coaches read requests only through the `request_board` view: never expose `client_id`, last names, e-mail or phone to coaches.
+- Requests/proposals: all status changes go through RPCs (`create_request`, `close_request`, `create_proposal`, `withdraw_proposal`, `start_proposal_checkout` + `confirm_payment`). Coaches read requests only through the `request_board` view: never expose `client_id`, last names, e-mail or phone to coaches.
 - Free text in requests/proposals is checked with `has_contact_info` (SQL, source of truth) and `hasContactInfo` (TS, same patterns). Keep both in sync; `tests/requests.test.ts` checks parity.
 - Colour exception: `src/features/cv/pdf/theme.ts` is the ONLY file allowed hard-coded colours (react-pdf and next/og can't read CSS variables). It mirrors the tokens in `globals.css`, so update both together.
 - Public coach URLs use `coach_profiles.slug` (`src/lib/slug.ts` mirrors SQL `slugify`). The middleware 308-redirects `/coaches/<uuid>` to the slug.

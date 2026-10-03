@@ -10,8 +10,9 @@ export type Metrics = {
   gmv: number;
   commission: number;
   insurance: number;
-  pending_withdrawals_count: number;
-  pending_withdrawals_amount: number;
+  collected: number;
+  refunded: number;
+  coach_due: number;
   active_offers: number;
   open_requests: number;
   proposals_total: number;
@@ -42,32 +43,6 @@ export async function listCoachesForAdmin() {
 }
 
 export type AdminCoach = Awaited<ReturnType<typeof listCoachesForAdmin>>[number];
-
-export async function listWithdrawals() {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("withdrawals")
-    .select("id, amount, status, created_at, coach:profiles!inner(full_name, email)")
-    .order("status")
-    .order("created_at", { ascending: false })
-    .limit(100);
-  return data ?? [];
-}
-
-export async function searchUsers(q: string) {
-  const term = q.replace(/[%,()]/g, " ").trim();
-  if (term.length < 2) return [];
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("profiles")
-    .select("id, full_name, email, role, avatar_url")
-    .in("role", ["client", "coach"])
-    .or(`full_name.ilike.%${term}%,email.ilike.%${term}%`)
-    .limit(10);
-  const users = data ?? [];
-  const balances = await Promise.all(users.map((u) => supabase.rpc("wallet_balance", { uid: u.id })));
-  return users.map((u, i) => ({ ...u, balance: balances[i].data ?? 0 }));
-}
 
 /** Palmarès & certifications awaiting review (unverified, with a proof file), with signed proof URLs. */
 export async function listPendingCvItems() {

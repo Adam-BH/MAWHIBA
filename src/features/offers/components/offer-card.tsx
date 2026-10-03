@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Clock, HeartHandshake, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { cn } from "@/lib/utils";
 import type { Enums } from "@/lib/supabase/database.types";
 
@@ -35,7 +35,7 @@ export function OfferCard({ offer, href, selected, footer, coachLine }: {
           <p className="font-semibold">{offer.title}</p>
           <p className="text-sm text-muted-foreground">{offer.sport}</p>
         </div>
-        <Points value={offer.price} className="shrink-0 text-lg text-primary" />
+        <Price value={offer.price} className="shrink-0 text-lg text-primary" />
       </div>
       {offer.description && <p className="line-clamp-2 text-sm text-muted-foreground">{offer.description}</p>}
       <div className="mt-auto flex flex-wrap gap-1.5">

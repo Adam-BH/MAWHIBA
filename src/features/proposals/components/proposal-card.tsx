@@ -3,7 +3,7 @@ import { Clock, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { CoachBadges } from "@/components/shared/coach-badges";
-import { Points } from "@/components/shared/points";
+import { Price } from "@/components/shared/price";
 import { RatingStars } from "@/components/shared/rating-stars";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { UserAvatar } from "@/components/shared/user-avatar";
@@ -56,7 +56,7 @@ export function ProposalCard({ proposal, budget, actions }: {
       {proposal.message && <p className="rounded-lg bg-muted p-3 text-sm">{proposal.message}</p>}
       <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-3">
         <div className="flex items-center gap-2">
-          <Points value={proposal.price} className="text-lg text-primary" />
+          <Price value={proposal.price} className="text-lg text-primary" />
           {outOfBudget && <Badge className="border-transparent bg-warning/20 text-warning-foreground">{t("outOfBudget")}</Badge>}
           {!coach && proposal.status !== "pending" && <StatusBadge status={proposal.status} />}
         </div>

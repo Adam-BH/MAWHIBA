@@ -1,6 +1,6 @@
 # MAWHIBA · موهبة
 
-Athletes become paid coaches. Clients top up a points wallet, book a session (insured by Star) and leave a review. Admins verify coaches, credit wallets and process withdrawals. Built for the Star Assurance hackathon (Tunisia). The UI is in French. 1 point = 1 TND.
+Athletes become paid coaches. Clients book and pay a session online (Konnect, insured by Star) and leave a review. Coaches take short training modules that earn profile badges. Admins verify coaches and follow payments. Built for the Star Assurance hackathon (Tunisia). The UI is in French. Prices are whole dinars (DT).
 
 Stack: Next.js 15 (App Router) + Supabase (Postgres, Auth, Storage) in one app, with three roles: client, coach and admin.
 
@@ -37,9 +37,9 @@ Open **http://localhost:3000** and log in with a demo account (password `Mawhiba
 
 | Role   | Email               | What you get                                        |
 | ------ | ------------------- | --------------------------------------------------- |
-| Client | `client@mawhiba.tn` | 150 points, one open request with 2 proposals       |
+| Client | `client@mawhiba.tn` | Upcoming paid sessions, one open request with 2 proposals |
 | Coach  | `coach@mawhiba.tn`  | Amira Ben Salah, swimmer, verified, inclusive badge |
-| Admin  | `admin@mawhiba.tn`  | Verification queue, bookings, wallets               |
+| Admin  | `admin@mawhiba.tn`  | Verification queue, bookings, payments              |
 
 ### Every day after that
 
@@ -89,14 +89,14 @@ Stop the database with `npm run db:stop`. Your data is kept between restarts.
 
 ## Things to try
 
-**Book a session (client).** `client@` → **Trouver un coach** → open a coach → pick an offer and a slot → pay `price + 2` (Star insurance). Top up first via **Portefeuille** if needed (the Flouci payment is a mock and always succeeds).
+**Book a session (client).** `client@` → **Trouver un coach** → open a coach → pick an offer and a slot → **Payer** `price + 2` (Star insurance). You land on the mock Konnect page (`/pay/<id>`): pay, or simulate a failure. The slot is held for 15 minutes; the booking only exists once the payment succeeds.
 
 **Answer a request (coach → client).**
 1. `client@` → **Mes demandes** → "Publier une demande". A description containing a phone number or e-mail is rejected.
 2. `coach@` → **Demandes clients** shows only the client's first name and city → send a proposal with one of your slots.
-3. `client@` accepts it: a confirmed booking is created, 47 pts are held, the other proposals are rejected and the request is fulfilled.
+3. `client@` accepts it and pays 47 DT: a confirmed booking is created, the other proposals are rejected and the request is fulfilled.
 
-**Full lifecycle.** Admin force-completes a booking in `/admin/bookings` → payout 38 / 7 / 2 (coach / platform / Star) → the client leaves a review → the coach requests a withdrawal → the admin approves it in `/admin/wallets`.
+**Full lifecycle.** Admin force-completes a booking in `/admin/bookings` → split 38 / 7 / 2 (coach / platform / Star) → the client leaves a review → the coach sees it in **Revenus** (`/payments`) and the admin in `/admin/payments`. A decline or cancellation marks the payment refunded.
 
 **Coach profile & CV.** `coach@` → **Profil** is a 7-step wizard with a live athlete card and a strength meter.
 - Public profile: `/coaches/amira-ben-salah`
@@ -104,16 +104,18 @@ Stop the database with `npm run db:stop`. Your data is kept between restarts.
 - PDF: `/api/cv/amira-ben-salah/pdf?template=moderne` (or `classique`)
 - Share image: `/api/card/amira-ben-salah/og` (`?format=story` for 1080×1350)
 
-**Certification.** `coach@` → **Formation** → `/learn/coaching-inclusif-autisme`: 5 lessons, a 5-question quiz, and ≥ 4 earns the "Coaching inclusif" badge.
+**Formation.** `coach@` → **Formation**: 6 modules (inclusive coaching, first aid, coaching children, injury prevention, nutrition & hydration, starting out on MAWHIBA). Each is 5 lessons + a 5-question quiz; ≥ 4 earns a badge shown on the profile and CV. The "Coaching inclusif" badge also unlocks inclusive offers. The modules ship with the schema (`*_formations.sql`).
+
+**Monthly event.** The home page shows the next "Matinée MAWHIBA" with spots left. Clients and coaches register in one click (free, capacity enforced in SQL under a row lock); visitors are sent to login and back. Admins publish events in `/admin/events`.
 
 **Admin.** `/admin/coaches` verifies new coaches (proofs open via signed URLs) and reviews palmarès & certifications.
 
 ### What the seed creates
 
 - 16 verified coaches (1–3 offers each, 14 days of slots), 3 unverified coaches with pending proofs (`*@coach.mawhiba.tn`)
-- 6 clients (`*.client@mawhiba.tn`), 20 past completed bookings with reviews and ledger entries
+- 6 clients (`*.client@mawhiba.tn`), 20 past completed bookings with reviews and payments; upcoming paid bookings and one refund for the demo accounts
 - 6 open requests, including the demo client's "Coach de natation pour mon fils autiste (8 ans)" with proposals from Amira (45, in budget) and Karim (55, over budget)
-- the inclusive-coaching module
+- formation badges for some coaches
 
 ---
 
@@ -133,6 +135,8 @@ Stop the database with `npm run db:stop`. Your data is kept between restarts.
 
 Before committing: `npm run lint && npm run typecheck && npm run test && npm run build`. `tests/money.test.ts` also checks the SQL money functions when `.env.local` points to a running database.
 
+`npm run test:scenarios` runs end-to-end scenarios (booking, refunds, requests/proposals, roles and privacy) against the local Supabase, signed in as real users. Each run creates throwaway accounts and deletes them afterwards; the demo data is untouched.
+
 ---
 
 ## How it works
@@ -140,21 +144,20 @@ Before committing: `npm run lint && npm run typecheck && npm run test && npm run
 ### Business rules
 
 - **Money is integers only.** A booking costs `price + 2` (the Star insurance fee). On completion: `coach = floor(price × 0.85)`, `platform = price − coach`, `Star = 2`. Example: 45 → client pays 47, coach gets 38, platform 7, Star 2.
-- **Wallet = append-only ledger** (`wallet_tx`). Balance = `sum(amount)`, and there is no balance column. The system accounts are `PLATFORM` and `STAR_INSURANCE`.
-- **Escrow.** Booking immediately debits `price + fee` (`booking_hold`). A decline or cancellation refunds it in full. Payouts happen only on completion.
+- **Direct payment, one per session.** `start_checkout` (or `start_proposal_checkout`) creates a `payments` row that holds the slot for 15 minutes (expiry computed on read). The gateway confirms it through `confirm_payment`, which only the service role can call (the Konnect webhook; today the mock gateway). Success creates the booking; if the slot or request was lost meanwhile the payment is refunded instead. Repeated confirmations are idempotent.
+- **Refunds.** A decline or cancellation marks the payment `refunded`. Coach earnings are derived from completed bookings (`my_earnings`), never stored; payouts to coaches happen outside the app.
 - **Booking states:** `pending → confirmed → completed`, `pending → declined`, `pending|confirmed → cancelled` (client, before start). Clients complete after the start time; admins can force-complete.
-- **Withdrawals** must be covered by `balance − pending withdrawals`. Admin approval writes the debit.
 - **Visibility:** only `verified` coaches appear in search and on public pages.
 - **Offers:** max 6 active per coach. "Inclusive" offers require the badge (DB trigger). `coach_profiles.price_per_session` is kept in sync with the cheapest active offer ("à partir de"). Coaches with active offers are booked through an offer; coaches without offers keep direct booking. A booked offer can only be deactivated.
 - **Requests:** max 3 open per client. They expire 14 days after creation, computed on read (no cron). Coaches see requests only through the `request_board` view (first name + city, no contact details). Phone numbers and e-mails are rejected in SQL (`has_contact_info`), mirrored in `src/lib/contact-info.ts`.
-- **Proposals:** one active per coach per request, on one of the coach's future free slots, withdrawable while pending. `accept_proposal` runs in one transaction: it checks the slot and balance, creates a **confirmed** booking at the proposal price, holds `price + 2`, books the slot, rejects the other proposals and fulfils the request.
+- **Proposals:** one active per coach per request, on one of the coach's future free slots, withdrawable while pending. Accepting means paying: once the payment is confirmed, one transaction creates a **confirmed** booking at the proposal price, books the slot, rejects the other proposals and fulfils the request.
 - **Certification:** scoring happens in SQL (`submit_quiz`). The answer key (`certifications.answer_key`) has no API privileges.
 
-All money logic lives in SQL RPCs (`supabase/migrations/*_functions.sql`): security definer, role check inside, row locks. `src/lib/money.ts` only mirrors the math for display and tests.
+All money logic lives in SQL RPCs (`supabase/migrations/*_functions.sql`, `*_direct_payments.sql`): security definer, role check inside, row locks. `src/lib/money.ts` only mirrors the math for display and tests.
 
 ### Security
 
-- RLS on every table, with explicit table/column grants. `wallet_tx`, `bookings` and `withdrawals` are read-only to users, so every write goes through an RPC.
+- RLS on every table, with explicit table/column grants. `bookings` and `payments` are read-only to users, so every write goes through an RPC.
 - `profiles.role` and `coach_profiles.verified` can't be changed by users, and `admin` can't come from signup.
 - Storage: `avatars` is public read / owner write. `proofs` is private (owner + admin, signed URLs).
 
@@ -180,7 +183,7 @@ messages/fr.json     every UI string (typed: a missing key fails tsc)
 - Lime is for highlights and CTAs **on purple**; never put lime text on light backgrounds.
 - Fonts: Montserrat 600 (headings, buttons), DM Sans 500 (body), Cairo (anything `lang="ar"`). Layouts use logical properties (`ms-`, `pe-`, `start-`), so they flip under `dir="rtl"`.
 - `src/features/cv/pdf/theme.ts` is the only file with hex colours (react-pdf and next/og can't read CSS variables). Keep it in sync with `globals.css`.
-- The logo is a text placeholder (`src/components/layout/logo.tsx`) until the official SVGs are added to `public/brand/`.
+- Logos live in `public/brand/` (horizontal and stacked, purple / lime / white / black). Brand fonts for the CV PDF are in `public/fonts/`.
 - `/dev/ui` (development only) shows every component and token.
 
 ### Choices made
@@ -191,4 +194,4 @@ messages/fr.json     every UI string (typed: a missing key fails tsc)
 - Proposal prices are pre-filled with the coach's cheapest matching offer, capped at the client's budget.
 - On mobile, "Profil" and "Formation" live in the user menu so the bottom bar keeps 6 items or fewer.
 - "Weekly" slot creation publishes the slot plus the same time on the next 2 weeks.
-- Time zone is `Africa/Tunis`. Flouci payment is a mock that credits through `topup_wallet`.
+- Time zone is `Africa/Tunis`. Konnect is mocked (`src/lib/payments/konnect.ts`) while `KONNECT_API_KEY` is unset; the real integration only needs `initPayment` and a webhook route calling `confirm_payment`.

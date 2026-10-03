@@ -5,9 +5,8 @@ import { AppHeader } from "@/components/layout/app-header";
 import { Logo } from "@/components/layout/logo";
 import { NavLink } from "@/components/layout/nav-link";
 
-export async function AppShell({ user, balance, requestsCount, children }: {
+export async function AppShell({ user, requestsCount, children }: {
   user: CurrentUser;
-  balance: number | null;
   requestsCount: number;
   children: React.ReactNode;
 }) {
@@ -28,7 +27,7 @@ export async function AppShell({ user, balance, requestsCount, children }: {
         </nav>
       </aside>
       <div className="flex min-w-0 flex-col">
-        <AppHeader user={user} balance={balance} />
+        <AppHeader user={user} />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-6 pb-24 md:px-8 md:pt-8 md:pb-10">{children}</main>
       </div>
       <nav className="fixed inset-x-0 bottom-0 z-40 flex border-t bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">

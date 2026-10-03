@@ -259,6 +259,50 @@ isOneToOne: false
       referencedColumns: ["user_id"]
     }
                   ]
+                },"event_registrations": {
+                  Row: {
+                    "created_at": string,"event_id": string,"user_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"event_id": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"event_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "event_registrations_event_id_fkey"
+      columns: ["event_id"]
+isOneToOne: false
+      referencedRelation: "events"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "event_registrations_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "event_registrations_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"events": {
+                  Row: {
+                    "capacity": number,"created_at": string,"description": string,"ends_at": string,"id": string,"location": string,"registered": number,"starts_at": string,"title": string
+                  }
+                  Insert: {
+                    "capacity": number,"created_at"?: string,"description"?: string,"ends_at": string,"id"?: string,"location": string,"registered"?: number,"starts_at": string,"title": string
+                  }
+                  Update: {
+                    "capacity"?: number,"created_at"?: string,"description"?: string,"ends_at"?: string,"id"?: string,"location"?: string,"registered"?: number,"starts_at"?: string,"title"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"external_certifications": {
                   Row: {
                     "coach_id": string,"created_at": string,"file_path": string | null,"id": string,"issuer": string,"title": string,"verified": boolean,"year": number
@@ -307,6 +351,55 @@ isOneToOne: false
 isOneToOne: false
       referencedRelation: "coach_profiles"
       referencedColumns: ["user_id"]
+    }
+                  ]
+                },"payments": {
+                  Row: {
+                    "amount": number,"booking_id": string | null,"client_id": string,"created_at": string,"expires_at": string,"id": string,"insurance_fee": number,"note": string | null,"offer_id": string | null,"paid_at": string | null,"price": number,"proposal_id": string | null,"provider": string,"provider_ref": string | null,"refunded_at": string | null,"slot_id": string,"status": Database["public"]['Enums']["payment_status"]
+                  }
+                  Insert: {
+                    "amount"?: never,"booking_id"?: string | null,"client_id": string,"created_at"?: string,"expires_at"?: string,"id"?: string,"insurance_fee": number,"note"?: string | null,"offer_id"?: string | null,"paid_at"?: string | null,"price": number,"proposal_id"?: string | null,"provider"?: string,"provider_ref"?: string | null,"refunded_at"?: string | null,"slot_id": string,"status"?: Database["public"]['Enums']["payment_status"]
+                  }
+                  Update: {
+                    "amount"?: never,"booking_id"?: string | null,"client_id"?: string,"created_at"?: string,"expires_at"?: string,"id"?: string,"insurance_fee"?: number,"note"?: string | null,"offer_id"?: string | null,"paid_at"?: string | null,"price"?: number,"proposal_id"?: string | null,"provider"?: string,"provider_ref"?: string | null,"refunded_at"?: string | null,"slot_id"?: string,"status"?: Database["public"]['Enums']["payment_status"]
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "payments_booking_id_fkey"
+      columns: ["booking_id"]
+isOneToOne: true
+      referencedRelation: "bookings"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "payments_client_id_fkey"
+      columns: ["client_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "payments_client_id_fkey"
+      columns: ["client_id"]
+isOneToOne: false
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "payments_offer_id_fkey"
+      columns: ["offer_id"]
+isOneToOne: false
+      referencedRelation: "offers"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "payments_proposal_id_fkey"
+      columns: ["proposal_id"]
+isOneToOne: false
+      referencedRelation: "proposals"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "payments_slot_id_fkey"
+      columns: ["slot_id"]
+isOneToOne: false
+      referencedRelation: "slots"
+      referencedColumns: ["id"]
     }
                   ]
                 },"profiles": {
@@ -458,62 +551,6 @@ isOneToOne: false
       referencedColumns: ["user_id"]
     }
                   ]
-                },"wallet_tx": {
-                  Row: {
-                    "amount": number,"booking_id": string | null,"created_at": string,"id": string,"meta": NonNullable<Json>,"owner_id": string | null,"system_account": string | null,"type": Database["public"]['Enums']["tx_type"]
-                  }
-                  Insert: {
-                    "amount": number,"booking_id"?: string | null,"created_at"?: string,"id"?: string,"meta"?: NonNullable<Json>,"owner_id"?: string | null,"system_account"?: string | null,"type": Database["public"]['Enums']["tx_type"]
-                  }
-                  Update: {
-                    "amount"?: number,"booking_id"?: string | null,"created_at"?: string,"id"?: string,"meta"?: NonNullable<Json>,"owner_id"?: string | null,"system_account"?: string | null,"type"?: Database["public"]['Enums']["tx_type"]
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "wallet_tx_booking_id_fkey"
-      columns: ["booking_id"]
-isOneToOne: false
-      referencedRelation: "bookings"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "wallet_tx_owner_id_fkey"
-      columns: ["owner_id"]
-isOneToOne: false
-      referencedRelation: "profiles"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "wallet_tx_owner_id_fkey"
-      columns: ["owner_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
-    }
-                  ]
-                },"withdrawals": {
-                  Row: {
-                    "amount": number,"coach_id": string,"created_at": string,"id": string,"processed_at": string | null,"status": Database["public"]['Enums']["withdrawal_status"]
-                  }
-                  Insert: {
-                    "amount": number,"coach_id": string,"created_at"?: string,"id"?: string,"processed_at"?: string | null,"status"?: Database["public"]['Enums']["withdrawal_status"]
-                  }
-                  Update: {
-                    "amount"?: number,"coach_id"?: string,"created_at"?: string,"id"?: string,"processed_at"?: string | null,"status"?: Database["public"]['Enums']["withdrawal_status"]
-                  }
-                  Relationships: [
-                    {
-      foreignKeyName: "withdrawals_coach_id_fkey"
-      columns: ["coach_id"]
-isOneToOne: false
-      referencedRelation: "profiles"
-      referencedColumns: ["id"]
-    },{
-      foreignKeyName: "withdrawals_coach_id_fkey"
-      columns: ["coach_id"]
-isOneToOne: false
-      referencedRelation: "public_profiles"
-      referencedColumns: ["id"]
-    }
-                  ]
                 }
           }
           Views: {
@@ -559,26 +596,20 @@ isOneToOne: true
                 }
           }
           Functions: {
-            "_balance":
-{ Args: { "p_uid": string }; Returns: number
-                           },
-"_lock_wallet":
+            "_lock_wallet":
 { Args: { "p_uid": string }; Returns: undefined
                            },
 "_refund_booking":
 { Args: { "p_booking": Database["public"]['Tables']["bookings"]['Row'],"p_status": Database["public"]['Enums']["booking_status"] }; Returns: undefined
                            },
-"accept_proposal":
-{ Args: { "proposal_id": string }; Returns: string
+"_slot_held":
+{ Args: { "p_client": string,"p_slot": string }; Returns: boolean
                            },
-"admin_credit":
-{ Args: { "amount": number,"reason": string,"user_id": string }; Returns: undefined
+"admin_create_event":
+{ Args: { "capacity": number,"description": string,"ends_at": string,"location": string,"starts_at": string,"title": string }; Returns: string
                            },
 "admin_metrics":
 { Args: Record<PropertyKey, never>; Returns: Json
-                           },
-"admin_process_withdrawal":
-{ Args: { "approve": boolean,"id": string }; Returns: undefined
                            },
 "admin_set_coach_verified":
 { Args: { "coach_id": string,"verified": boolean }; Returns: undefined
@@ -595,9 +626,6 @@ isOneToOne: true
 "auth_role":
 { Args: Record<PropertyKey, never>; Returns: Database["public"]['Enums']["user_role"]
                            },
-"book_slot":
-{ Args: { "note"?: string,"offer_id"?: string,"slot_id": string }; Returns: string
-                           },
 "cancel_booking":
 { Args: { "booking_id": string }; Returns: undefined
                            },
@@ -612,6 +640,9 @@ isOneToOne: true
                            },
 "complete_booking":
 { Args: { "booking_id": string }; Returns: undefined
+                           },
+"confirm_payment":
+{ Args: { "payment_id": string,"provider_ref"?: string,"success": boolean }; Returns: string
                            },
 "consume_ai_bio_quota":
 { Args: Record<PropertyKey, never>; Returns: boolean
@@ -637,8 +668,11 @@ isOneToOne: true
 "is_verified_coach":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
-"request_withdrawal":
-{ Args: { "amount": number }; Returns: string
+"my_earnings":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"register_event":
+{ Args: { "event_id": string }; Returns: undefined
                            },
 "respond_booking":
 { Args: { "accept": boolean,"booking_id": string }; Returns: undefined
@@ -651,24 +685,27 @@ isOneToOne: true
               "coach": number,"platform": number,"star": number,"total": number
             }[]
                            },
+"start_checkout":
+{ Args: { "note"?: string,"offer_id"?: string,"slot_id": string }; Returns: string
+                           },
+"start_proposal_checkout":
+{ Args: { "proposal_id": string }; Returns: string
+                           },
 "submit_quiz":
 { Args: { "answers": Json,"slug": string }; Returns: Json
-                           },
-"topup_wallet":
-{ Args: { "pack_id": string }; Returns: number
                            },
 "unique_coach_slug":
 { Args: { "p_coach": string,"p_name": string }; Returns: string
                            },
-"wallet_balance":
-{ Args: { "uid": string }; Returns: number
+"unregister_event":
+{ Args: { "event_id": string }; Returns: undefined
                            },
 "withdraw_proposal":
 { Args: { "proposal_id": string }; Returns: undefined
                            }
           }
           Enums: {
-            "achievement_level": "local"|"regional"|"national"|"international"|"olympique","athlete_status": "actif"|"retraite"|"amateur","booking_status": "pending"|"confirmed"|"declined"|"cancelled"|"completed","offer_audience": "enfants"|"adultes"|"tous","proposal_status": "pending"|"accepted"|"rejected"|"withdrawn","request_audience": "enfant"|"adulte","request_status": "open"|"fulfilled"|"closed"|"expired","skill_level": "debutant"|"intermediaire"|"avance","tx_type": "topup"|"booking_hold"|"booking_refund"|"coach_payout"|"commission"|"insurance"|"withdrawal"|"admin_credit","user_role": "client"|"coach"|"admin","withdrawal_status": "pending"|"paid"|"rejected"
+            "achievement_level": "local"|"regional"|"national"|"international"|"olympique","athlete_status": "actif"|"retraite"|"amateur","booking_status": "pending"|"confirmed"|"declined"|"cancelled"|"completed","offer_audience": "enfants"|"adultes"|"tous","payment_status": "pending"|"paid"|"failed"|"refunded","proposal_status": "pending"|"accepted"|"rejected"|"withdrawn","request_audience": "enfant"|"adulte","request_status": "open"|"fulfilled"|"closed"|"expired","skill_level": "debutant"|"intermediaire"|"avance","user_role": "client"|"coach"|"admin"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -788,7 +825,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "achievement_level": ["local", "regional", "national", "international", "olympique"],"athlete_status": ["actif", "retraite", "amateur"],"booking_status": ["pending", "confirmed", "declined", "cancelled", "completed"],"offer_audience": ["enfants", "adultes", "tous"],"proposal_status": ["pending", "accepted", "rejected", "withdrawn"],"request_audience": ["enfant", "adulte"],"request_status": ["open", "fulfilled", "closed", "expired"],"skill_level": ["debutant", "intermediaire", "avance"],"tx_type": ["topup", "booking_hold", "booking_refund", "coach_payout", "commission", "insurance", "withdrawal", "admin_credit"],"user_role": ["client", "coach", "admin"],"withdrawal_status": ["pending", "paid", "rejected"]
+            "achievement_level": ["local", "regional", "national", "international", "olympique"],"athlete_status": ["actif", "retraite", "amateur"],"booking_status": ["pending", "confirmed", "declined", "cancelled", "completed"],"offer_audience": ["enfants", "adultes", "tous"],"payment_status": ["pending", "paid", "failed", "refunded"],"proposal_status": ["pending", "accepted", "rejected", "withdrawn"],"request_audience": ["enfant", "adulte"],"request_status": ["open", "fulfilled", "closed", "expired"],"skill_level": ["debutant", "intermediaire", "avance"],"user_role": ["client", "coach", "admin"]
           }
         }
 } as const

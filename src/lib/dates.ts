@@ -35,3 +35,8 @@ export function formatMonthYear(date: string | Date) {
 export function formatLongDate(date: string | Date) {
   return format(new Date(date), "d MMMM yyyy", { locale: fr, in: inTz });
 }
+
+/** "12" and "oct." for calendar-style date blocks. */
+export function formatDateBlock(date: string | Date) {
+  return { day: format(new Date(date), "d", { in: inTz }), month: format(new Date(date), "MMM", { locale: fr, in: inTz }) };
+}
