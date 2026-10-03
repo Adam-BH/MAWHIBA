@@ -67,7 +67,7 @@ export default async function CoachPage({ params, searchParams }: Props) {
         <div className="-mt-20 flex flex-col gap-4 px-2 sm:px-6 md:flex-row md:items-end">
           <AthleteCard card={card} className="w-full md:w-96" />
           <div className="flex flex-wrap gap-2 md:pb-2">
-            <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90"><a href="#disponibilites"><CalendarCheck />{tp("book")}</a></Button>
+            <Button asChild size="lg"><a href="#disponibilites"><CalendarCheck />{tp("book")}</a></Button>
             {coach.cv_public && <Button asChild size="lg" variant="outline"><Link href={`/cv/${coach.slug}`}><FileText />{tp("seeCv")}</Link></Button>}
             <ShareButtons url={profileUrl} text={tp("shareText", { name: coach.profile.full_name })} />
           </div>

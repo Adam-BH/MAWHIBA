@@ -71,8 +71,7 @@ export default async function DevUiPage() {
       </Section>
       <Section title={t("buttons")}>
         <div className="flex flex-wrap gap-2">
-          {(["default", "secondary", "outline", "ghost", "destructive", "link"] as const).map((v) => <Button key={v} variant={v}>{v}</Button>)}
-          <Button className="bg-accent text-accent-foreground hover:bg-accent/90">accent</Button>
+          {(["default", "accent", "secondary", "outline", "ghost", "destructive", "link"] as const).map((v) => <Button key={v} variant={v}>{v}</Button>)}
           <Button disabled>disabled</Button>
         </div>
       </Section>

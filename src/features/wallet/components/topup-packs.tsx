@@ -58,7 +58,7 @@ export function TopupPacks() {
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setSelected(null)}>{t("cancel")}</Button>
-            <Button disabled={pending} onClick={pay} className="bg-accent text-accent-foreground hover:bg-accent/90">{t("pay")}</Button>
+            <Button disabled={pending} onClick={pay}>{t("pay")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

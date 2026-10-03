@@ -27,11 +27,11 @@ export function NavLink({ href, icon, label, variant, count = 0 }: {
   if (variant === "bottom") {
     return (
       <Link href={href} aria-current={active ? "page" : undefined}
-        className={cn("flex min-w-0 flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-medium",
+        className={cn("flex min-w-0 flex-1 flex-col items-center gap-0.5 py-2 text-[10px] font-semibold",
           active ? "text-primary" : "text-muted-foreground")}>
-        <span className="relative">
-          <Icon className={cn("size-5", active && "text-accent")} />
-          {count > 0 && <CountBadge count={count} className="absolute -top-1.5 -right-2.5" />}
+        <span className={cn("relative rounded-full px-4 py-1 transition-colors duration-200 ease-out", active && "bg-secondary")}>
+          <Icon className="size-5" />
+          {count > 0 && <CountBadge count={count} className="absolute -top-1 end-1" />}
         </span>
         <span className="w-full truncate text-center">{label}</span>
       </Link>
@@ -39,18 +39,18 @@ export function NavLink({ href, icon, label, variant, count = 0 }: {
   }
   return (
     <Link href={href} aria-current={active ? "page" : undefined}
-      className={cn("flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-        active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground")}>
-      <Icon className="size-4" />
+      className={cn("flex items-center gap-3 rounded-full px-4 py-2.5 text-sm font-semibold transition-colors duration-200 ease-out",
+        active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-primary")}>
+      <Icon className={cn("size-4", active && "text-accent")} />
       {label}
-      {count > 0 && <CountBadge count={count} className="ml-auto" />}
+      {count > 0 && <CountBadge count={count} className="ms-auto" />}
     </Link>
   );
 }
 
 function CountBadge({ count, className }: { count: number; className?: string }) {
   return (
-    <span className={cn("min-w-4 rounded-full bg-accent px-1 text-center text-[10px] leading-4 font-semibold text-accent-foreground", className)}>
+    <span className={cn("min-w-4 rounded-full bg-accent px-1 text-center text-[10px] leading-4 font-semibold text-accent-foreground ring-2 ring-card", className)}>
       {count > 9 ? "9+" : count}
     </span>
   );

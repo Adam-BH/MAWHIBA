@@ -11,17 +11,17 @@ export function StatCard({ icon: Icon, label, value, hint, tone = "primary" }: {
 }) {
   const tones = {
     primary: "bg-secondary text-primary",
-    accent: "bg-accent/15 text-accent-foreground",
+    accent: "bg-accent text-accent-foreground",
     success: "bg-success/15 text-success",
     warning: "bg-warning/20 text-warning-foreground",
   };
   return (
     <Card>
       <CardContent className="flex items-center gap-4">
-        <div className={cn("rounded-lg p-2.5", tones[tone])}><Icon className="size-5" /></div>
+        <div className={cn("rounded-2xl p-3", tones[tone])}><Icon className="size-5" /></div>
         <div className="min-w-0">
           <p className="text-sm text-muted-foreground">{label}</p>
-          <p className="text-xl font-semibold">{value}</p>
+          <p className="font-display text-xl font-semibold">{value}</p>
           {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
         </div>
       </CardContent>

@@ -80,7 +80,7 @@ export function StepPublish() {
       </Label>
       <p className="-mt-3 text-xs text-muted-foreground">{t("publicHint")}</p>
       {links}
-      <SubmitButton pending={pending} size="lg" className="h-11 justify-self-start bg-accent px-6 text-accent-foreground hover:bg-accent/90"><Rocket />{t("publish")}</SubmitButton>
+      <SubmitButton pending={pending} size="lg" className="justify-self-start"><Rocket />{t("publish")}</SubmitButton>
     </form>
   );
 }

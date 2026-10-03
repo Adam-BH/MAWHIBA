@@ -26,7 +26,7 @@ export async function ClientRequestsWidget({ userId }: { userId: string }) {
   return (
     <WidgetShell title={t("clientTitle")} cta={<Button asChild size="sm" variant="outline"><Link href={open.length ? "/requests" : "/requests/new"}>{open.length ? t("see") : t("post")}</Link></Button>}>
       <p>{t("openCount", { count: open.length })}</p>
-      {newProposals > 0 && <p className="font-semibold text-accent-foreground">{t("newProposals", { count: newProposals })}</p>}
+      {newProposals > 0 && <p className="font-semibold text-primary">{t("newProposals", { count: newProposals })}</p>}
       {open.length === 0 && <p className="text-muted-foreground">{t("clientHint")}</p>}
     </WidgetShell>
   );

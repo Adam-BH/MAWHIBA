@@ -26,8 +26,8 @@ export function OfferCard({ offer, href, selected, footer, coachLine }: {
 }) {
   const t = useTranslations("offers");
   const body = (
-    <div className={cn("flex h-full flex-col gap-2 rounded-xl border bg-card p-4 transition-colors",
-      selected && "border-primary ring-2 ring-primary/20", href && "hover:border-primary/50",
+    <div className={cn("flex h-full flex-col gap-2 rounded-3xl border bg-card p-5",
+      selected && "border-primary ring-2 ring-primary/20", href && "lift hover:border-primary/50",
       offer.is_active === false && "opacity-60")}>
       {coachLine}
       <div className="flex items-start justify-between gap-3">

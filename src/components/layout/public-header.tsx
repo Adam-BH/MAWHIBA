@@ -7,10 +7,10 @@ import { getCurrentUser } from "@/lib/auth";
 export async function PublicHeader() {
   const [t, user] = await Promise.all([getTranslations("nav"), getCurrentUser()]);
   return (
-    <header className="sticky top-0 z-30 border-b bg-card/95 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4">
+    <header className="sticky top-0 z-30 border-b bg-background/85 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-4">
         <Logo />
-        <nav className="ml-auto flex items-center gap-1">
+        <nav className="ms-auto flex items-center gap-1">
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link href="/coaches">{t("findCoach")}</Link></Button>
           <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link href="/explore/offers">{t("exploreOffers")}</Link></Button>
           {user ? (
@@ -18,7 +18,7 @@ export async function PublicHeader() {
           ) : (
             <>
               <Button asChild variant="ghost" size="sm"><Link href="/login">{t("login")}</Link></Button>
-              <Button asChild size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90"><Link href="/signup">{t("signup")}</Link></Button>
+              <Button asChild size="sm"><Link href="/signup">{t("signup")}</Link></Button>
             </>
           )}
         </nav>

@@ -26,7 +26,7 @@ export function ReviewDialog({ bookingId, coachName }: { bookingId: string; coac
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild><Button size="sm" className="bg-accent text-accent-foreground hover:bg-accent/90"><Star />{t("leave")}</Button></DialogTrigger>
+      <DialogTrigger asChild><Button size="sm"><Star />{t("leave")}</Button></DialogTrigger>
       <DialogContent>
         <form onSubmit={submit} className="grid gap-4">
           <DialogHeader>

@@ -22,7 +22,7 @@ export function AthleteCard({ card, variant = "full", className }: { card: Athle
       className={cn(
         "relative overflow-hidden text-primary-foreground shadow-lg",
         "bg-[linear-gradient(150deg,var(--card-from)_0%,var(--primary)_75%)]",
-        compact ? "rounded-2xl p-4" : "rounded-3xl p-6",
+        compact ? "rounded-3xl p-4" : "rounded-4xl p-6",
         className,
       )}
       style={{ "--card-from": `var(--sport-${sportFamily(card.sport)})` } as React.CSSProperties}

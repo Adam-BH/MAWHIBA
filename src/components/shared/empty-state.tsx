@@ -7,9 +7,9 @@ export function EmptyState({ icon: Icon, title, description, action }: {
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed bg-card px-6 py-10 text-center">
-      <div className="rounded-full bg-muted p-3 text-muted-foreground"><Icon className="size-6" /></div>
-      <p className="font-medium">{title}</p>
+    <div className="flex flex-col items-center gap-3 rounded-4xl border border-dashed border-primary/25 bg-card px-6 py-12 text-center animate-in fade-in-0 duration-300">
+      <div className="rounded-full bg-secondary p-4 text-primary"><Icon className="size-6" /></div>
+      <p className="font-display font-semibold">{title}</p>
       {description && <p className="max-w-sm text-sm text-muted-foreground">{description}</p>}
       {action}
     </div>

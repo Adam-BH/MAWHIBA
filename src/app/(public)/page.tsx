@@ -16,16 +16,16 @@ export default async function LandingPage() {
 
   return (
     <div className="flex flex-col gap-14">
-      <section className="relative overflow-hidden rounded-3xl bg-primary px-6 py-12 text-primary-foreground sm:px-12 sm:py-16">
+      <section className="relative overflow-hidden rounded-4xl bg-primary px-6 [--ring:var(--accent)] py-12 text-primary-foreground sm:px-12 sm:py-16">
         <div className="absolute -top-16 -right-16 size-64 rounded-full bg-accent/30 blur-3xl" aria-hidden />
         <p className="mb-3 text-sm font-semibold tracking-wide text-accent uppercase">{t("eyebrow")}</p>
         <h1 className="max-w-2xl text-4xl font-semibold sm:text-5xl">{t("heroTitle")}</h1>
         <p className="mt-4 max-w-xl text-primary-foreground/80">{t("heroText")}</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button asChild size="lg" className="h-11 bg-accent px-5 text-accent-foreground hover:bg-accent/90">
+          <Button asChild size="lg" variant="accent">
             <Link href="/signup?role=client">{t("ctaClient")}</Link>
           </Button>
-          <Button asChild size="lg" variant="outline" className="h-11 border-primary-foreground/40 bg-transparent px-5 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+          <Button asChild size="lg" variant="outline" className="border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
             <Link href="/signup?role=coach">{t("ctaCoach")}</Link>
           </Button>
         </div>
@@ -35,7 +35,7 @@ export default async function LandingPage() {
         <h2 className="mb-6 text-2xl font-semibold">{t("howTitle")}</h2>
         <ol className="grid gap-4 sm:grid-cols-3">
           {steps.map(({ icon: Icon, title, text }, i) => (
-            <li key={title} className="rounded-2xl border bg-card p-5">
+            <li key={title} className="rounded-4xl border bg-card p-6">
               <div className="mb-3 flex items-center gap-3">
                 <span className="flex size-8 items-center justify-center rounded-full bg-accent font-semibold text-accent-foreground">{i + 1}</span>
                 <Icon className="size-5 text-primary" />

@@ -40,10 +40,10 @@ export function RequestCard({ request, href, footer, detailed = false, highlight
   const title = href ? <Link href={href} className="after:absolute after:inset-0 hover:underline">{request.title}</Link> : request.title;
 
   return (
-    <article className={cn("relative flex flex-col gap-3 rounded-xl border bg-card p-4", href && "transition-shadow hover:shadow-md")}>
+    <article className={cn("relative flex flex-col gap-3 rounded-3xl border bg-card p-5", href && "lift hover:border-primary/40")}>
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="text-sm font-medium text-accent-foreground">{request.sport}</p>
+          <p className="text-sm font-semibold text-primary">{request.sport}</p>
           <h3 className="font-semibold">{title}</h3>
         </div>
         {request.status && request.status !== "open" ? <StatusBadge status={request.status} /> : highlight}

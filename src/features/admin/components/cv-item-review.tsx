@@ -19,7 +19,7 @@ export function CvItemReview({ kind, id, title, subtitle, coach, proofUrl }: {
   return (
     <li className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
       <div className="min-w-0 flex-1">
-        <p className="text-xs font-medium text-accent-foreground">{t(kind)} · {coach}</p>
+        <p className="text-xs font-semibold text-primary">{t(kind)} · {coach}</p>
         <p className="font-medium">{title}</p>
         <p className="text-sm text-muted-foreground">{subtitle}</p>
       </div>

@@ -38,8 +38,8 @@ export function ChipToggleGroup({ options, value, onChange, max, label = (o) => 
           const on = value.includes(option);
           return (
             <button key={option} type="button" aria-pressed={on} disabled={!on && full} onClick={() => toggle(option)}
-              className={cn("rounded-full border px-3 py-1.5 text-sm transition-colors disabled:opacity-40",
-                on ? "border-primary bg-primary text-primary-foreground" : "bg-card hover:bg-muted")}>
+              className={cn("rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors duration-200 ease-out disabled:opacity-40",
+                on ? "border-primary bg-primary text-primary-foreground" : "bg-card hover:border-primary/50 hover:bg-secondary hover:text-primary")}>
               {label(option)}
             </button>
           );
