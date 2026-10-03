@@ -27,13 +27,13 @@ export default async function AdminCoachesPage({ searchParams }: { searchParams:
         </TabsList>
         <TabsContent value="coaches">
           <section className="mb-8">
-            <h2 className="mb-3 text-xl font-bold">{t("queue", { count: queue.length })}</h2>
+            <h2 className="mb-3 text-xl font-semibold">{t("queue", { count: queue.length })}</h2>
             {queue.length === 0 ? <EmptyState icon={BadgeCheck} title={t("queueEmpty")} /> : (
               <ul className="divide-y rounded-xl border bg-card">{queue.map((c) => <CoachAdminRow key={c.user_id} coach={c} />)}</ul>
             )}
           </section>
           <section>
-            <h2 className="mb-3 text-xl font-bold">{t("all", { count: others.length })}</h2>
+            <h2 className="mb-3 text-xl font-semibold">{t("all", { count: others.length })}</h2>
             <ul className="divide-y rounded-xl border bg-card">{others.map((c) => <CoachAdminRow key={c.user_id} coach={c} />)}</ul>
           </section>
         </TabsContent>

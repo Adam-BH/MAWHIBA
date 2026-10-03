@@ -37,7 +37,7 @@ export function AthleteCard({ card, variant = "full", className }: { card: Athle
         <UserAvatar name={card.name} src={card.avatarUrl}
           className={cn("ring-4 ring-primary-foreground/30", compact ? "size-14" : "size-28 text-2xl")} />
         <div className="min-w-0">
-          <p className={cn("font-display font-extrabold tracking-tight", compact ? "truncate text-lg" : "text-2xl")}>{card.name || t("yourName")}</p>
+          <p className={cn("font-display font-semibold tracking-tight", compact ? "truncate text-lg" : "text-2xl")}>{card.name || t("yourName")}</p>
           <p className="flex items-center gap-1 text-sm text-primary-foreground/80 max-sm:flex-wrap" >
             {card.sport ?? t("sport")}
             {card.city && <><span aria-hidden>·</span><MapPin className="size-3.5" />{card.city}</>}
@@ -49,7 +49,7 @@ export function AthleteCard({ card, variant = "full", className }: { card: Athle
       <dl className={cn("grid grid-cols-3 gap-2", compact ? "mt-3" : "mt-5")}>
         {stats.map((s) => (
           <div key={s.label} className="rounded-xl bg-primary-foreground/10 px-2 py-1.5 text-center">
-            <dd className={cn("font-display font-bold", compact ? "text-base" : "text-xl")}>
+            <dd className={cn("font-display font-semibold", compact ? "text-base" : "text-xl")}>
               {s.label === t("rating") && card.ratingCount > 0 && <Star className="mr-0.5 mb-0.5 inline size-3.5 fill-accent text-accent" />}
               {s.value}
             </dd>

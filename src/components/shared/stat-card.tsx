@@ -21,7 +21,7 @@ export function StatCard({ icon: Icon, label, value, hint, tone = "primary" }: {
         <div className={cn("rounded-lg p-2.5", tones[tone])}><Icon className="size-5" /></div>
         <div className="min-w-0">
           <p className="text-sm text-muted-foreground">{label}</p>
-          <p className="text-xl font-bold">{value}</p>
+          <p className="text-xl font-semibold">{value}</p>
           {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
         </div>
       </CardContent>

@@ -24,7 +24,7 @@ export async function ClientRequestDetail({ requestId, userId }: { requestId: st
       <Button asChild variant="ghost" className="self-start"><Link href="/requests"><ArrowLeft />{t("back")}</Link></Button>
       <RequestCard detailed request={{ ...request, status }} footer={status === "open" ? <CloseRequestButton requestId={request.id} size="sm" /> : undefined} />
       <section>
-        <h2 className="mb-3 text-xl font-bold">{t("proposalsTitle", { count: request.proposals.length })}</h2>
+        <h2 className="mb-3 text-xl font-semibold">{t("proposalsTitle", { count: request.proposals.length })}</h2>
         {request.proposals.length === 0 ? (
           <EmptyState icon={Hourglass} title={t("noProposals")} description={t("noProposalsHint")} />
         ) : (

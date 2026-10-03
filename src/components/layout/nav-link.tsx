@@ -50,7 +50,7 @@ export function NavLink({ href, icon, label, variant, count = 0 }: {
 
 function CountBadge({ count, className }: { count: number; className?: string }) {
   return (
-    <span className={cn("min-w-4 rounded-full bg-accent px-1 text-center text-[10px] leading-4 font-bold text-accent-foreground", className)}>
+    <span className={cn("min-w-4 rounded-full bg-accent px-1 text-center text-[10px] leading-4 font-semibold text-accent-foreground", className)}>
       {count > 9 ? "9+" : count}
     </span>
   );

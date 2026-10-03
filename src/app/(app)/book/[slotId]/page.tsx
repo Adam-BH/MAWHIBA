@@ -67,7 +67,7 @@ export default async function BookPage({ params, searchParams }: {
           <dl className="grid gap-2 text-sm">
             <div className="flex justify-between gap-2"><dt>{offer?.title ?? t("session")}</dt><dd><Points value={price} /></dd></div>
             <div className="flex justify-between"><dt>{t("insurance")}</dt><dd><Points value={INSURANCE_FEE} /></dd></div>
-            <div className="flex justify-between border-t pt-2 text-base font-bold"><dt>{t("total")}</dt><dd><Points value={total} className="text-primary" /></dd></div>
+            <div className="flex justify-between border-t pt-2 text-base font-semibold"><dt>{t("total")}</dt><dd><Points value={total} className="text-primary" /></dd></div>
           </dl>
           <p className="rounded-lg bg-muted p-3 text-center text-sm font-medium">{t("summary", { price, fee: INSURANCE_FEE, total })}</p>
           {balance >= total && <p className="text-sm text-muted-foreground">{t("balanceLine", { balance, after: balance - total })}</p>}

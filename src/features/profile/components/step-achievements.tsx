@@ -74,7 +74,7 @@ export function StepAchievements() {
                 <GripVertical className="mt-1 size-4 shrink-0 cursor-grab text-muted-foreground max-sm:hidden" aria-hidden />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-display font-bold text-primary">{a.year}</span>
+                    <span className="font-display font-semibold text-primary">{a.year}</span>
                     <LevelChip level={a.level} />
                   </div>
                   <p className="font-medium">{a.title}{a.result && <span className="text-muted-foreground"> · {a.result}</span>}</p>

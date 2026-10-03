@@ -9,7 +9,7 @@ import { siteUrl } from "@/lib/storage-url";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="break-inside-avoid">
-      <h2 className="mb-2 border-b-2 border-accent pb-1 text-sm font-bold tracking-wider text-primary uppercase">{title}</h2>
+      <h2 className="mb-2 border-b-2 border-accent pb-1 text-sm font-semibold tracking-wider text-primary uppercase">{title}</h2>
       {children}
     </section>
   );
@@ -30,7 +30,7 @@ export function CvSheet({ coach, qr }: { coach: CoachFull; qr: string }) {
       <header className="flex flex-col gap-4 bg-primary p-6 text-primary-foreground sm:flex-row sm:items-center print:flex-row print:items-center">
         <UserAvatar name={coach.profile.full_name} src={coach.profile.avatar_url} className="size-24 ring-4 ring-primary-foreground/20" />
         <div className="min-w-0 flex-1">
-          <h1 className="text-3xl font-extrabold">{coach.profile.full_name}</h1>
+          <h1 className="text-3xl font-semibold">{coach.profile.full_name}</h1>
           {coach.tagline && <p className="mt-1 text-primary-foreground/85 italic">{coach.tagline}</p>}
           <p className="mt-2 flex flex-wrap items-center gap-2 text-sm">
             {[coach.primary_sport ?? coach.sports[0], coach.profile.city, coach.athlete_status && t(`status.${coach.athlete_status}`)].filter(Boolean).join(" · ")}
@@ -50,7 +50,7 @@ export function CvSheet({ coach, qr }: { coach: CoachFull; qr: string }) {
               <ul className="flex flex-col gap-2 text-sm">
                 {coach.achievements.map((a) => (
                   <li key={a.id} className="grid grid-cols-[3rem_1fr] gap-2">
-                    <span className="font-bold text-primary">{a.year}</span>
+                    <span className="font-semibold text-primary">{a.year}</span>
                     <span>
                       <span className="font-semibold">{a.title}</span>{a.result && ` — ${a.result}`}
                       {a.verified && <Verified label={t("verified")} />}

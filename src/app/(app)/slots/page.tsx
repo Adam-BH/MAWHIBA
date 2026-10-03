@@ -30,7 +30,7 @@ export default async function SlotsPage() {
           </CardContent>
         </Card>
         <section>
-          <h2 className="mb-3 text-xl font-bold">{t("upcoming", { count: slots.length })}</h2>
+          <h2 className="mb-3 text-xl font-semibold">{t("upcoming", { count: slots.length })}</h2>
           <SlotList slots={slots} />
         </section>
       </div>

@@ -56,7 +56,7 @@ export async function CoachDashboard({ user }: { user: CurrentUser }) {
       <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_320px]">
         <section>
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-xl font-bold">{t("upcoming")}</h2>
+            <h2 className="text-xl font-semibold">{t("upcoming")}</h2>
             <Button asChild variant="link"><Link href="/sessions">{t("seeAll")}</Link></Button>
           </div>
           {upcoming.length ? (

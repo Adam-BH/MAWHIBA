@@ -45,13 +45,13 @@ export default async function WalletPage() {
         </div>
       ) : (
         <section className="mb-8">
-          <h2 className="mb-3 text-xl font-bold">{t("topup.title")}</h2>
+          <h2 className="mb-3 text-xl font-semibold">{t("topup.title")}</h2>
           <TopupPacks />
         </section>
       )}
 
       <section>
-        <h2 className="mb-3 text-xl font-bold">{isCoach ? t("earningsHistory") : t("history")}</h2>
+        <h2 className="mb-3 text-xl font-semibold">{isCoach ? t("earningsHistory") : t("history")}</h2>
         <TxList transactions={transactions} />
       </section>
     </>

@@ -8,7 +8,7 @@ export default async function NotFound() {
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center gap-4 px-4 text-center">
       <Compass className="size-12 text-primary" />
-      <h1 className="text-3xl font-bold">{t("title")}</h1>
+      <h1 className="text-3xl font-semibold">{t("title")}</h1>
       <p className="max-w-md text-muted-foreground">{t("text")}</p>
       <Button asChild><Link href="/">{t("home")}</Link></Button>
     </div>

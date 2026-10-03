@@ -79,7 +79,7 @@ export default async function CoachPage({ params, searchParams }: Props) {
           <ProfileSections coach={coach} />
           {offers.length > 0 && (
             <section id="offres" className="scroll-mt-20">
-              <h2 className="mb-1 text-xl font-bold">{t("offers")}</h2>
+              <h2 className="mb-1 text-xl font-semibold">{t("offers")}</h2>
               <p className="mb-3 text-sm text-muted-foreground">{t("offersHint")}</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {offers.map((o) => <OfferCard key={o.id} offer={o} href={`/coaches/${coach.slug}?offer=${o.id}#offres`} selected={o.id === selected?.id} />)}
@@ -87,7 +87,7 @@ export default async function CoachPage({ params, searchParams }: Props) {
             </section>
           )}
           <section id="avis" className="scroll-mt-20">
-            <h2 className="mb-3 text-xl font-bold">{t("reviews")}</h2>
+            <h2 className="mb-3 text-xl font-semibold">{t("reviews")}</h2>
             <ReviewList reviews={reviews} />
           </section>
         </div>

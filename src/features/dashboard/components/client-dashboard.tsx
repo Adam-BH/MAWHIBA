@@ -33,7 +33,7 @@ export async function ClientDashboard({ user }: { user: CurrentUser }) {
       </div>
       <div className="mt-6"><ClientRequestsWidget userId={user.id} /></div>
       <section className="mt-8">
-        <h2 className="mb-3 text-xl font-bold">{t("nextSession")}</h2>
+        <h2 className="mb-3 text-xl font-semibold">{t("nextSession")}</h2>
         {next ? <BookingCard booking={next} viewer="client" /> : (
           <EmptyState icon={CalendarX} title={t("noNextSession")}
             action={<Button asChild><Link href="/coaches">{t("findCoach")}</Link></Button>} />
@@ -41,7 +41,7 @@ export async function ClientDashboard({ user }: { user: CurrentUser }) {
       </section>
       {coaches.length > 0 && (
         <section className="mt-8">
-          <h2 className="mb-3 text-xl font-bold">{t("recommended")}</h2>
+          <h2 className="mb-3 text-xl font-semibold">{t("recommended")}</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {coaches.map((coach) => <CoachCard key={coach.user_id} coach={coach} />)}
           </div>

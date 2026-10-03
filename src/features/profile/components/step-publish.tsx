@@ -46,7 +46,7 @@ export function StepPublish() {
     return (
       <div className="flex flex-col items-center gap-4 rounded-2xl border bg-card p-6 text-center animate-in zoom-in-95">
         <div className="rounded-full bg-accent/20 p-4 text-accent-foreground"><PartyPopper className="size-10" /></div>
-        <h3 className="text-2xl font-bold">{t("celebrateTitle")}</h3>
+        <h3 className="text-2xl font-semibold">{t("celebrateTitle")}</h3>
         <p className="max-w-md text-muted-foreground">{coach.verified ? t("celebrateText") : t("celebratePending")}</p>
         {links}
         <Button variant="ghost" onClick={() => goTo(1)}>{t("editAgain")}</Button>

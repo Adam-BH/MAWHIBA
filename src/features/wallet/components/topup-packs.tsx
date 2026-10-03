@@ -52,7 +52,7 @@ export function TopupPacks() {
           {selected && (
             <div className="rounded-lg bg-muted p-4 text-center">
               <p className="text-sm text-muted-foreground">{t("amountDue")}</p>
-              <p className="text-3xl font-bold">{t("price", { pay: selected.pay })}</p>
+              <p className="text-3xl font-semibold">{t("price", { pay: selected.pay })}</p>
               <p className="mt-1 text-sm">{t("youGet")} <Points value={selected.points} /></p>
             </div>
           )}

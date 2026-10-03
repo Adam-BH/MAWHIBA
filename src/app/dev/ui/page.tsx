@@ -44,7 +44,7 @@ const SLOT = { starts_at: IN_5_DAYS, ends_at: IN_5_DAYS, location: "Piscine olym
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="text-lg font-bold">{title}</h2>
+      <h2 className="text-lg font-semibold">{title}</h2>
       {children}
     </section>
   );
@@ -66,7 +66,7 @@ export default async function DevUiPage() {
             </div>
           ))}
         </div>
-        <p className="font-display text-2xl font-bold">--font-display · MAWHIBA</p>
+        <p className="font-display text-2xl font-semibold">--font-display · MAWHIBA</p>
         <p className="font-sans">--font-sans · {t("sample")}</p>
       </Section>
       <Section title={t("buttons")}>

@@ -33,11 +33,11 @@ export function LearnStepper({ slug, lessons, quiz, passScore }: {
           {result.passed ? (
             <>
               <div className="rounded-full bg-accent/20 p-5 text-accent-foreground"><PartyPopper className="size-10" /></div>
-              <h2 className="text-2xl font-bold">{t("passedTitle")}</h2>
+              <h2 className="text-2xl font-semibold">{t("passedTitle")}</h2>
               <p className="flex items-center gap-2 rounded-full bg-accent/15 px-4 py-2 font-semibold"><HeartHandshake className="size-5" />{t("badgeEarned")}</p>
             </>
           ) : (
-            <h2 className="text-2xl font-bold">{t("failedTitle")}</h2>
+            <h2 className="text-2xl font-semibold">{t("failedTitle")}</h2>
           )}
           <p className="text-muted-foreground">{t("score", { score: result.score, total: result.total, pass: passScore })}</p>
           <div className="flex flex-wrap justify-center gap-2">
