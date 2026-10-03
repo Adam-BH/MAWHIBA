@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader } from "@/components/shared/page-header";
 import { BookingList } from "@/features/bookings/components/booking-list";
+import { SlotsPanel } from "@/features/slots/components/slots-panel";
 import { listClientBookings, listCoachBookings } from "@/features/bookings/queries";
 import { requireRole } from "@/lib/auth";
 import { isUpcoming } from "@/lib/booking-rules";
 
-export default async function SessionsPage() {
+export default async function SessionsPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const user = await requireRole(["client", "coach"]);
+  const { tab } = await searchParams;
   const isCoach = user.role === "coach";
   const [t, bookings] = await Promise.all([
     getTranslations("sessions"),
@@ -28,11 +30,12 @@ export default async function SessionsPage() {
   return (
     <>
       <PageHeader title={t("title")} />
-      <Tabs defaultValue={isCoach && requests.length ? "requests" : "upcoming"}>
+      <Tabs defaultValue={isCoach && tab === "slots" ? "slots" : isCoach && requests.length ? "requests" : "upcoming"}>
         <TabsList className="mb-4">
           {isCoach && <TabsTrigger value="requests">{t("tabs.requests", { count: requests.length })}</TabsTrigger>}
           <TabsTrigger value="upcoming">{t("tabs.upcoming")}</TabsTrigger>
           <TabsTrigger value="past">{t("tabs.past")}</TabsTrigger>
+          {isCoach && <TabsTrigger value="slots">{t("tabs.slots")}</TabsTrigger>}
         </TabsList>
         {isCoach && (
           <TabsContent value="requests">
@@ -45,6 +48,7 @@ export default async function SessionsPage() {
         <TabsContent value="past">
           <BookingList bookings={past} viewer={viewer} emptyIcon={History} emptyTitle={t("empty.past")} />
         </TabsContent>
+        {isCoach && <TabsContent value="slots"><SlotsPanel user={user} /></TabsContent>}
       </Tabs>
     </>
   );

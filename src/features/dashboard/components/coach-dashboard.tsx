@@ -62,7 +62,7 @@ export async function CoachDashboard({ user }: { user: CurrentUser }) {
           {upcoming.length ? (
             <div className="grid gap-3">{upcoming.map((b) => <BookingCard key={b.id} booking={b} viewer="coach" />)}</div>
           ) : (
-            <EmptyState icon={CalendarX} title={t("noUpcoming")} action={<Button asChild variant="outline"><Link href="/slots">{t("addSlots")}</Link></Button>} />
+            <EmptyState icon={CalendarX} title={t("noUpcoming")} action={<Button asChild variant="outline"><Link href="/sessions?tab=slots">{t("addSlots")}</Link></Button>} />
           )}
         </section>
         <Card className="self-start">

@@ -7,7 +7,6 @@
     "dashboard": "Tableau de bord",
     "findCoach": "Trouver un coach",
     "sessions": "Séances",
-    "slots": "Créneaux",
     "learn": "Formation",
     "payments": "Paiements",
     "admin": "Vue d'ensemble",
@@ -23,7 +22,6 @@
     "myRequests": "Mes demandes",
     "clientRequests": "Demandes clients",
     "adminRequests": "Demandes",
-    "exploreOffers": "Offres",
     "earnings": "Revenus",
     "adminEvents": "Événements"
   },
@@ -188,7 +186,6 @@
     "builderTitle": "Mon profil de coach"
   },
   "slots": {
-    "title": "Mes créneaux",
     "new": "Nouveau créneau",
     "date": "Date",
     "time": "Heure",
@@ -225,7 +222,8 @@
     "tabs": {
       "requests": "Demandes ({count})",
       "upcoming": "À venir",
-      "past": "Passées"
+      "past": "Passées",
+      "slots": "Créneaux"
     },
     "empty": {
       "requests": "Aucune demande en attente",
@@ -401,7 +399,6 @@
     "dashboard": "Accueil",
     "findCoach": "Coachs",
     "sessions": "Séances",
-    "slots": "Créneaux",
     "learn": "Formation",
     "payments": "Paiements",
     "admin": "Stats",

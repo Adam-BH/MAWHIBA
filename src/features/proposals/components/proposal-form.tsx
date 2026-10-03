@@ -41,7 +41,7 @@ export function ProposalForm({ requestId, slots, defaultPrice, budget }: {
     return (
       <div className="flex flex-col items-start gap-2 text-sm">
         <p className="text-muted-foreground">{t("noSlots")}</p>
-        <Button asChild size="sm"><Link href="/slots">{t("createSlot")}</Link></Button>
+        <Button asChild size="sm"><Link href="/sessions?tab=slots">{t("createSlot")}</Link></Button>
       </div>
     );
   }
@@ -58,7 +58,7 @@ export function ProposalForm({ requestId, slots, defaultPrice, budget }: {
             </SelectContent>
           </Select>
         )} />
-        <Link href="/slots" className="text-xs text-primary underline">{t("otherSlot")}</Link>
+        <Link href="/sessions?tab=slots" className="text-xs text-primary underline">{t("otherSlot")}</Link>
       </div>
       <div className="grid gap-2">
         <Label htmlFor="proposal-price">{t("price")}</Label>

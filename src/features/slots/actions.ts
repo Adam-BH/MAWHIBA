@@ -32,7 +32,7 @@ export async function createSlotAction(input: SlotInput): Promise<ActionResult<n
   const supabase = await createClient();
   const { error } = await supabase.from("slots").insert(rows);
   if (error) return fail(error);
-  revalidatePath("/slots");
+  revalidatePath("/sessions");
   return ok(rows.length);
 }
 
@@ -43,6 +43,6 @@ export async function deleteSlotAction(slotId: string): Promise<ActionResult> {
   const { data, error } = await supabase.from("slots").delete().eq("id", slotId).eq("coach_id", user.id).select("id");
   if (error) return fail(error);
   if (!data.length) return fail("SLOT_HAS_BOOKINGS");
-  revalidatePath("/slots");
+  revalidatePath("/sessions");
   return ok(null);
 }
