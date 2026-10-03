@@ -22,7 +22,6 @@ function Block({ id, title, icon: Icon, children }: { id: string; title: string;
   );
 }
 
-/** À propos, Palmarès, Expérience, Certifications & badges. */
 export function ProfileSections({ coach }: { coach: CoachFull }) {
   const t = useTranslations("publicProfile");
   const socials = SOCIAL_NETWORKS.filter((n) => coach.socials[n]);

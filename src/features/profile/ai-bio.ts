@@ -17,7 +17,7 @@ Chaque bio fait 60 à 110 mots, ton chaleureux et professionnel, sans emoji, san
 N'invente aucun fait : utilise uniquement les données fournies. N'ajoute ni téléphone, ni e-mail, ni lien.
 Propose deux variantes différentes : l'une centrée sur le parcours, l'autre sur la méthode et le public.`;
 
-/** "✨ Améliorer ma bio": 2 suggestions; the coach picks, edits or ignores them. Off unless flagged on. */
+/** "Améliorer ma bio": 2 suggestions; the coach picks, edits or ignores them. Off unless flagged on. */
 export async function suggestBioAction(currentBio: string): Promise<ActionResult<string[]>> {
   const user = await requireRole(["coach"]);
   if (!isAiBioEnabled()) return fail("NOT_FOUND");

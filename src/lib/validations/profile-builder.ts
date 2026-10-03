@@ -10,8 +10,8 @@ export const VIDEO_URL_PATTERN = /^https:\/\/(www\.|m\.)?(youtube\.com\/(watch\?
 /** Handles only: letters, digits, dot, underscore, dash; optional leading @. */
 export const HANDLE_PATTERN = /^@?[a-zA-Z0-9._-]{2,40}$/;
 
-export const videoUrlSchema = z.string().trim().regex(VIDEO_URL_PATTERN).or(z.literal(""));
-export const handleSchema = z.string().trim().regex(HANDLE_PATTERN).or(z.literal(""));
+const videoUrlSchema = z.string().trim().regex(VIDEO_URL_PATTERN).or(z.literal(""));
+const handleSchema = z.string().trim().regex(HANDLE_PATTERN).or(z.literal(""));
 
 export const identitySchema = z.object({
   fullName: z.string().trim().min(2).max(80),

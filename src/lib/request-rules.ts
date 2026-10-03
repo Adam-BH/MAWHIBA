@@ -12,7 +12,7 @@ export function effectiveRequestStatus(status: RequestStatus, expiresAt: Date, n
   return status === "open" && expiresAt <= now ? "expired" : status;
 }
 
-/** Mirror of the accept_proposal guards (the RPC re-checks slot + balance). */
+/** Mirror of the start_proposal_checkout guards (the RPC re-checks the slot). */
 export function canAcceptProposal(proposal: ProposalStatus, request: RequestStatus, expiresAt: Date, now = new Date()) {
   return proposal === "pending" && effectiveRequestStatus(request, expiresAt, now) === "open";
 }

@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 
 const BADGE_ICONS = { verified: BadgeCheck, inclusive: HeartHandshake, complete: Sparkles };
 
-/** Original "athlete card": sport-tinted gradient, level chip, 3 stats, top badges. */
 export function AthleteCard({ card, variant = "full", className }: { card: AthleteCardData; variant?: "full" | "compact"; className?: string }) {
   const t = useTranslations("athleteCard");
   const compact = variant === "compact";

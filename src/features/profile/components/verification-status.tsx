@@ -3,7 +3,6 @@ import { useTranslations } from "next-intl";
 import { FileUpload } from "@/features/coaches/components/file-upload";
 import { uploadItemProofAction } from "@/features/profile/item-actions";
 
-/** "Vérifié" / "En attente de vérification" / upload a proof. */
 export function VerificationStatus({ kind, id, verified, hasProof }: {
   kind: "achievement" | "certification";
   id: string;
