@@ -16,7 +16,7 @@ export function StrengthMeter({ score, level, next, className }: {
       <div className="flex items-center justify-between gap-2 text-sm">
         <span className="font-medium">{t("title")}</span>
         <span className="flex items-center gap-1 font-semibold">
-          {level === "elite" && <Sparkles className="size-4 text-accent" />}
+          {level === "elite" && <Sparkles className="size-4 text-primary" />}
           {t(`levels.${level}`)} · {score}%
         </span>
       </div>

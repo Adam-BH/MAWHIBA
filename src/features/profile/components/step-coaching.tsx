@@ -69,7 +69,7 @@ export function StepCoaching() {
           <div className="grid gap-2">
             <Button type="button" variant="outline" className="justify-self-start" disabled={ai.pending}
               onClick={() => ai.run(() => suggestBioAction(form.getValues("bio")), { onSuccess: setSuggestions })}>
-              <Sparkles className="text-accent" />{ai.pending ? t("aiLoading") : t("aiImprove")}
+              <Sparkles className="text-primary" />{ai.pending ? t("aiLoading") : t("aiImprove")}
             </Button>
             {suggestions.map((s, i) => (
               <div key={i} className="rounded-lg border bg-muted/50 p-3 text-sm">

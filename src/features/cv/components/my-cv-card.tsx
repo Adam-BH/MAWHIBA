@@ -19,7 +19,7 @@ export async function MyCvCard({ coachId }: { coachId: string }) {
   return (
     <Card>
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2">
-        <CardTitle className="flex items-center gap-2"><FileText className="size-5 text-accent" />{t("title")}</CardTitle>
+        <CardTitle className="flex items-center gap-2"><FileText className="size-5 text-primary" />{t("title")}</CardTitle>
         {strength.score >= STRENGTH_COMPLETE_FROM && <Badge className="border-transparent bg-accent text-accent-foreground"><Sparkles />{t("complete")}</Badge>}
       </CardHeader>
       <CardContent className="flex flex-col gap-4">

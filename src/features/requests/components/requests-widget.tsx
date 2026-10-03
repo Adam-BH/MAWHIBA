@@ -11,7 +11,7 @@ function WidgetShell({ title, cta, children }: { title: string; cta: React.React
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-2">
-        <CardTitle className="flex items-center gap-2"><Megaphone className="size-5 text-accent" />{title}</CardTitle>
+        <CardTitle className="flex items-center gap-2"><Megaphone className="size-5 text-primary" />{title}</CardTitle>
         {cta}
       </CardHeader>
       <CardContent className="flex flex-col gap-2 text-sm">{children}</CardContent>

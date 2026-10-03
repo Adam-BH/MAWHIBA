@@ -87,7 +87,7 @@ export function CvSheet({ coach, qr }: { coach: CoachFull; qr: string }) {
             <ul className="flex flex-col gap-1.5 text-sm">
               <li className="flex items-center gap-2"><CalendarCheck className="size-4 text-primary" />{t("sessions", { count: s.completedSessions })}</li>
               <li className="flex items-center gap-2"><Users className="size-4 text-primary" />{t("clients", { count: s.distinctClients })}</li>
-              <li className="flex items-center gap-2"><Star className="size-4 fill-accent text-accent" />
+              <li className="flex items-center gap-2"><Star className="size-4 fill-primary text-primary" />
                 {s.ratingCount ? t("rating", { rating: s.ratingAvg.toFixed(1), count: s.ratingCount }) : t("noRating")}</li>
               <li className="text-muted-foreground">{t("memberSince", { date: formatMonthYear(s.memberSince) })}</li>
             </ul>

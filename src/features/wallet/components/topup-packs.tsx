@@ -46,7 +46,7 @@ export function TopupPacks() {
       <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2"><CreditCard className="text-accent" />{t("flouciTitle")}</DialogTitle>
+            <DialogTitle className="flex items-center gap-2"><CreditCard className="text-primary" />{t("flouciTitle")}</DialogTitle>
             <DialogDescription>{t("flouciMock")}</DialogDescription>
           </DialogHeader>
           {selected && (

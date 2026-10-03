@@ -6,15 +6,15 @@ import path from "node:path";
  */
 export const THEME = {
   colors: {
-    primary: "#1d2b5c", // --primary
-    primaryForeground: "#f7f8fb", // --primary-foreground
-    accent: "#f2802a", // --accent
-    accentForeground: "#2b1a0d", // --accent-foreground
+    primary: "#4b3fe8", // --primary (--brand-purple)
+    primaryForeground: "#f5f5f4", // --primary-foreground (--brand-surface)
+    accent: "#c6f432", // --accent (--brand-lime)
+    accentForeground: "#120f2e", // --accent-foreground (--brand-ink)
     success: "#2f9e5f", // --success
-    foreground: "#1a2238", // --foreground
-    mutedForeground: "#677089", // --muted-foreground
-    muted: "#eef0f4", // --muted
-    border: "#dde1e9", // --border
+    foreground: "#120f2e", // --foreground (--brand-ink)
+    mutedForeground: "#56546a", // --muted-foreground
+    muted: "#ebebed", // --muted
+    border: "#e1e1e4", // --border
     background: "#ffffff",
   },
   sport: { aqua: "#2f8fc4", combat: "#b8432f", court: "#3a9a5c", field: "#d9861f", mind: "#8a5ac4" }, // --sport-*

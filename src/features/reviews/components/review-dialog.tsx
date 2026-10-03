@@ -36,7 +36,7 @@ export function ReviewDialog({ bookingId, coachName }: { bookingId: string; coac
           <div className="flex justify-center gap-1" role="radiogroup" aria-label={t("rating")}>
             {[1, 2, 3, 4, 5].map((i) => (
               <button key={i} type="button" role="radio" aria-checked={rating === i} aria-label={t("stars", { count: i })} onClick={() => setRating(i)}>
-                <Star className={cn("size-9", i <= rating ? "fill-accent text-accent" : "text-border")} />
+                <Star className={cn("size-9", i <= rating ? "fill-primary text-primary" : "text-border")} />
               </button>
             ))}
           </div>

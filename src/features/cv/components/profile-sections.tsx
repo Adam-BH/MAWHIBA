@@ -16,7 +16,7 @@ const SOCIAL_URLS: Record<SocialNetwork, (h: string) => string> = {
 function Block({ id, title, icon: Icon, children }: { id: string; title: string; icon: typeof Award; children: React.ReactNode }) {
   return (
     <Card id={id} className="scroll-mt-20">
-      <CardHeader><CardTitle className="flex items-center gap-2"><Icon className="size-5 text-accent" />{title}</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="flex items-center gap-2"><Icon className="size-5 text-primary" />{title}</CardTitle></CardHeader>
       <CardContent>{children}</CardContent>
     </Card>
   );

@@ -50,7 +50,7 @@ export function StepEducation() {
   return (
     <div className="grid gap-6">
       <section className="grid gap-2">
-        <h3 className="flex items-center gap-2 font-semibold"><Award className="size-4 text-accent" />{t("mawhibaBadges")}</h3>
+        <h3 className="flex items-center gap-2 font-semibold"><Award className="size-4 text-primary" />{t("mawhibaBadges")}</h3>
         {coach.stats.badges.length ? (
           <ul className="flex flex-wrap gap-2">
             {coach.stats.badges.map((b) => (

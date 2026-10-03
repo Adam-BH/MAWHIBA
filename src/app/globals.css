@@ -7,33 +7,44 @@
  * To swap in a design system, replace these values (and the shadcn components) only.
  */
 :root {
-  --background: oklch(0.985 0.004 250);
-  --foreground: oklch(0.22 0.05 260);
+  /* Brand charter: the only four hues. Everything below derives from them. */
+  --brand-purple: #4b3fe8;
+  --brand-lime: #c6f432;
+  --brand-ink: #120f2e;
+  --brand-surface: #f5f5f4;
+
+  --background: var(--brand-surface);
+  --foreground: var(--brand-ink);
   --card: oklch(1 0 0);
   --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.3 0.09 262); /* deep navy */
-  --primary-foreground: oklch(0.98 0.005 250);
-  --secondary: oklch(0.94 0.015 255);
-  --secondary-foreground: oklch(0.3 0.09 262);
-  --accent: oklch(0.72 0.18 48); /* energetic orange */
-  --accent-foreground: oklch(0.2 0.04 50);
-  --muted: oklch(0.95 0.008 255);
-  --muted-foreground: oklch(0.5 0.03 260);
+  --primary: var(--brand-purple);
+  --primary-hover: color-mix(in oklch, var(--brand-purple), var(--brand-ink) 18%);
+  --primary-foreground: var(--brand-surface);
+  --secondary: color-mix(in oklch, var(--brand-purple) 10%, oklch(1 0 0)); /* soft purple tint */
+  --secondary-foreground: var(--brand-purple);
+  /* Lime: only on purple/ink surfaces or as a fill with ink text. Never lime text on light backgrounds. */
+  --accent: var(--brand-lime);
+  --accent-hover: color-mix(in oklch, var(--brand-lime), var(--brand-ink) 8%);
+  --accent-foreground: var(--brand-ink);
+  --muted: color-mix(in oklch, var(--brand-ink) 5%, var(--brand-surface));
+  --muted-foreground: color-mix(in oklch, var(--brand-ink) 70%, var(--brand-surface)); /* ≥ 4.5:1 on surface and card */
 
-  --success: oklch(0.6 0.15 152);
+  /* Functional status colours (pre-existing, not brand hues). */
+  --success: oklch(0.55 0.15 152);
   --success-foreground: oklch(0.98 0.02 152);
   --warning: oklch(0.8 0.15 80);
   --warning-foreground: oklch(0.3 0.07 70);
-  --destructive: oklch(0.58 0.22 27);
+  --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.98 0.01 27);
 
-  --border: oklch(0.9 0.012 255);
-  --input: oklch(0.88 0.015 255);
-  --ring: oklch(0.55 0.12 262);
-  --radius: 0.75rem;
+  --border: color-mix(in oklch, var(--brand-ink) 10%, var(--brand-surface));
+  --input: color-mix(in oklch, var(--brand-ink) 16%, var(--brand-surface));
+  --ring: var(--brand-purple);
+  --radius: 1rem;
+  --shadow-lift: 0 12px 28px -12px color-mix(in oklch, var(--brand-purple) 35%, transparent);
 
   /* Sport families (athlete card gradients) and achievement levels. */
   --sport-aqua: oklch(0.6 0.13 230);
@@ -48,8 +59,16 @@
   --level-olympique: oklch(0.84 0.15 90);
   --level-foreground: oklch(0.25 0.05 260);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-montserrat), var(--font-dm-sans), ui-sans-serif, sans-serif;
+  --font-arabic: var(--font-cairo), ui-sans-serif, sans-serif;
+}
+
+/* Arabic: Cairo for headings and body. */
+:lang(ar) {
+  --font-sans: var(--font-arabic);
+  --font-display: var(--font-arabic);
+  font-family: var(--font-arabic);
 }
 
 @theme inline {
@@ -61,10 +80,12 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-hover: var(--accent-hover);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-success: var(--success);
@@ -88,6 +109,22 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --shadow-lift: var(--shadow-lift);
+
+  /* Type scale: 12/14/16/20/24/32/48. */
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.35;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 1.2;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 1.15;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.1;
 }
 
 @layer base {
@@ -95,12 +132,38 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans font-medium antialiased;
   }
   h1,
   h2,
   h3 {
-    @apply font-display tracking-tight;
+    @apply font-display font-semibold tracking-tight;
+  }
+  a,
+  button {
+    @apply transition-colors duration-200 ease-out;
+  }
+}
+
+/* Gentle hover lift for interactive cards. */
+@utility lift {
+  transition-property: transform, box-shadow, border-color;
+  transition-duration: 200ms;
+  transition-timing-function: var(--ease-out);
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *:not(.animate-spin),
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
