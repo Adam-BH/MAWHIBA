@@ -5,6 +5,12 @@ export function publicStorageUrl(bucket: "covers" | "avatars", path: string | nu
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
 }
 
+/** Explicit NEXT_PUBLIC_SITE_URL, else the production domain Vercel provides, else local dev. */
+export function siteOrigin(): string {
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  return (process.env.NEXT_PUBLIC_SITE_URL || (vercel ? `https://${vercel}` : "http://localhost:3000")).replace(/\/$/, "");
+}
+
 export function siteUrl(path = ""): string {
-  return `${(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "")}${path}`;
+  return `${siteOrigin()}${path}`;
 }

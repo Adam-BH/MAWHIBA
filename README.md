@@ -73,17 +73,32 @@ Stop the database with `npm run db:stop`. Your data is kept between restarts.
 
 ---
 
-## Using a cloud Supabase project instead of Docker
+## Deploy the demo (Vercel + Supabase, ~10 minutes)
 
-1. Create a Supabase project. In **Auth → Providers → Email**, turn off **Confirm email**.
-2. `cp .env.example .env.local` and fill in the project URL, anon key and service role key.
-3. Run:
+1. **Supabase.** Create a project (free plan is fine). In **Auth → Providers → Email**, turn off **Confirm email**.
+2. **Database.** Open the **SQL editor**, paste the whole of [`supabase/deploy.sql`](supabase/deploy.sql) and run it once.
+3. **Demo data.** `cp .env.deploy.example .env.deploy`, fill in the project URL, anon key and service-role key (**Settings → API**), then:
    ```bash
-   npx supabase link --project-ref <ref>
-   npm run db:push    # applies supabase/migrations
-   npm run seed       # idempotent, safe to re-run
-   npm run dev
+   npm run seed:deploy
    ```
+4. **Vercel.** Import the repo, keep the defaults (`vercel.json` installs with npm) and set these environment variables, then deploy:
+
+   | Variable | Value |
+   | --- | --- |
+   | `NEXT_PUBLIC_SUPABASE_URL` | project URL |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | anon key |
+   | `SUPABASE_SERVICE_ROLE_KEY` | service-role key |
+   | `NEXT_PUBLIC_DEMO` | `true` (one-click Client / Coach / Admin logins on `/login`) |
+
+5. **Auth URL.** In Supabase **Auth → URL Configuration**, set **Site URL** to your Vercel URL.
+
+Good to know:
+- Share links and previews use the Vercel production domain automatically; set `NEXT_PUBLIC_SITE_URL` only for a custom domain.
+- Slots and the monthly event are relative to the seed date. Run `npm run seed:deploy` again the day before the pitch (idempotent).
+- A free Supabase project pauses after a week without traffic: open its dashboard before the pitch.
+- Payments use the mock Konnect page (marked "Mode test") while `KONNECT_API_KEY` is unset.
+- CLI alternative to step 2: `npx supabase link --project-ref <ref> && npm run db:push`.
+- After adding a migration, run `npm run db:bundle` to regenerate `supabase/deploy.sql`.
 
 ---
 
@@ -134,6 +149,8 @@ Stop the database with `npm run db:stop`. Your data is kept between restarts.
 | `db:types`                          | Regenerate `src/lib/supabase/database.types.ts`           |
 | `env:local`                         | Write `.env.local` from `supabase status` (overwrites it) |
 | `seed`                              | Seed through the service role (local or cloud, idempotent) |
+| `seed:deploy`                       | Same seed against the project in `.env.deploy`             |
+| `db:bundle`                         | Regenerate `supabase/deploy.sql` from the migrations       |
 
 Before committing: `npm run lint && npm run typecheck && npm run test && npm run build`. `tests/money.test.ts` also checks the SQL money functions when `.env.local` points to a running database.
 

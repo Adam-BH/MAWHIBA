@@ -106,7 +106,14 @@
     "haveAccount": "Déjà inscrit ?",
     "roleClient": "Je suis un client",
     "roleCoach": "Je suis athlète ou coach",
-    "welcome": "Bienvenue sur MAWHIBA"
+    "welcome": "Bienvenue sur MAWHIBA",
+    "demo": {
+      "title": "Démo : entrez en un clic",
+      "client": "Mehdi réserve des séances et publie des demandes.",
+      "coach": "Amira, nageuse vérifiée, gère ses offres, créneaux et revenus.",
+      "admin": "Vérifie les coachs, suit les paiements et Star Tracks.",
+      "or": "Ou connectez-vous avec votre compte :"
+    }
   },
   "landing": {
     "eyebrow": "Avec Star Assurances",

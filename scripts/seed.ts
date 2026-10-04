@@ -1,11 +1,11 @@
 import { DEMO_COACH, EXTRA_CLIENTS, LOCATIONS, PENDING_COACHES, REVIEW_COMMENTS, VERIFIED_COACHES, type SeedCoach } from "./seed-data/coaches";
 import { check, db, must } from "./seed-data/db";
 import { INCLUSIVE_CERT_SLUG, INSURANCE_FEE } from "../src/lib/config";
+import { DEMO_PASSWORD as PASSWORD } from "../src/lib/demo";
 import { seedEvents } from "./seed-events";
 import { seedMarketplace } from "./seed-marketplace";
 import { seedProfiles } from "./seed-profiles";
 
-const PASSWORD = "Mawhiba2026!";
 const DAY = 86_400_000;
 const avatar = (name: string) => `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(name)}`;
 

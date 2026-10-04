@@ -3,6 +3,7 @@ import { Cairo, DM_Sans, Montserrat } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Toaster } from "@/components/ui/sonner";
+import { siteOrigin } from "@/lib/storage-url";
 import "./globals.css";
 
 const montserrat = Montserrat({ variable: "--font-montserrat", subsets: ["latin"], weight: ["600"] });
@@ -12,7 +13,7 @@ const cairo = Cairo({ variable: "--font-cairo", subsets: ["arabic", "latin"], we
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    metadataBase: new URL(siteOrigin()),
     title: { default: t("title"), template: `%s · MAWHIBA` },
     description: t("description"),
   };

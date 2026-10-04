@@ -21,6 +21,8 @@
     "db:types": "supabase gen types typescript --local > src/lib/supabase/database.types.ts",
     "env:local": "tsx scripts/write-local-env.ts",
     "seed": "tsx scripts/seed.ts",
+    "seed:deploy": "tsx --env-file=.env.deploy scripts/seed.ts",
+    "db:bundle": "tsx scripts/bundle-sql.ts",
     "setup:local": "npm run db:start && npm run db:reset && npm run env:local && npm run seed"
   },
   "dependencies": {

@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { DemoLogins } from "@/features/auth/components/demo-logins";
 import { LoginForm } from "@/features/auth/components/login-form";
 import { getCurrentUser } from "@/lib/auth";
+import { isDemo } from "@/lib/demo";
 
 export async function generateMetadata() {
   const t = await getTranslations("auth");
@@ -13,7 +15,8 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   if (user) redirect("/dashboard");
   return (
     <>
-      <h1 className="mb-1 text-2xl font-semibold">{t("loginTitle")}</h1>
+      <h1 className="mb-6 text-2xl font-semibold">{t("loginTitle")}</h1>
+      {isDemo && <DemoLogins />}
       <LoginForm next={next} />
     </>
   );
