@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { afterAll, describe, expect, it } from "vitest";
 import type { Database } from "@/lib/supabase/database.types";
-import { admin, cleanup, enabled, makeCoach, makeUser, payAndBook, postRequest } from "./helpers";
+import { admin, check, cleanup, enabled, makeCoach, makeUser, payAndBook, postRequest } from "./helpers";
 
 describe.skipIf(!enabled)("scenario: roles and privacy", () => {
   afterAll(cleanup);
@@ -74,8 +74,8 @@ describe.skipIf(!enabled)("scenario: roles and privacy", () => {
   it("a coach's exact pin is private; the public sees it rounded to ~1 km", async () => {
     const coach = await makeCoach();
     const other = await makeCoach();
-    const { error } = await coach.db.from("coach_locations").insert({ coach_id: coach.id, lat: 36.87824, lng: 10.32471 });
-    expect(error).toBeNull();
+    check(await coach.db.from("coach_locations").upsert({ coach_id: coach.id, lat: 36.8, lng: 10.1 }));
+    check(await coach.db.from("coach_locations").upsert({ coach_id: coach.id, lat: 36.87824, lng: 10.32471 })); // the action's path
 
     const anonDb = createClient<Database>(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
     for (const db of [anonDb, other.db]) {
@@ -87,6 +87,22 @@ describe.skipIf(!enabled)("scenario: roles and privacy", () => {
     expect(own?.lat).toBe(36.87824);
     const { data: card } = await anonDb.from("coach_profiles").select("map_lat, map_lng").eq("user_id", coach.id).single();
     expect(card).toEqual({ map_lat: 36.88, map_lng: 10.32 });
+  });
+
+  it("client preferences are private: no coach, no other client", async () => {
+    const alice = await makeUser("client");
+    const bob = await makeUser("client");
+    const coach = await makeCoach();
+    check(await alice.db.from("client_preferences").insert({ user_id: alice.id, sports: ["Tennis"] }));
+    check(await alice.db.from("client_preferences").upsert({ user_id: alice.id, sports: ["Natation"], city: "Tunis", onboarded_at: new Date().toISOString() }));
+    for (const db of [bob.db, coach.db]) {
+      const { data } = await db.from("client_preferences").select("user_id").eq("user_id", alice.id);
+      expect(data ?? []).toEqual([]);
+    }
+    expect((await bob.db.from("client_preferences").insert({ user_id: alice.id })).error).not.toBeNull();
+    expect((await coach.db.from("client_preferences").insert({ user_id: coach.id })).error).not.toBeNull();
+    const { data: own } = await alice.db.from("client_preferences").select("sports").single();
+    expect(own?.sports).toEqual(["Natation"]);
   });
 
   it("the answer key of certifications is never readable", async () => {

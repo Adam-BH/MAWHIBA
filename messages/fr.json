@@ -23,7 +23,8 @@
     "clientRequests": "Demandes clients",
     "adminRequests": "Demandes",
     "earnings": "Revenus",
-    "adminEvents": "Événements"
+    "adminEvents": "Événements",
+    "preferences": "Mes préférences"
   },
   "roles": {
     "client": "Client",
@@ -329,7 +330,12 @@
     "addSlots": "Ajouter des créneaux",
     "earnBadge": "Obtenir le badge Coaching inclusif",
     "title": "Accueil",
-    "openMap": "Voir les coachs sur la carte"
+    "openMap": "Voir les coachs sur la carte",
+    "onboarding": {
+      "title": "Dites-nous ce que vous cherchez (30 s)",
+      "text": "Sport, âge, quartier, budget : on vous propose les coachs qui vous correspondent.",
+      "cta": "C'est parti"
+    }
   },
   "admin": {
     "title": "Vue d'ensemble",
@@ -429,7 +435,8 @@
     "myOffers": "Offres",
     "requests": "Demandes",
     "earnings": "Revenus",
-    "adminEvents": "Événements"
+    "adminEvents": "Événements",
+    "preferences": "Préférences"
   },
   "offers": {
     "pageTitle": "Mes offres",
@@ -982,6 +989,58 @@
       "radius": "Rayon de déplacement : {km} km",
       "outside": "Ce point est en dehors de la Tunisie.",
       "geoDenied": "Position indisponible. Choisissez une ville."
+    }
+  },
+  "onboarding": {
+    "metaTitle": "Vos préférences",
+    "progress": "Étape {step} sur {total}",
+    "skip": "Passer",
+    "cancel": "Annuler",
+    "back": "Retour",
+    "next": "Suivant",
+    "finish": "Voir mes coachs",
+    "saved": "Préférences enregistrées",
+    "sports": {
+      "title": "Quel sport ?",
+      "hint": "Jusqu'à 3 sports. Vous pourrez changer plus tard."
+    },
+    "who": {
+      "title": "Pour qui ?",
+      "hint": "Pour vous proposer un coach adapté.",
+      "audience": "Les séances sont pour…",
+      "audiences": {
+        "adulte": "Moi",
+        "enfant": "Mon enfant"
+      },
+      "childAge": "Âge de l'enfant",
+      "level": "Niveau",
+      "inclusive": "Besoins particuliers",
+      "inclusiveHint": "Autisme, handicap… nous mettons en avant les coachs formés au coaching inclusif.",
+      "languages": "Langues souhaitées"
+    },
+    "where": {
+      "title": "Où ?",
+      "hint": "Votre ville suffit. Votre position n'est jamais enregistrée précisément.",
+      "useMyPosition": "Utiliser ma position",
+      "geoDenied": "Position indisponible. Choisissez une ville.",
+      "outside": "Votre position semble hors de Tunisie. Choisissez une ville.",
+      "mapLabel": "Aperçu de votre zone",
+      "privacy": "Nous gardons seulement une zone d'environ 1 km."
+    },
+    "budget": {
+      "title": "Budget & moments",
+      "hint": "Pour ne voir que des séances qui vous conviennent.",
+      "budget": "Jusqu'à {amount} DT par séance",
+      "budgetLabel": "Budget maximum par séance",
+      "insurance": "+{fee} DT d'assurance Star ajoutés à chaque réservation.",
+      "availability": "Vos moments préférés",
+      "slots": {
+        "matin": "Matin",
+        "midi": "Midi",
+        "soir": "Soir",
+        "weekend": "Week-end"
+      },
+      "goals": "Vos objectifs (4 max)"
     }
   }
 }

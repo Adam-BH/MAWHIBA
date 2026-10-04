@@ -125,6 +125,8 @@ Good to know:
 
 **Coach map.** **Trouver un coach** → **Carte** (`/coaches?view=map`): the filters apply to the markers, hovering a card highlights its pin, **Autour de moi** sorts by distance ("à 3,2 km"). The public only sees a point rounded to ~1 km; the exact pin (wizard step 6, "Lieu d'entraînement") stays private. Mini maps on the home page, the client dashboard and each coach profile.
 
+**Client onboarding.** Sign up as a client → 4 quick steps (sport, for whom, where, budget & moments), skippable and editable later in the user menu (**Mes préférences**, `/onboarding?edit=1`). A skipped onboarding shows a nudge on the dashboard. Preferences are private (never visible to coaches) and only keep a ~1 km point.
+
 **Close the demo.** `admin@` → **Vue d'ensemble** → **Star Tracks** (`/star-tracks`): insured sessions, Star premiums, verified and trained coaches, coach earnings and insured sessions by sport, on one projector-friendly page.
 
 **Admin.** `/admin/coaches` verifies new coaches (proofs open via signed URLs) and reviews palmarès & certifications.

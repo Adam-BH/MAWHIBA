@@ -1,13 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { safeNext } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { fail, invalid, ok, type ActionResult } from "@/lib/action-result";
 import { loginSchema, signupSchema, type LoginInput, type SignupInput } from "@/lib/validations/auth";
-
-function safeNext(next?: string) {
-  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
-}
 
 export async function signInAction(input: LoginInput, next?: string): Promise<ActionResult<string>> {
   const parsed = loginSchema.safeParse(input);
@@ -30,7 +27,8 @@ export async function signUpAction(input: SignupInput, next?: string): Promise<A
   });
   if (error) return fail(error.code === "user_already_exists" ? "EMAIL_TAKEN" : error.message);
   if (!data.session) return fail("CONFIRM_EMAIL");
-  return ok(role === "coach" ? "/profile" : safeNext(next));
+  // New clients answer 4 quick questions (skippable) before their dashboard.
+  return ok(role === "coach" ? "/profile" : `/onboarding?next=${encodeURIComponent(safeNext(next))}`);
 }
 
 export async function signOutAction() {

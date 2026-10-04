@@ -141,6 +141,12 @@ async function main() {
   check(await db.from("profiles").update({ role: "admin" }).eq("id", admin), "admin role");
 
   const demoClient = await ensureUser("client@mawhiba.tn", "Mehdi Client", "client", "Tunis");
+  // Onboarding answers that make Amira the top match ("Pour vous").
+  check(await db.from("client_preferences").upsert({
+    user_id: demoClient, sports: ["Natation"], audience: "enfant", child_age: 8, level: "debutant", inclusive_needs: true,
+    languages: ["Arabe", "Français"], city: "La Marsa", lat: 36.88, lng: 10.32, budget_max: 50, availability: ["weekend"],
+    goals: ["Apprendre", "Confiance en soi"], onboarded_at: new Date().toISOString(),
+  }), "client preferences");
 
   const verified = [await seedCoach(DEMO_COACH, true)];
   for (const coach of VERIFIED_COACHES) verified.push(await seedCoach(coach, true));

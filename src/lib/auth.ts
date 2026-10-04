@@ -16,6 +16,11 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   return profile;
 });
 
+/** Internal redirect targets only (no protocol-relative or absolute URLs). */
+export function safeNext(next?: string | null) {
+  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
+}
+
 export async function requireUser(): Promise<CurrentUser> {
   const user = await getCurrentUser();
   if (!user) redirect("/login");

@@ -153,6 +153,31 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"client_preferences": {
+                  Row: {
+                    "audience": Database["public"]['Enums']["request_audience"] | null,"availability": (string)[],"budget_max": number | null,"child_age": number | null,"city": string | null,"goals": (string)[],"inclusive_needs": boolean,"languages": (string)[],"lat": number | null,"level": Database["public"]['Enums']["skill_level"] | null,"lng": number | null,"onboarded_at": string | null,"sports": (string)[],"updated_at": string,"user_id": string
+                  }
+                  Insert: {
+                    "audience"?: Database["public"]['Enums']["request_audience"] | null,"availability"?: (string)[],"budget_max"?: number | null,"child_age"?: number | null,"city"?: string | null,"goals"?: (string)[],"inclusive_needs"?: boolean,"languages"?: (string)[],"lat"?: number | null,"level"?: Database["public"]['Enums']["skill_level"] | null,"lng"?: number | null,"onboarded_at"?: string | null,"sports"?: (string)[],"updated_at"?: string,"user_id": string
+                  }
+                  Update: {
+                    "audience"?: Database["public"]['Enums']["request_audience"] | null,"availability"?: (string)[],"budget_max"?: number | null,"child_age"?: number | null,"city"?: string | null,"goals"?: (string)[],"inclusive_needs"?: boolean,"languages"?: (string)[],"lat"?: number | null,"level"?: Database["public"]['Enums']["skill_level"] | null,"lng"?: number | null,"onboarded_at"?: string | null,"sports"?: (string)[],"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "client_preferences_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "client_preferences_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"coach_certifications": {
                   Row: {
                     "certification_id": string,"coach_id": string,"completed_at": string,"passed": boolean,"score": number

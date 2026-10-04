@@ -41,7 +41,8 @@ $$;
 -- ---------- RLS & privileges ----------
 alter table public.coach_locations enable row level security;
 revoke all on public.coach_locations from anon, authenticated;
-grant select, insert (coach_id, lat, lng), update (lat, lng), delete on public.coach_locations to authenticated;
+-- update(coach_id): PostgREST upserts set the key too; the policy pins it to the caller.
+grant select, insert (coach_id, lat, lng), update (coach_id, lat, lng), delete on public.coach_locations to authenticated;
 
 create policy coach_locations_select on public.coach_locations for select
   using (coach_id = auth.uid() or public.is_admin());

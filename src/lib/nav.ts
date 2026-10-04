@@ -18,6 +18,7 @@ export const NAV_ITEMS = [
   { href: "/admin/payments", labelKey: "nav.adminPayments", shortLabelKey: "navShort.adminPayments", icon: "Receipt", roles: ["admin"], place: "main" },
   { href: "/payments", labelKey: "nav.payments", shortLabelKey: "navShort.payments", icon: "Receipt", roles: ["client"], place: "menu" },
   { href: "/payments", labelKey: "nav.earnings", shortLabelKey: "navShort.earnings", icon: "TrendingUp", roles: ["coach"], place: "menu" },
+  { href: "/onboarding?edit=1", labelKey: "nav.preferences", shortLabelKey: "navShort.preferences", icon: "SlidersHorizontal", roles: ["client"], place: "menu" },
   { href: "/profile", labelKey: "nav.profile", shortLabelKey: "navShort.profile", icon: "User", roles: ["client", "coach", "admin"], place: "menu" },
   { href: "/admin/requests", labelKey: "nav.adminRequests", shortLabelKey: "navShort.requests", icon: "Megaphone", roles: ["admin"], place: "hidden" },
   { href: "/admin/events", labelKey: "nav.adminEvents", shortLabelKey: "navShort.adminEvents", icon: "CalendarHeart", roles: ["admin"], place: "hidden" },

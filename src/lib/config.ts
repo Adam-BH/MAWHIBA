@@ -47,3 +47,9 @@ export const MAP_DEFAULT_ZOOM = 11;
 /** Swap in a paid tile provider for production via NEXT_PUBLIC_MAP_TILE_URL. */
 export const MAP_TILE_URL = process.env.NEXT_PUBLIC_MAP_TILE_URL || "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 export const MAP_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+
+export const GOALS = ["Apprendre", "Progresser", "Compétition", "Forme & santé", "Perte de poids", "Confiance en soi"] as const;
+export const AVAILABILITY = ["matin", "midi", "soir", "weekend"] as const;
+export const MAX_PREF_SPORTS = 3;
+export const MAX_PREF_GOALS = 4;
+export const PREF_BUDGET = { min: 20, max: 150, default: 60 } as const;
