@@ -1,52 +1,53 @@
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader } from "@/components/shared/page-header";
-import { BookingList } from "@/features/bookings/components/booking-list";
+import { SessionLists } from "@/features/bookings/components/session-lists";
+import { listBookingsInRange, listClientBookings, listCoachBookings, nextSession } from "@/features/bookings/queries";
+import { CalendarBoard } from "@/features/calendar/components/calendar-board";
+import { CalendarToolbar } from "@/features/calendar/components/calendar-toolbar";
 import { SlotsPanel } from "@/features/slots/components/slots-panel";
-import { listClientBookings, listCoachBookings } from "@/features/bookings/queries";
+import { listSlotsInRange } from "@/features/slots/queries";
 import { requireRole } from "@/lib/auth";
-import { isUpcoming } from "@/lib/booking-rules";
+import { parseCalendarParams, rangeFor } from "@/lib/calendar";
+import { dayKey } from "@/lib/dates";
 
-export default async function SessionsPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
+type Search = { tab?: string; view?: string; date?: string };
+
+export default async function SessionsPage({ searchParams }: { searchParams: Promise<Search> }) {
   const user = await requireRole(["client", "coach"]);
-  const { tab } = await searchParams;
+  const params = await searchParams;
   const isCoach = user.role === "coach";
-  const [t, bookings] = await Promise.all([
-    getTranslations("sessions"),
-    isCoach ? listCoachBookings(user.id) : listClientBookings(user.id),
-  ]);
-  const now = new Date();
-  const requests = isCoach ? bookings.filter((b) => b.status === "pending").reverse() : [];
-  const upcoming = bookings
-    .filter((b) => isUpcoming(b.status, new Date(b.slot.starts_at), now) && !(isCoach && b.status === "pending"))
-    .reverse();
-  const past = bookings.filter((b) => !requests.includes(b) && !upcoming.includes(b));
   const viewer = isCoach ? "coach" : "client";
-  const findCoach = <Button asChild><Link href="/coaches">{t("findCoach")}</Link></Button>;
+  const bookings = await (isCoach ? listCoachBookings(user.id) : listClientBookings(user.id));
+  const parsed = parseCalendarParams(params);
+  // Without a date, open on the next session when it is after the current page (e.g. on a Sunday evening).
+  const next = nextSession(bookings);
+  const nextDay = next ? dayKey(next.slot.starts_at) : null;
+  const date = !params.date && nextDay && nextDay > rangeFor(parsed.view, parsed.date).days.at(-1)! ? nextDay : parsed.date;
+  const { view } = parsed;
+  const { days, from, to } = rangeFor(view, date);
+  const [t, tc, inRange, slots] = await Promise.all([
+    getTranslations("sessions"), getTranslations("calendar"),
+    listBookingsInRange(viewer, user.id, from, to),
+    isCoach ? listSlotsInRange(user.id, from, to) : [],
+  ]);
+  const tab = params.tab === "list" || (isCoach && params.tab === "slots") ? params.tab : "calendar";
 
   return (
     <>
       <PageHeader title={t("title")} />
-      <Tabs defaultValue={isCoach && tab === "slots" ? "slots" : isCoach && requests.length ? "requests" : "upcoming"}>
+      <Tabs defaultValue={tab}>
         <TabsList className="mb-6 max-w-full justify-start overflow-x-auto">
-          {isCoach && <TabsTrigger value="requests">{t("tabs.requests", { count: requests.length })}</TabsTrigger>}
-          <TabsTrigger value="upcoming">{t("tabs.upcoming")}</TabsTrigger>
-          <TabsTrigger value="past">{t("tabs.past")}</TabsTrigger>
+          <TabsTrigger value="calendar">{tc("tab")}</TabsTrigger>
+          <TabsTrigger value="list">{tc("listTab")}</TabsTrigger>
           {isCoach && <TabsTrigger value="slots">{t("tabs.slots")}</TabsTrigger>}
         </TabsList>
-        {isCoach && (
-          <TabsContent value="requests">
-            <BookingList bookings={requests} viewer={viewer} emptyTitle={t("empty.requests")} />
-          </TabsContent>
-        )}
-        <TabsContent value="upcoming">
-          <BookingList bookings={upcoming} viewer={viewer} emptyTitle={t("empty.upcoming")} emptyAction={isCoach ? undefined : findCoach} />
+        <TabsContent value="calendar">
+          <CalendarToolbar view={view} date={date} />
+          <CalendarBoard view={view} date={date} days={days} bookings={inRange} slots={slots} viewer={viewer}
+            slotDefaults={{ duration: 60, location: user.city ?? "" }} />
         </TabsContent>
-        <TabsContent value="past">
-          <BookingList bookings={past} viewer={viewer} emptyTitle={t("empty.past")} />
-        </TabsContent>
+        <TabsContent value="list"><SessionLists bookings={bookings} isCoach={isCoach} /></TabsContent>
         {isCoach && <TabsContent value="slots"><SlotsPanel user={user} /></TabsContent>}
       </Tabs>
     </>

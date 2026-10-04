@@ -129,6 +129,8 @@ Good to know:
 
 **Matching ("Pour vous").** `client@` (Natation, child of 8, inclusive needs, La Marsa, 50 DT) sees Amira first on the dashboard with "Très bon match · Natation · Coaching inclusif · À 1,4 km". **Trouver un coach** defaults to **Pour vous** for clients with preferences. Coach profiles show "Coachs similaires"; `coach@` → **Demandes clients** sorts by "Meilleures correspondances" with a "Correspond à votre profil" badge. Scores are explainable SQL features (no AI), weights only in `*_matching.sql`.
 
+**Sessions calendar.** **Séances** opens on **Calendrier** (week on desktop, agenda on mobile, month view too), state in the URL (`/sessions?view=week&date=2026-10-05`), ←/→ and `t` from the keyboard. Confirmed sessions are filled, pending ones dashed; click one to accept, cancel or review from a side sheet. Coaches also see their free slots and can click an empty cell to publish one. **Liste** keeps the previous tabs.
+
 **Close the demo.** `admin@` → **Vue d'ensemble** → **Star Tracks** (`/star-tracks`): insured sessions, Star premiums, verified and trained coaches, coach earnings and insured sessions by sport, on one projector-friendly page.
 
 **Admin.** `/admin/coaches` verifies new coaches (proofs open via signed URLs) and reviews palmarès & certifications.

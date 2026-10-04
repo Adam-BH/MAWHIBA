@@ -22,6 +22,15 @@ export type BookingRow = Awaited<ReturnType<typeof listBookings>>[number];
 
 export const listClientBookings = (clientId: string) => listBookings("client_id", clientId);
 export const listCoachBookings = (coachId: string) => listBookings("coach_id", coachId);
+/** Every booking of the viewer whose session starts in [from, to) (calendar: no 200 cap on the visible range). */
+export async function listBookingsInRange(viewer: "client" | "coach", userId: string, from: Date, to: Date) {
+  const supabase = await createClient();
+  const { data } = await supabase.from("bookings").select(BOOKING_FIELDS)
+    .eq(viewer === "coach" ? "coach_id" : "client_id", userId)
+    .gte("slot.starts_at", from.toISOString()).lt("slot.starts_at", to.toISOString());
+  return data ?? [];
+}
+
 export const listAllBookings = (status?: Enums<"booking_status">) => listBookings(null, undefined, status);
 
 /** Earliest upcoming pending/confirmed booking, for dashboards. */

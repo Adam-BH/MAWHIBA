@@ -1066,5 +1066,27 @@
     "boardMatch": "Correspond à votre profil",
     "boardSortMatch": "Meilleures correspondances",
     "boardSortRecent": "Plus récentes"
+  },
+  "calendar": {
+    "tab": "Calendrier",
+    "listTab": "Liste",
+    "today": "Aujourd'hui",
+    "previous": "Période précédente",
+    "next": "Période suivante",
+    "viewLabel": "Affichage",
+    "views": {
+      "week": "Semaine",
+      "month": "Mois",
+      "agenda": "Agenda"
+    },
+    "free": "Libre",
+    "pending": "En attente",
+    "showCancelled": "Afficher les séances annulées",
+    "eventLabel": "{time}, {who}, {status}",
+    "addSlotAt": "Ajouter un créneau à {time}",
+    "more": "+{count}",
+    "empty": "Aucune séance sur cette période",
+    "sessionTitle": "Séance",
+    "newSlot": "Nouveau créneau"
   }
 }

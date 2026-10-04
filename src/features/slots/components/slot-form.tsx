@@ -13,7 +13,7 @@ import { createSlotAction } from "@/features/slots/actions";
 import { slotSchema, type SlotInput } from "@/lib/validations/slot";
 import { useAction } from "@/lib/use-action";
 
-export function SlotForm({ defaults }: { defaults: SlotInput }) {
+export function SlotForm({ defaults, onCreated }: { defaults: SlotInput; onCreated?: () => void }) {
   const t = useTranslations("slots");
   const { pending, run } = useAction();
   const form = useForm<SlotInput>({ resolver: zodResolver(slotSchema), defaultValues: defaults });
@@ -24,6 +24,7 @@ export function SlotForm({ defaults }: { defaults: SlotInput }) {
       onSuccess: (count) => {
         toast.success(t("created", { count }));
         form.reset({ ...values, weekly: false });
+        onCreated?.();
       },
     }),
   );

@@ -105,6 +105,20 @@ describe.skipIf(!enabled)("scenario: roles and privacy", () => {
     expect(own?.sports).toEqual(["Natation"]);
   });
 
+  it("the calendar range query only returns the viewer's own bookings", async () => {
+    const coach = await makeCoach();
+    const alice = await makeUser("client");
+    const bob = await makeUser("client");
+    const bookingId = await payAndBook(alice.db, coach.slotIds[0], coach.offerId);
+    const from = new Date().toISOString();
+    const to = new Date(Date.now() + 7 * 86_400_000).toISOString();
+    const inRange = (db: typeof alice.db, column: "client_id" | "coach_id", id: string) => db.from("bookings")
+      .select("id, slot:slots!inner(starts_at)").eq(column, id).gte("slot.starts_at", from).lt("slot.starts_at", to);
+    expect((await inRange(alice.db, "client_id", alice.id)).data?.map((b) => b.id)).toEqual([bookingId]);
+    expect((await inRange(coach.db, "coach_id", coach.id)).data?.map((b) => b.id)).toEqual([bookingId]);
+    expect((await inRange(bob.db, "client_id", alice.id)).data).toEqual([]);
+  });
+
   it("the answer key of certifications is never readable", async () => {
     const coach = await makeCoach();
     const { error } = await coach.db.from("certifications").select("answer_key");

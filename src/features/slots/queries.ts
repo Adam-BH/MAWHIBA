@@ -13,6 +13,15 @@ export async function listMyUpcomingSlots(coachId: string) {
   return data ?? [];
 }
 
+/** The coach's own free slots starting in [from, to). */
+export async function listSlotsInRange(coachId: string, from: Date, to: Date) {
+  const supabase = await createClient();
+  const { data } = await supabase.from("slots").select("id, starts_at, ends_at, location")
+    .eq("coach_id", coachId).eq("is_booked", false)
+    .gte("starts_at", from.toISOString()).lt("starts_at", to.toISOString());
+  return data ?? [];
+}
+
 export async function listAvailableSlots(coachId: string) {
   const supabase = await createClient();
   const { data } = await supabase
