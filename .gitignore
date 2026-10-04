@@ -41,3 +41,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local only: videos, exports and tool data (never committed)
+/local/
+/.tinbase/
+*.mp4
+*.mov
