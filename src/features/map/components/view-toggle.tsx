@@ -10,9 +10,28 @@ import { locateMe } from "@/features/map/components/location-picker";
 import { isInTunisia, roundCoord } from "@/lib/geo";
 import { cn } from "@/lib/utils";
 
-/** Liste | Carte + "Autour de moi". All state lives in the URL; the position is rounded to ~1 km. */
-export function ViewToggle() {
+function Segmented<T extends string>({ label, options, value, onChange }: {
+  label: string;
+  options: readonly { value: T; label: string }[];
+  value: T;
+  onChange: (value: T) => void;
+}) {
+  return (
+    <div role="group" aria-label={label} className="inline-flex rounded-full border bg-card p-1">
+      {options.map((o) => (
+        <button key={o.value} type="button" aria-pressed={value === o.value} onClick={() => onChange(o.value)}
+          className={cn("rounded-full px-4 py-1.5 text-sm font-medium", value === o.value ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted")}>
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** Liste | Carte, "Pour vous" | "Mieux notés" (clients with preferences) and "Autour de moi". State lives in the URL; the position is rounded to ~1 km. */
+export function ViewToggle({ canMatch = false }: { canMatch?: boolean }) {
   const t = useTranslations("coaches.map");
+  const tm = useTranslations("matching");
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -40,14 +59,13 @@ export function ViewToggle() {
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <div role="group" aria-label={t("viewLabel")} className="inline-flex rounded-full border bg-card p-1">
-        {(["list", "map"] as const).map((v) => (
-          <button key={v} type="button" aria-pressed={view === v} onClick={() => update("view", v === "map" ? "map" : null)}
-            className={cn("rounded-full px-4 py-1.5 text-sm font-medium", view === v ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted")}>
-            {t(v)}
-          </button>
-        ))}
-      </div>
+      {canMatch && (
+        <Segmented label={tm("sortLabel")} value={params.get("sort") === "rating" ? "rating" : "match"}
+          options={[{ value: "match", label: tm("forYou") }, { value: "rating", label: tm("topRated") }]}
+          onChange={(v) => update("sort", v === "rating" ? "rating" : null)} />
+      )}
+      <Segmented label={t("viewLabel")} value={view} options={[{ value: "list", label: t("list") }, { value: "map", label: t("map") }]}
+        onChange={(v) => update("view", v === "map" ? "map" : null)} />
       {params.get("near") ? (
         <Button variant="secondary" size="sm" onClick={() => update("near", null)}><X />{t("clearNear")}</Button>
       ) : (

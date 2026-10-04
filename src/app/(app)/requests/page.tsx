@@ -2,8 +2,8 @@ import { ClientRequests } from "@/features/requests/components/client-requests";
 import { CoachBoard } from "@/features/requests/components/coach-board";
 import { requireRole } from "@/lib/auth";
 
-export default async function RequestsPage({ searchParams }: { searchParams: Promise<{ city?: string }> }) {
+export default async function RequestsPage({ searchParams }: { searchParams: Promise<{ city?: string; sort?: string }> }) {
   const user = await requireRole(["client", "coach"]);
-  const { city } = await searchParams;
-  return user.role === "coach" ? <CoachBoard user={user} city={city} /> : <ClientRequests userId={user.id} />;
+  const { city, sort } = await searchParams;
+  return user.role === "coach" ? <CoachBoard user={user} city={city} sort={sort === "recent" ? "recent" : "match"} /> : <ClientRequests userId={user.id} />;
 }

@@ -11,6 +11,7 @@ import { listClientBookings, nextSession } from "@/features/bookings/queries";
 import { CoachCard } from "@/features/coaches/components/coach-card";
 import { listCoachPins, listCoaches } from "@/features/coaches/queries";
 import { CoachMiniMap } from "@/features/map/components/coach-mini-map";
+import { listMatchedCoaches } from "@/features/matching/queries";
 import { getMyPreferences } from "@/features/preferences/queries";
 import { ClientRequestsWidget } from "@/features/requests/components/requests-widget";
 import type { CurrentUser } from "@/lib/auth";
@@ -18,10 +19,12 @@ import { isUpcoming } from "@/lib/booking-rules";
 import { CITY_COORDS, MAP_DEFAULT_CENTER, type City } from "@/lib/config";
 
 export async function ClientDashboard({ user }: { user: CurrentUser }) {
-  const [t, bookings, coaches, pins, prefs] = await Promise.all([
-    getTranslations("dashboard"), listClientBookings(user.id), listCoaches({ city: user.city ?? undefined }, 3), listCoachPins(),
-    getMyPreferences(user.id),
+  const [t, bookings, matched, byRating, pins, prefs] = await Promise.all([
+    getTranslations("dashboard"), listClientBookings(user.id), listMatchedCoaches(3), listCoaches({ city: user.city ?? undefined }, 3),
+    listCoachPins(), getMyPreferences(user.id),
   ]);
+  // Best matches first, topped up with the best-rated coaches nearby.
+  const coaches = [...matched, ...byRating.filter((c) => !matched.some((m) => m.user_id === c.user_id))].slice(0, 3);
   const center: [number, number] = prefs?.lat != null && prefs.lng != null
     ? [prefs.lat, prefs.lng] : CITY_COORDS[(prefs?.city ?? user.city) as City] ?? MAP_DEFAULT_CENTER;
   const next = nextSession(bookings);

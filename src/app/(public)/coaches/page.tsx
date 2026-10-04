@@ -7,6 +7,9 @@ import { CoachFilters } from "@/features/coaches/components/coach-filters";
 import { listCoaches } from "@/features/coaches/queries";
 import { CoachMapView } from "@/features/map/components/coach-map-view";
 import { ViewToggle } from "@/features/map/components/view-toggle";
+import { getCoachMatches, sortByMatch } from "@/features/matching/queries";
+import { getMyPreferences } from "@/features/preferences/queries";
+import { getCurrentUser } from "@/lib/auth";
 import { parseNear } from "@/lib/validations/location";
 
 export async function generateMetadata() {
@@ -14,13 +17,16 @@ export async function generateMetadata() {
   return { title: t("title") };
 }
 
-type Search = { sport?: string; city?: string; maxPrice?: string; inclusive?: string; near?: string; view?: string };
+type Search = { sport?: string; city?: string; maxPrice?: string; inclusive?: string; near?: string; view?: string; sort?: string };
 
 export default async function CoachesPage({ searchParams }: { searchParams: Promise<Search> }) {
   const params = await searchParams;
   const maxPrice = Number(params.maxPrice);
   const near = parseNear(params.near);
-  const [t, coaches] = await Promise.all([
+  const user = await getCurrentUser();
+  // "Pour vous" is the default for clients who told us what they look for.
+  const canMatch = user?.role === "client" && !!(await getMyPreferences(user.id))?.onboarded_at;
+  const [t, listed, matches] = await Promise.all([
     getTranslations("coaches"),
     listCoaches({
       sport: params.sport,
@@ -29,11 +35,13 @@ export default async function CoachesPage({ searchParams }: { searchParams: Prom
       inclusive: params.inclusive === "1",
       near,
     }),
+    canMatch && params.sort !== "rating" ? getCoachMatches(params.sport) : null,
   ]);
+  const coaches = matches && !near ? sortByMatch(listed, matches) : listed;
 
   return (
     <>
-      <PageHeader title={t("title")} actions={<Suspense><ViewToggle /></Suspense>} />
+      <PageHeader title={t("title")} actions={<Suspense><ViewToggle canMatch={canMatch} /></Suspense>} />
       <Suspense><CoachFilters /></Suspense>
       <p className="my-4 text-sm text-muted-foreground">{t("results", { count: coaches.length })}</p>
       {coaches.length === 0 ? (

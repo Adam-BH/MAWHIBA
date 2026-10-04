@@ -31,6 +31,7 @@ Next.js 15 (App Router) + Supabase in a single app, with three roles (client / c
 - The AI bio (`src/features/profile/ai-bio.ts`) is off unless `ANTHROPIC_API_KEY` and `NEXT_PUBLIC_FEATURE_AI_BIO=true` are both set. It's rate-limited to 5 per coach per day in SQL. Everything must work without it.
 - Exact coach coordinates live in `coach_locations` (owner + admin only). Public code uses `coach_profiles.map_lat/map_lng` (rounded to 2 decimals by trigger). Clients never store a precise location.
 - `src/lib/geo.ts` mirrors SQL `distance_km` (parity test in `tests/geo.test.ts`).
+- Matching weights live only in SQL (`match_coaches`, `similar_coaches`, `match_requests_for_coach`); TS only maps reason codes (`MATCH_REASONS` mirrors `match_reason_codes()`, `CITY_COORDS` mirrors `city_point()`, both parity-tested).
 - Expiry is computed on read (`expires_at < now()`, see `effectiveRequestStatus`). There's no cron.
 
 ## Checks before committing

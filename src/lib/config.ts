@@ -53,3 +53,7 @@ export const AVAILABILITY = ["matin", "midi", "soir", "weekend"] as const;
 export const MAX_PREF_SPORTS = 3;
 export const MAX_PREF_GOALS = 4;
 export const PREF_BUDGET = { min: 20, max: 150, default: 60 } as const;
+
+/** Reason codes returned by the matching RPCs, in display priority. Mirror of SQL `match_reason_codes()`. */
+export const MATCH_REASONS = ["sport", "inclusive", "nearby", "kids", "goals", "in_budget", "level", "language", "top_rated"] as const;
+export type MatchReason = (typeof MATCH_REASONS)[number];

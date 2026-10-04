@@ -63,6 +63,12 @@ isOneToOne: false
       foreignKeyName: "athletic_achievements_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
+      referencedRelation: "_coach_features"
+      referencedColumns: ["user_id"]
+    },{
+      foreignKeyName: "athletic_achievements_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
       referencedRelation: "coach_cv_stats"
       referencedColumns: ["coach_id"]
     },{
@@ -224,6 +230,12 @@ isOneToOne: false
       foreignKeyName: "coach_locations_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: true
+      referencedRelation: "_coach_features"
+      referencedColumns: ["user_id"]
+    },{
+      foreignKeyName: "coach_locations_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: true
       referencedRelation: "coach_cv_stats"
       referencedColumns: ["coach_id"]
     },{
@@ -274,6 +286,12 @@ isOneToOne: true
       foreignKeyName: "coaching_experiences_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
+      referencedRelation: "_coach_features"
+      referencedColumns: ["user_id"]
+    },{
+      foreignKeyName: "coaching_experiences_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
       referencedRelation: "coach_cv_stats"
       referencedColumns: ["coach_id"]
     },{
@@ -296,6 +314,12 @@ isOneToOne: false
                   }
                   Relationships: [
                     {
+      foreignKeyName: "education_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "_coach_features"
+      referencedColumns: ["user_id"]
+    },{
       foreignKeyName: "education_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
@@ -368,6 +392,12 @@ isOneToOne: false
       foreignKeyName: "external_certifications_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
+      referencedRelation: "_coach_features"
+      referencedColumns: ["user_id"]
+    },{
+      foreignKeyName: "external_certifications_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
       referencedRelation: "coach_cv_stats"
       referencedColumns: ["coach_id"]
     },{
@@ -390,6 +420,12 @@ isOneToOne: false
                   }
                   Relationships: [
                     {
+      foreignKeyName: "offers_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "_coach_features"
+      referencedColumns: ["user_id"]
+    },{
       foreignKeyName: "offers_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
@@ -477,6 +513,12 @@ isOneToOne: false
                   }
                   Relationships: [
                     {
+      foreignKeyName: "proposals_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
+      referencedRelation: "_coach_features"
+      referencedColumns: ["user_id"]
+    },{
       foreignKeyName: "proposals_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
@@ -591,6 +633,12 @@ isOneToOne: false
       foreignKeyName: "slots_coach_id_fkey"
       columns: ["coach_id"]
 isOneToOne: false
+      referencedRelation: "_coach_features"
+      referencedColumns: ["user_id"]
+    },{
+      foreignKeyName: "slots_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: false
       referencedRelation: "coach_cv_stats"
       referencedColumns: ["coach_id"]
     },{
@@ -604,7 +652,26 @@ isOneToOne: false
                 }
           }
           Views: {
-            "coach_cv_stats": {
+            "_coach_features": {
+                  Row: {
+                    "city": string | null,"highest_level": Database["public"]['Enums']["achievement_level"] | null,"inclusive": boolean | null,"languages": (string)[] | null,"lat": number | null,"lng": number | null,"price_per_session": number | null,"primary_sport": string | null,"rating_avg": number | null,"rating_count": number | null,"sessions": number | null,"specialties": (string)[] | null,"sports": (string)[] | null,"user_id": string | null,"zones": (string)[] | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "coach_profiles_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "coach_profiles_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "public_profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"coach_cv_stats": {
                   Row: {
                     "badges": Json | null,"coach_id": string | null,"completed_sessions": number | null,"distinct_clients": number | null,"member_since": string | null,"rating_avg": number | null,"rating_count": number | null
                   }
@@ -655,6 +722,9 @@ isOneToOne: true
 "_slot_held":
 { Args: { "p_client": string,"p_slot": string }; Returns: boolean
                            },
+"_top_reasons":
+{ Args: { "p_codes": (string)[],"p_ratios": (number)[] }; Returns: (string)[]
+                           },
 "admin_create_event":
 { Args: { "capacity": number,"description": string,"ends_at": string,"location": string,"starts_at": string,"title": string }; Returns: string
                            },
@@ -678,6 +748,9 @@ isOneToOne: true
                            },
 "cancel_booking":
 { Args: { "booking_id": string }; Returns: undefined
+                           },
+"city_point":
+{ Args: { "p_city": string }; Returns: Record<string, unknown>
                            },
 "close_request":
 { Args: { "request_id": string }; Returns: undefined
@@ -706,6 +779,9 @@ isOneToOne: true
 "distance_km":
 { Args: { "lat1": number,"lat2": number,"lng1": number,"lng2": number }; Returns: number
                            },
+"goal_specialties":
+{ Args: { "p_audience": Database["public"]['Enums']["request_audience"],"p_child_age": number,"p_goals": (string)[],"p_inclusive": boolean }; Returns: (string)[]
+                           },
 "has_contact_info":
 { Args: { "p_text": string }; Returns: boolean
                            },
@@ -721,14 +797,38 @@ isOneToOne: true
 "is_verified_coach":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
+"jaccard":
+{ Args: { "a": (string)[],"b": (string)[] }; Returns: number
+                           },
+"match_coaches":
+{ Args: { "p_limit"?: number,"p_sport"?: string }; Returns: {
+              "coach_id": string,"distance_km": number,"reasons": (string)[],"score": number
+            }[]
+                           },
+"match_reason_codes":
+{ Args: Record<PropertyKey, never>; Returns: (string)[]
+                           },
+"match_requests_for_coach":
+{ Args: { "p_limit"?: number }; Returns: {
+              "reasons": (string)[],"request_id": string,"score": number
+            }[]
+                           },
 "my_earnings":
 { Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"quality_points":
+{ Args: { "p_count": number,"p_rating": number,"p_sessions": number }; Returns: number
                            },
 "register_event":
 { Args: { "event_id": string }; Returns: undefined
                            },
 "respond_booking":
 { Args: { "accept": boolean,"booking_id": string }; Returns: undefined
+                           },
+"similar_coaches":
+{ Args: { "p_coach": string,"p_limit"?: number }; Returns: {
+              "coach_id": string,"score": number
+            }[]
                            },
 "slugify":
 { Args: { "p_text": string }; Returns: string

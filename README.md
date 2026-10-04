@@ -127,6 +127,8 @@ Good to know:
 
 **Client onboarding.** Sign up as a client → 4 quick steps (sport, for whom, where, budget & moments), skippable and editable later in the user menu (**Mes préférences**, `/onboarding?edit=1`). A skipped onboarding shows a nudge on the dashboard. Preferences are private (never visible to coaches) and only keep a ~1 km point.
 
+**Matching ("Pour vous").** `client@` (Natation, child of 8, inclusive needs, La Marsa, 50 DT) sees Amira first on the dashboard with "Très bon match · Natation · Coaching inclusif · À 1,4 km". **Trouver un coach** defaults to **Pour vous** for clients with preferences. Coach profiles show "Coachs similaires"; `coach@` → **Demandes clients** sorts by "Meilleures correspondances" with a "Correspond à votre profil" badge. Scores are explainable SQL features (no AI), weights only in `*_matching.sql`.
+
 **Close the demo.** `admin@` → **Vue d'ensemble** → **Star Tracks** (`/star-tracks`): insured sessions, Star premiums, verified and trained coaches, coach earnings and insured sessions by sport, on one projector-friendly page.
 
 **Admin.** `/admin/coaches` verifies new coaches (proofs open via signed URLs) and reviews palmarès & certifications.

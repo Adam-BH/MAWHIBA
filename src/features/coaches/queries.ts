@@ -4,7 +4,7 @@ import { initials } from "@/lib/utils";
 import { INCLUSIVE_CERT_SLUG } from "@/lib/config";
 import { distanceKm, type LatLng } from "@/lib/geo";
 
-export type CoachFilters = { sport?: string; city?: string; maxPrice?: number; inclusive?: boolean; near?: LatLng };
+export type CoachFilters = { sport?: string; city?: string; maxPrice?: number; inclusive?: boolean; near?: LatLng; ids?: string[] };
 
 const CARD_FIELDS =
   "user_id, slug, sports, primary_sport, highest_level, years_practice, tagline, headline, price_per_session, rating_avg, rating_count, verified, map_lat, map_lng, base_label, service_radius_km, profile:profiles!inner(full_name, city, avatar_url)";
@@ -27,6 +27,7 @@ export async function listCoaches(filters: CoachFilters = {}, limit = 60) {
   if (filters.city) query = query.eq("profile.city", filters.city);
   if (filters.maxPrice) query = query.lte("price_per_session", filters.maxPrice);
   if (filters.inclusive) query = query.in("user_id", [...inclusiveIds]);
+  if (filters.ids) query = query.in("user_id", filters.ids);
   const { data } = await query.order("rating_avg", { ascending: false }).limit(limit);
   const coaches = data ?? [];
   const { data: stats } = coaches.length

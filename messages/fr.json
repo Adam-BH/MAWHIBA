@@ -1042,5 +1042,29 @@
       },
       "goals": "Vos objectifs (4 max)"
     }
+  },
+  "matching": {
+    "strong": "Très bon match",
+    "good": "Bon match",
+    "reasons": {
+      "sport": "{sport}",
+      "inclusive": "Coaching inclusif",
+      "nearby": "À {distance}",
+      "kids": "Spécialiste enfants",
+      "goals": "Vos objectifs",
+      "in_budget": "Dans votre budget",
+      "level": "Niveau compétition",
+      "language": "Parle votre langue",
+      "top_rated": "Très bien noté"
+    },
+    "forYou": "Pour vous",
+    "topRated": "Mieux notés",
+    "sortLabel": "Trier",
+    "similar": "Coachs similaires",
+    "requestHint": "Coachs qui correspondent",
+    "requestHintText": "En attendant les propositions, ces coachs correspondent à votre demande.",
+    "boardMatch": "Correspond à votre profil",
+    "boardSortMatch": "Meilleures correspondances",
+    "boardSortRecent": "Plus récentes"
   }
 }

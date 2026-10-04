@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/shared/empty-state";
+import { CoachCard } from "@/features/coaches/components/coach-card";
+import { listMatchedCoaches } from "@/features/matching/queries";
 import { AcceptProposalDialog } from "@/features/proposals/components/accept-proposal-dialog";
 import { ProposalCard } from "@/features/proposals/components/proposal-card";
 import { CloseRequestButton } from "@/features/requests/components/close-request-button";
@@ -17,6 +19,10 @@ export async function ClientRequestDetail({ requestId, userId }: { requestId: st
   const expiresAt = new Date(request.expires_at);
   const status = effectiveRequestStatus(request.status, expiresAt);
   const budget = { min: request.budget_min, max: request.budget_max };
+  // While waiting for proposals, a hint: the best-matching coaches for this sport.
+  const [tm, matches] = status === "open"
+    ? await Promise.all([getTranslations("matching"), listMatchedCoaches(3, request.sport)])
+    : [null, []];
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
@@ -39,6 +45,13 @@ export async function ClientRequestDetail({ requestId, userId }: { requestId: st
           </div>
         )}
       </section>
+      {tm && matches.length > 0 && (
+        <section>
+          <h2 className="text-xl font-semibold">{tm("requestHint")}</h2>
+          <p className="mt-1 mb-4 text-sm text-muted-foreground">{tm("requestHintText")}</p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{matches.map((c) => <CoachCard key={c.user_id} coach={c} />)}</div>
+        </section>
+      )}
     </div>
   );
 }

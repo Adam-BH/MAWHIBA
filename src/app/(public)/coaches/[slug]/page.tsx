@@ -9,7 +9,9 @@ import { Price } from "@/components/shared/price";
 import { AvailableSlots } from "@/features/coaches/components/available-slots";
 import { ProfileSections } from "@/features/cv/components/profile-sections";
 import { ShareButtons } from "@/features/cv/components/share-buttons";
+import { CoachCard } from "@/features/coaches/components/coach-card";
 import { CoachMiniMap } from "@/features/map/components/coach-mini-map";
+import { listSimilarCoaches } from "@/features/matching/queries";
 import { getCoachFull, resolveCoach, strengthOf } from "@/features/cv/queries";
 import { OfferCard } from "@/features/offers/components/offer-card";
 import { listCoachOffers } from "@/features/offers/queries";
@@ -51,8 +53,9 @@ export default async function CoachPage({ params, searchParams }: Props) {
   if (!data) notFound();
   const { coach, viewer } = data;
 
-  const [slots, reviews, offers, t] = await Promise.all([
-    listAvailableSlots(coach.user_id), listCoachReviews(coach.user_id), listCoachOffers(coach.user_id), getTranslations("coaches"),
+  const [slots, reviews, offers, similar, t, tm] = await Promise.all([
+    listAvailableSlots(coach.user_id), listCoachReviews(coach.user_id), listCoachOffers(coach.user_id), listSimilarCoaches(coach.user_id),
+    getTranslations("coaches"), getTranslations("matching"),
   ]);
   const tp = await getTranslations("publicProfile");
   const selected = offers.find((o) => o.id === offerParam) ?? offers[0];
@@ -102,6 +105,12 @@ export default async function CoachPage({ params, searchParams }: Props) {
           <h2 className="mb-4 text-xl font-semibold">{t("reviews")}</h2>
           <ReviewList reviews={reviews} />
         </section>
+        {similar.length > 0 && (
+          <section id="similaires" className="scroll-mt-20">
+            <h2 className="mb-4 text-xl font-semibold">{tm("similar")}</h2>
+            <div className="grid gap-4 sm:grid-cols-2">{similar.map((c) => <CoachCard key={c.user_id} coach={c} />)}</div>
+          </section>
+        )}
       </div>
     </div>
   );

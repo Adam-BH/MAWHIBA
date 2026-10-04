@@ -4,11 +4,12 @@ import { useTranslations } from "next-intl";
 import { LevelChip } from "@/components/shared/level-chip";
 import { Price } from "@/components/shared/price";
 import { UserAvatar } from "@/components/shared/user-avatar";
-import type { CoachCardData } from "@/features/coaches/queries";
+import { MatchReasons } from "@/features/matching/components/match-reasons";
+import type { MatchedCoach } from "@/features/matching/queries";
 import { athleteCardData } from "@/lib/athlete-card";
 import { formatDistance } from "@/lib/geo";
 
-export function CoachCard({ coach }: { coach: CoachCardData }) {
+export function CoachCard({ coach }: { coach: MatchedCoach }) {
   const t = useTranslations("coaches");
   const tb = useTranslations("badges");
   const card = athleteCardData(coach, 0, 100);
@@ -26,14 +27,15 @@ export function CoachCard({ coach }: { coach: CoachCardData }) {
         </div>
       </div>
       {card.tagline && <p className="line-clamp-2 text-sm">{card.tagline}</p>}
+      {coach.match && <MatchReasons match={coach.match} sport={card.sport} distanceKm={coach.distanceKm} />}
       <div className="flex flex-wrap items-center gap-2 text-xs">
-        {coach.distanceKm !== null && (
+        {coach.distanceKm !== null && !coach.match?.reasons.includes("nearby") && (
           <span className="flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 font-semibold text-primary">
             <MapPin className="size-3.5" />{t("map.distance", { distance: formatDistance(coach.distanceKm) })}
           </span>
         )}
         {card.level && <LevelChip level={card.level} />}
-        {card.badges.includes("inclusive") && (
+        {card.badges.includes("inclusive") && !coach.match?.reasons.includes("inclusive") && (
           <span className="flex items-center gap-1 font-semibold text-primary"><HeartHandshake className="size-3.5" />{tb("inclusive")}</span>
         )}
       </div>
