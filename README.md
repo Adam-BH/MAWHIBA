@@ -108,6 +108,8 @@ Stop the database with `npm run db:stop`. Your data is kept between restarts.
 
 **Monthly event.** The home page shows the next "Matinée MAWHIBA" with spots left. Clients and coaches register in one click (free, capacity enforced in SQL under a row lock); visitors are sent to login and back. Admins publish events in `/admin/events`.
 
+**Close the demo.** `admin@` → **Vue d'ensemble** → **Star Tracks** (`/star-tracks`): insured sessions, Star premiums, verified and trained coaches, coach earnings and insured sessions by sport, on one projector-friendly page.
+
 **Admin.** `/admin/coaches` verifies new coaches (proofs open via signed URLs) and reviews palmarès & certifications.
 
 ### What the seed creates
@@ -192,6 +194,6 @@ messages/fr.json     every UI string (typed: a missing key fails tsc)
 - `profiles.email` is copied from `auth.users` by the signup trigger so admins can search users.
 - Reviewer names come from a `public_profiles` view (name/avatar/city only).
 - Proposal prices are pre-filled with the coach's cheapest matching offer, capped at the client's budget.
-- On mobile, "Profil" and "Formation" live in the user menu so the bottom bar keeps 6 items or fewer.
+- Navigation items have a `place` in `src/lib/nav.ts`: `main` (sidebar and bottom bar, 5 per role at most), `menu` (user dropdown) or `hidden` (URL only: admin requests and events). Change the place to re-enable an item.
 - "Weekly" slot creation publishes the slot plus the same time on the next 2 weeks.
 - Time zone is `Africa/Tunis`. Konnect is mocked (`src/lib/payments/konnect.ts`) while `KONNECT_API_KEY` is unset; the real integration only needs `initPayment` and a webhook route calling `confirm_payment`.
