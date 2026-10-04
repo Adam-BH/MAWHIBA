@@ -1,4 +1,6 @@
+import { createClient } from "@supabase/supabase-js";
 import { afterAll, describe, expect, it } from "vitest";
+import type { Database } from "@/lib/supabase/database.types";
 import { admin, cleanup, enabled, makeCoach, makeUser, payAndBook, postRequest } from "./helpers";
 
 describe.skipIf(!enabled)("scenario: roles and privacy", () => {
@@ -67,6 +69,24 @@ describe.skipIf(!enabled)("scenario: roles and privacy", () => {
     expect(bookings).toEqual([]);
     const { data: payments } = await bob.db.from("payments").select("id");
     expect(payments).toEqual([]);
+  });
+
+  it("a coach's exact pin is private; the public sees it rounded to ~1 km", async () => {
+    const coach = await makeCoach();
+    const other = await makeCoach();
+    const { error } = await coach.db.from("coach_locations").insert({ coach_id: coach.id, lat: 36.87824, lng: 10.32471 });
+    expect(error).toBeNull();
+
+    const anonDb = createClient<Database>(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+    for (const db of [anonDb, other.db]) {
+      const { data } = await db.from("coach_locations").select("lat, lng").eq("coach_id", coach.id);
+      expect(data ?? []).toEqual([]);
+    }
+    expect((await other.db.from("coach_locations").insert({ coach_id: coach.id, lat: 36.8, lng: 10.1 })).error).not.toBeNull();
+    const { data: own } = await coach.db.from("coach_locations").select("lat").eq("coach_id", coach.id).single();
+    expect(own?.lat).toBe(36.87824);
+    const { data: card } = await anonDb.from("coach_profiles").select("map_lat, map_lng").eq("user_id", coach.id).single();
+    expect(card).toEqual({ map_lat: 36.88, map_lng: 10.32 });
   });
 
   it("the answer key of certifications is never readable", async () => {

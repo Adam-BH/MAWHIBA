@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { fail, invalid, ok, type ActionResult } from "@/lib/action-result";
 import { PROFILE_STEPS } from "@/lib/config";
 import type { TablesUpdate } from "@/lib/supabase/database.types";
+import { locationSchema, type LocationInput } from "@/lib/validations/location";
 import { ALLOWED_TYPES, MAX_UPLOAD_BYTES } from "@/lib/validations/profile";
 import {
   coachingInfoSchema, coachingStepSchema, identitySchema, publishSchema, sportStepSchema,
@@ -77,6 +78,21 @@ export async function saveCoachingStepAction(input: CoachingStepInput): Promise<
     bio, zones, video_url: videoUrl || null, socials: handles, session_duration_min: duration,
     ...(activeOffers ? {} : { price_per_session: price }),
   });
+  return error ? fail(error) : done();
+}
+
+/** Exact pin goes to the private `coach_locations`; a trigger publishes the rounded point. */
+export async function updateCoachLocationAction(input: LocationInput): Promise<ActionResult> {
+  const user = await requireRole(["coach"]);
+  const parsed = locationSchema.safeParse(input);
+  if (!parsed.success) return invalid(parsed.error.issues[0].message);
+  const { point, label, radiusKm } = parsed.data;
+  const supabase = await createClient();
+  const { error: pinError } = point
+    ? await supabase.from("coach_locations").upsert({ coach_id: user.id, ...point })
+    : await supabase.from("coach_locations").delete().eq("coach_id", user.id);
+  if (pinError) return fail(pinError);
+  const { error } = await updateCoach(user.id, { base_label: label || null, service_radius_km: radiusKm });
   return error ? fail(error) : done();
 }
 

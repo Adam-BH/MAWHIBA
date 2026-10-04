@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Download, ExternalLink, FileText, PartyPopper, Rocket } from "lucide-react";
+import { Download, ExternalLink, FileText, MapPin, PartyPopper, Rocket } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -56,6 +56,13 @@ export function StepPublish() {
 
   return (
     <form onSubmit={publish} className="grid gap-5">
+      {coach.map_lat === null && (
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed border-primary bg-secondary p-3 text-sm">
+          <MapPin className="size-4 text-primary" />
+          <span className="flex-1">{t("noLocation")}</span>
+          <Button type="button" size="sm" variant="outline" onClick={() => goTo(6)}>{t("addLocation")}</Button>
+        </div>
+      )}
       <fieldset className="grid gap-2">
         <legend className="mb-2 text-sm font-medium">{t("template")}</legend>
         <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label={t("template")}>

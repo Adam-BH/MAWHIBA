@@ -30,6 +30,10 @@ export function ProfileSections({ coach }: { coach: CoachFull }) {
         {coach.bio && <p className="whitespace-pre-line text-muted-foreground">{coach.bio}</p>}
         <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
           {coach.languages.length > 0 && <div><dt className="font-medium">{t("languages")}</dt><dd className="text-muted-foreground">{coach.languages.join(", ")}</dd></div>}
+          {coach.map_lat !== null && (
+            <div><dt className="font-medium">{t("location")}</dt>
+              <dd className="flex items-center gap-1 text-muted-foreground"><MapPin className="size-3.5" />{coach.base_label ?? coach.profile.city} · {t("approx")}</dd></div>
+          )}
           {coach.zones.length > 0 && <div><dt className="font-medium">{t("zones")}</dt><dd className="flex items-center gap-1 text-muted-foreground"><MapPin className="size-3.5" />{coach.zones.join(", ")}</dd></div>}
           {coach.specialties.length > 0 && (
             <div className="sm:col-span-2"><dt className="font-medium">{t("specialties")}</dt>

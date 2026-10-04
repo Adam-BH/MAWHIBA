@@ -40,6 +40,13 @@ export async function listCoaches(filters: CoachFilters = {}, limit = 60) {
 
 export type CoachCardData = Awaited<ReturnType<typeof listCoaches>>[number];
 
+/** The exact training pin: readable by its owner (and admins) only. */
+export async function getCoachPin(coachId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase.from("coach_locations").select("lat, lng").eq("coach_id", coachId).maybeSingle();
+  return data;
+}
+
 export async function getMyCoachProfile(userId: string) {
   const supabase = await createClient();
   const { data } = await supabase.from("coach_profiles").select("*").eq("user_id", userId).single();

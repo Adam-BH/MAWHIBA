@@ -13,14 +13,16 @@ import { WizardContext, type Draft } from "@/features/profile/components/wizard-
 import { WizardSteps } from "@/features/profile/components/wizard-steps";
 import type { CoachFull } from "@/features/cv/queries";
 import { athleteCardData } from "@/lib/athlete-card";
+import type { LatLng } from "@/lib/geo";
 import { PROFILE_STEPS } from "@/lib/config";
 import { profileStrength, STRENGTH_COMPLETE_FROM, type StrengthInput } from "@/lib/profile-strength";
 import { cn } from "@/lib/utils";
 
 const STEP_NAMES = ["identity", "sport", "achievements", "experience", "education", "coaching", "publish"] as const;
 
-export function ProfileWizard({ coach, step, offersCount, aiEnabled, strengthBase }: {
+export function ProfileWizard({ coach, pin, step, offersCount, aiEnabled, strengthBase }: {
   coach: CoachFull;
+  pin: LatLng | null;
   step: number;
   offersCount: number;
   aiEnabled: boolean;
@@ -40,7 +42,7 @@ export function ProfileWizard({ coach, step, offersCount, aiEnabled, strengthBas
   }, [router]);
 
   const ctx = useMemo(() => ({
-    coach, step, offersCount, aiEnabled,
+    coach, pin, step, offersCount, aiEnabled,
     setDraft: setDraftState,
     markSaved: () => setSavedAt(Date.now()),
     goTo,
@@ -49,7 +51,7 @@ export function ProfileWizard({ coach, step, offersCount, aiEnabled, strengthBas
       void reachStepAction(n);
       goTo(n);
     },
-  }), [coach, step, offersCount, aiEnabled, goTo]);
+  }), [coach, pin, step, offersCount, aiEnabled, goTo]);
 
   const preview = <AthleteCard card={card} />;
 

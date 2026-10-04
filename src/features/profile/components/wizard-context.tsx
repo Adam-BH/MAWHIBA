@@ -3,12 +3,14 @@
 import { createContext, useContext, useEffect, useRef } from "react";
 import type { CoachFull } from "@/features/cv/queries";
 import type { AthleteCardData } from "@/lib/athlete-card";
+import type { LatLng } from "@/lib/geo";
 import type { StrengthInput } from "@/lib/profile-strength";
 
 export type Draft = { card?: Partial<AthleteCardData>; strength?: Partial<StrengthInput> };
 
 export type WizardContextValue = {
   coach: CoachFull;
+  pin: LatLng | null;
   step: number;
   offersCount: number;
   aiEnabled: boolean;

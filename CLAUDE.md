@@ -29,6 +29,8 @@ Next.js 15 (App Router) + Supabase in a single app, with three roles (client / c
 - Public coach URLs use `coach_profiles.slug` (`src/lib/slug.ts` mirrors SQL `slugify`). The middleware 308-redirects `/coaches/<uuid>` to the slug.
 - CV items (`athletic_achievements`, `coaching_experiences`, `education`, `external_certifications`) are publicly readable only if the coach is verified and `cv_public`. `verified` is admin-only (RPCs), and a coach's edit resets it (trigger).
 - The AI bio (`src/features/profile/ai-bio.ts`) is off unless `ANTHROPIC_API_KEY` and `NEXT_PUBLIC_FEATURE_AI_BIO=true` are both set. It's rate-limited to 5 per coach per day in SQL. Everything must work without it.
+- Exact coach coordinates live in `coach_locations` (owner + admin only). Public code uses `coach_profiles.map_lat/map_lng` (rounded to 2 decimals by trigger). Clients never store a precise location.
+- `src/lib/geo.ts` mirrors SQL `distance_km` (parity test in `tests/geo.test.ts`).
 - Expiry is computed on read (`expires_at < now()`, see `effectiveRequestStatus`). There's no cron.
 
 ## Checks before committing

@@ -11,20 +11,23 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ChipToggleGroup } from "@/components/shared/chip-toggle-group";
 import { FieldError } from "@/components/shared/field-error";
-import { saveCoachingStepAction } from "@/features/profile/actions";
+import { saveCoachingStepAction, updateCoachLocationAction } from "@/features/profile/actions";
 import { suggestBioAction } from "@/features/profile/ai-bio";
+import { LocationPicker } from "@/features/map/components/location-picker";
 import { StepNav } from "@/features/profile/components/step-nav";
 import { useDraftSync, useWizard } from "@/features/profile/components/wizard-context";
 import { BIO_MAX, CITIES, SOCIAL_NETWORKS } from "@/lib/config";
+import type { LocationInput } from "@/lib/validations/location";
 import { coachingStepSchema, type CoachingStepInput } from "@/lib/validations/profile-builder";
 import { useAction } from "@/lib/use-action";
 
 export function StepCoaching() {
   const t = useTranslations("builder.coaching");
-  const { coach, offersCount, aiEnabled, markSaved, next } = useWizard();
+  const { coach, pin, offersCount, aiEnabled, markSaved, next } = useWizard();
   const { pending, run } = useAction();
   const ai = useAction();
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [location, setLocation] = useState<LocationInput>({ point: pin, label: coach.base_label ?? "", radiusKm: coach.service_radius_km });
   const socials = coach.socials;
   const form = useForm<CoachingStepInput>({
     resolver: zodResolver(coachingStepSchema),
@@ -40,7 +43,7 @@ export function StepCoaching() {
   const { errors } = form.formState;
   const v = form.watch();
   useDraftSync({
-    strength: { bioLength: v.bio.trim().length, zones: v.zones.length, video: !!v.videoUrl, socials: Object.values(v.socials).filter(Boolean).length },
+    strength: { bioLength: v.bio.trim().length, zones: v.zones.length, video: !!v.videoUrl, socials: Object.values(v.socials).filter(Boolean).length, location: !!location.point },
   });
 
   function addPrompt(key: "prompt1" | "prompt2" | "prompt3") {
@@ -49,7 +52,10 @@ export function StepCoaching() {
   }
 
   return (
-    <form onSubmit={form.handleSubmit((values) => run(() => saveCoachingStepAction(values), { onSuccess: () => { markSaved(); next(); } }))}
+    <form onSubmit={form.handleSubmit((values) => run(async () => {
+      const saved = await saveCoachingStepAction(values);
+      return saved.ok ? updateCoachLocationAction(location) : saved;
+    }, { onSuccess: () => { markSaved(); next(); } }))}
       className="grid gap-5" noValidate>
       <div className="grid gap-2">
         <div className="flex flex-wrap items-end justify-between gap-2">
@@ -87,6 +93,10 @@ export function StepCoaching() {
           <ChipToggleGroup ariaLabel={t("zones")} options={CITIES} value={field.value} onChange={(x) => field.onChange(x as CoachingStepInput["zones"])} />
         )} />
       </div>
+      <fieldset className="grid gap-2">
+        <legend className="mb-1 text-sm font-medium">{t("location")}</legend>
+        <LocationPicker value={location} onChange={setLocation} />
+      </fieldset>
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="grid gap-2 sm:col-span-2">
           <Label htmlFor="videoUrl">{t("video")}</Label>

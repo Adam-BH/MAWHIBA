@@ -28,3 +28,22 @@ export const BIO_MAX = 1200;
 export type AchievementLevel = (typeof ACHIEVEMENT_LEVELS)[number];
 export type CvTemplate = (typeof CV_TEMPLATES)[number];
 export type SocialNetwork = (typeof SOCIAL_NETWORKS)[number];
+
+export type City = (typeof CITIES)[number];
+/** City centroids [lat, lng], used for map quick-jumps and as a fallback point. */
+export const CITY_COORDS: Record<City, [number, number]> = {
+  Tunis: [36.8065, 10.1815],
+  Ariana: [36.8665, 10.1647],
+  "Ben Arous": [36.7531, 10.2189],
+  "La Marsa": [36.8782, 10.3247],
+  Sousse: [35.8256, 10.636],
+  Sfax: [34.7406, 10.7603],
+  Monastir: [35.7643, 10.8113],
+  Nabeul: [36.4561, 10.7376],
+  Bizerte: [37.2744, 9.8739],
+};
+export const MAP_DEFAULT_CENTER: [number, number] = CITY_COORDS.Tunis;
+export const MAP_DEFAULT_ZOOM = 11;
+/** Swap in a paid tile provider for production via NEXT_PUBLIC_MAP_TILE_URL. */
+export const MAP_TILE_URL = process.env.NEXT_PUBLIC_MAP_TILE_URL || "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+export const MAP_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';

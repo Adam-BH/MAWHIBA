@@ -184,15 +184,40 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
-                },"coach_profiles": {
+                },"coach_locations": {
                   Row: {
-                    "achievements": string | null,"athlete_status": Database["public"]['Enums']["athlete_status"] | null,"bio": string | null,"builder_step": number,"cover_path": string | null,"cv_public": boolean,"cv_template": string,"headline": string | null,"highest_level": Database["public"]['Enums']["achievement_level"] | null,"languages": (string)[],"price_per_session": number,"primary_sport": string | null,"proof_path": string | null,"published_at": string | null,"rating_avg": number,"rating_count": number,"session_duration_min": number,"slug": string | null,"socials": NonNullable<Json>,"specialties": (string)[],"sports": (string)[],"tagline": string | null,"user_id": string,"verified": boolean,"video_url": string | null,"years_coaching": number | null,"years_practice": number | null,"zones": (string)[]
+                    "coach_id": string,"lat": number,"lng": number
                   }
                   Insert: {
-                    "achievements"?: string | null,"athlete_status"?: Database["public"]['Enums']["athlete_status"] | null,"bio"?: string | null,"builder_step"?: number,"cover_path"?: string | null,"cv_public"?: boolean,"cv_template"?: string,"headline"?: string | null,"highest_level"?: Database["public"]['Enums']["achievement_level"] | null,"languages"?: (string)[],"price_per_session"?: number,"primary_sport"?: string | null,"proof_path"?: string | null,"published_at"?: string | null,"rating_avg"?: number,"rating_count"?: number,"session_duration_min"?: number,"slug"?: string | null,"socials"?: NonNullable<Json>,"specialties"?: (string)[],"sports"?: (string)[],"tagline"?: string | null,"user_id": string,"verified"?: boolean,"video_url"?: string | null,"years_coaching"?: number | null,"years_practice"?: number | null,"zones"?: (string)[]
+                    "coach_id": string,"lat": number,"lng": number
                   }
                   Update: {
-                    "achievements"?: string | null,"athlete_status"?: Database["public"]['Enums']["athlete_status"] | null,"bio"?: string | null,"builder_step"?: number,"cover_path"?: string | null,"cv_public"?: boolean,"cv_template"?: string,"headline"?: string | null,"highest_level"?: Database["public"]['Enums']["achievement_level"] | null,"languages"?: (string)[],"price_per_session"?: number,"primary_sport"?: string | null,"proof_path"?: string | null,"published_at"?: string | null,"rating_avg"?: number,"rating_count"?: number,"session_duration_min"?: number,"slug"?: string | null,"socials"?: NonNullable<Json>,"specialties"?: (string)[],"sports"?: (string)[],"tagline"?: string | null,"user_id"?: string,"verified"?: boolean,"video_url"?: string | null,"years_coaching"?: number | null,"years_practice"?: number | null,"zones"?: (string)[]
+                    "coach_id"?: string,"lat"?: number,"lng"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "coach_locations_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: true
+      referencedRelation: "coach_cv_stats"
+      referencedColumns: ["coach_id"]
+    },{
+      foreignKeyName: "coach_locations_coach_id_fkey"
+      columns: ["coach_id"]
+isOneToOne: true
+      referencedRelation: "coach_profiles"
+      referencedColumns: ["user_id"]
+    }
+                  ]
+                },"coach_profiles": {
+                  Row: {
+                    "achievements": string | null,"athlete_status": Database["public"]['Enums']["athlete_status"] | null,"base_label": string | null,"bio": string | null,"builder_step": number,"cover_path": string | null,"cv_public": boolean,"cv_template": string,"headline": string | null,"highest_level": Database["public"]['Enums']["achievement_level"] | null,"languages": (string)[],"map_lat": number | null,"map_lng": number | null,"price_per_session": number,"primary_sport": string | null,"proof_path": string | null,"published_at": string | null,"rating_avg": number,"rating_count": number,"service_radius_km": number,"session_duration_min": number,"slug": string | null,"socials": NonNullable<Json>,"specialties": (string)[],"sports": (string)[],"tagline": string | null,"user_id": string,"verified": boolean,"video_url": string | null,"years_coaching": number | null,"years_practice": number | null,"zones": (string)[]
+                  }
+                  Insert: {
+                    "achievements"?: string | null,"athlete_status"?: Database["public"]['Enums']["athlete_status"] | null,"base_label"?: string | null,"bio"?: string | null,"builder_step"?: number,"cover_path"?: string | null,"cv_public"?: boolean,"cv_template"?: string,"headline"?: string | null,"highest_level"?: Database["public"]['Enums']["achievement_level"] | null,"languages"?: (string)[],"map_lat"?: number | null,"map_lng"?: number | null,"price_per_session"?: number,"primary_sport"?: string | null,"proof_path"?: string | null,"published_at"?: string | null,"rating_avg"?: number,"rating_count"?: number,"service_radius_km"?: number,"session_duration_min"?: number,"slug"?: string | null,"socials"?: NonNullable<Json>,"specialties"?: (string)[],"sports"?: (string)[],"tagline"?: string | null,"user_id": string,"verified"?: boolean,"video_url"?: string | null,"years_coaching"?: number | null,"years_practice"?: number | null,"zones"?: (string)[]
+                  }
+                  Update: {
+                    "achievements"?: string | null,"athlete_status"?: Database["public"]['Enums']["athlete_status"] | null,"base_label"?: string | null,"bio"?: string | null,"builder_step"?: number,"cover_path"?: string | null,"cv_public"?: boolean,"cv_template"?: string,"headline"?: string | null,"highest_level"?: Database["public"]['Enums']["achievement_level"] | null,"languages"?: (string)[],"map_lat"?: number | null,"map_lng"?: number | null,"price_per_session"?: number,"primary_sport"?: string | null,"proof_path"?: string | null,"published_at"?: string | null,"rating_avg"?: number,"rating_count"?: number,"service_radius_km"?: number,"session_duration_min"?: number,"slug"?: string | null,"socials"?: NonNullable<Json>,"specialties"?: (string)[],"sports"?: (string)[],"tagline"?: string | null,"user_id"?: string,"verified"?: boolean,"video_url"?: string | null,"years_coaching"?: number | null,"years_practice"?: number | null,"zones"?: (string)[]
                   }
                   Relationships: [
                     {
@@ -652,6 +677,9 @@ isOneToOne: true
                            },
 "create_request":
 { Args: { "audience": Database["public"]['Enums']["request_audience"],"budget_max": number,"budget_min": number,"child_age": number,"city": string,"description": string,"level": Database["public"]['Enums']["skill_level"],"schedule_note": string,"special_needs": boolean,"special_needs_note": string,"sport": string,"title": string }; Returns: string
+                           },
+"distance_km":
+{ Args: { "lat1": number,"lat2": number,"lng1": number,"lng2": number }; Returns: number
                            },
 "has_contact_info":
 { Args: { "p_text": string }; Returns: boolean

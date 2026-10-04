@@ -5,6 +5,7 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { uploadAvatarAction, uploadProofAction } from "@/features/coaches/actions";
 import { FileUpload } from "@/features/coaches/components/file-upload";
 import { ProfileForm } from "@/features/coaches/components/profile-form";
+import { getCoachPin } from "@/features/coaches/queries";
 import { getCoachFull, strengthInputOf } from "@/features/cv/queries";
 import { listCoachOffers } from "@/features/offers/queries";
 import { isAiBioEnabled } from "@/features/profile/ai-flag";
@@ -38,7 +39,9 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
     );
   }
 
-  const [{ step: stepParam }, coach, offers] = await Promise.all([searchParams, getCoachFull(user.id), listCoachOffers(user.id)]);
+  const [{ step: stepParam }, coach, offers, pin] = await Promise.all([
+    searchParams, getCoachFull(user.id), listCoachOffers(user.id), getCoachPin(user.id),
+  ]);
   if (!coach) return null;
   const requested = Number(stepParam);
   const step = Number.isInteger(requested) && requested >= 1 && requested <= PROFILE_STEPS ? requested : coach.builder_step;
@@ -58,7 +61,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
           </CardContent>
         </Card>
       )}
-      <ProfileWizard coach={coach} step={step} offersCount={offers.length} aiEnabled={isAiBioEnabled()} strengthBase={strengthInputOf(coach)} />
+      <ProfileWizard coach={coach} pin={pin} step={step} offersCount={offers.length} aiEnabled={isAiBioEnabled()} strengthBase={strengthInputOf(coach)} />
     </div>
   );
 }

@@ -6,12 +6,12 @@ import { coachingStepSchema, HANDLE_PATTERN, VIDEO_URL_PATTERN } from "@/lib/val
 const EMPTY: StrengthInput = {
   avatar: false, cover: false, tagline: false, city: false, languages: 0, primarySport: false, athleteStatus: false,
   yearsPractice: false, highestLevel: false, achievements: 0, verifiedAchievements: 0, experiences: 0, yearsCoaching: false,
-  specialties: 0, education: 0, certifications: 0, mawhibaBadges: 0, bioLength: 0, zones: 0, video: false, socials: 0,
+  specialties: 0, education: 0, certifications: 0, mawhibaBadges: 0, bioLength: 0, zones: 0, location: false, video: false, socials: 0,
 };
 const FULL: StrengthInput = {
   avatar: true, cover: true, tagline: true, city: true, languages: 2, primarySport: true, athleteStatus: true,
   yearsPractice: true, highestLevel: true, achievements: 4, verifiedAchievements: 2, experiences: 2, yearsCoaching: true,
-  specialties: 3, education: 1, certifications: 1, mawhibaBadges: 1, bioLength: 400, zones: 2, video: true, socials: 2,
+  specialties: 3, education: 1, certifications: 1, mawhibaBadges: 1, bioLength: 400, zones: 2, location: true, video: true, socials: 2,
 };
 
 describe("profile strength", () => {

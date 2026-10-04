@@ -1,7 +1,8 @@
 import { THEME } from "../src/features/cv/pdf/theme";
 import { sportFamily } from "../src/lib/athlete-card";
 import { profileStrength } from "../src/lib/profile-strength";
-import type { SeedCoach } from "./seed-data/coaches";
+import { CITY_COORDS, type City } from "../src/lib/config";
+import { LOCATIONS, type SeedCoach } from "./seed-data/coaches";
 import { coverPng } from "./seed-data/cover-png";
 import { check, db } from "./seed-data/db";
 import { AMIRA, profileFor } from "./seed-data/profiles";
@@ -41,6 +42,16 @@ async function insertItems(id: string, sport: string, p: Profile, queue: "none" 
   if (certs.length) check(await db.from("external_certifications").insert(certs), "certifications");
 }
 
+/** Deterministic pin within ±0.02° of the coach's city (Amira: her club in La Marsa). */
+async function seedPin(id: string, coach: SeedCoach, i: number) {
+  const [lat, lng] = CITY_COORDS[coach.city as City];
+  const jitter = (k: number) => ((((i + 1) * k) % 41) - 20) / 1000;
+  const pin = i === 0 ? { lat: 36.8885, lng: 10.3305 } : { lat: lat + jitter(17), lng: lng + jitter(29) };
+  const base_label = i === 0 ? "Club Nautique de La Marsa" : `${LOCATIONS[coach.sports[0]] ?? LOCATIONS.Default}, ${coach.city}`;
+  check(await db.from("coach_locations").upsert({ coach_id: id, ...pin }), "coach pin");
+  check(await db.from("coach_profiles").update({ base_label, service_radius_km: i === 0 ? 8 : 5 + (i % 4) * 5 }).eq("user_id", id), "coach place");
+}
+
 /** Profile builder data. Scalars are re-applied on every run; CV items are inserted once per coach. */
 export async function seedProfiles(verified: Coach[], inclusiveIds: Set<string>) {
   const scores: number[] = [];
@@ -51,6 +62,7 @@ export async function seedProfiles(verified: Coach[], inclusiveIds: Set<string>)
       ? await upload("covers", `${id}/cover-seed.png`, coverPng(THEME.sport[sportFamily(sport)], THEME.colors.primary), "image/png")
       : null;
     check(await db.from("coach_profiles").update({ ...p.scalars, cover_path, cv_template: "moderne", cv_public: true }).eq("user_id", id), "coach scalars");
+    await seedPin(id, coach, i);
 
     const { count } = await db.from("athletic_achievements").select("id", { count: "exact", head: true }).eq("coach_id", id);
     if (!count) await insertItems(id, sport, p, i === 1 ? "achievement" : i === 2 ? "achievement+cert" : "none");
@@ -62,7 +74,7 @@ export async function seedProfiles(verified: Coach[], inclusiveIds: Set<string>)
       verifiedAchievements: p.achievements.filter((a) => a.verified).length, experiences: p.experiences.length,
       yearsCoaching: s.years_coaching !== null, specialties: s.specialties.length, education: p.education.length,
       certifications: p.certifications.length, mawhibaBadges: inclusiveIds.has(id) ? 1 : 0, bioLength: s.bio.length,
-      zones: s.zones.length, video: false, socials: Object.keys(s.socials).length,
+      zones: s.zones.length, location: true, video: false, socials: Object.keys(s.socials).length,
     }).score);
   }
   console.log(`✔ coach profiles & CVs (strength ${Math.min(...scores)}-${Math.max(...scores)}%, Amira ${scores[0]}%)`);

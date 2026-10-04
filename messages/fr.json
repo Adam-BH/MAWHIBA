@@ -624,7 +624,8 @@
       "bio": "écrivez une bio d'au moins 150 caractères",
       "zones": "indiquez vos zones d'intervention",
       "video": "ajoutez une vidéo",
-      "socials": "ajoutez un réseau social"
+      "socials": "ajoutez un réseau social",
+      "location": "placez votre lieu d'entraînement sur la carte"
     }
   },
   "builder": {
@@ -763,7 +764,8 @@
       },
       "price": "Prix « à partir de » (DT)",
       "duration": "Durée d'une séance (min)",
-      "priceFromOffers": "Calculé automatiquement depuis vos offres."
+      "priceFromOffers": "Calculé automatiquement depuis vos offres.",
+      "location": "Lieu d'entraînement"
     },
     "publish": {
       "template": "Modèle de CV",
@@ -780,7 +782,9 @@
       "celebrateTitle": "Votre profil est en ligne",
       "celebrateText": "Les clients peuvent vous réserver dès maintenant, et votre CV est prêt à partager.",
       "celebratePending": "Votre profil est prêt. Il sera public dès que notre équipe aura vérifié votre justificatif.",
-      "editAgain": "Modifier encore"
+      "editAgain": "Modifier encore",
+      "noLocation": "Ajoutez votre lieu d'entraînement pour apparaître sur la carte.",
+      "addLocation": "Ajouter mon lieu"
     },
     "proof": {
       "verified": "Vérifié",
@@ -850,7 +854,9 @@
     "today": "aujourd'hui",
     "certifications": "Certifications & badges",
     "issuedByMawhiba": "délivré par MAWHIBA le {date}",
-    "verified": "Vérifié"
+    "verified": "Vérifié",
+    "location": "Lieu d'entraînement",
+    "approx": "précision ~1 km"
   },
   "share": {
     "copy": "Copier le lien",
@@ -944,5 +950,19 @@
     "bySport": "Séances assurées par sport",
     "closing": "Un athlète vérifié, un client serein, une séance assurée.",
     "back": "Retour à la vue d'ensemble"
+  },
+  "map": {
+    "picker": {
+      "mapLabel": "Carte : cliquez pour placer votre lieu d'entraînement",
+      "useMyPosition": "Utiliser ma position",
+      "remove": "Retirer le lieu",
+      "hint": "Choisissez une ville ou cliquez sur la carte, puis déplacez l'épingle.",
+      "privacy": "Le point exact reste privé : le public voit une zone d'environ 1 km.",
+      "label": "Nom du lieu",
+      "labelPlaceholder": "Piscine olympique de Radès",
+      "radius": "Rayon de déplacement : {km} km",
+      "outside": "Ce point est en dehors de la Tunisie.",
+      "geoDenied": "Position indisponible. Choisissez une ville."
+    }
   }
 }

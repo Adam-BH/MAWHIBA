@@ -19,6 +19,7 @@ export type StrengthInput = {
   mawhibaBadges: number;
   bioLength: number;
   zones: number;
+  location: boolean;
   video: boolean;
   socials: number;
 };
@@ -26,7 +27,7 @@ export type StrengthInput = {
 export type StrengthKey =
   | "avatar" | "cover" | "tagline" | "languages" | "city" | "primarySport" | "athleteStatus" | "yearsPractice" | "highestLevel"
   | "achievements" | "verifiedAchievement" | "experience" | "yearsCoaching" | "specialties" | "education" | "certification"
-  | "mawhibaBadge" | "bio" | "zones" | "video" | "socials";
+  | "mawhibaBadge" | "bio" | "zones" | "location" | "video" | "socials";
 
 export type StrengthHint = { key: StrengthKey; gain: number; count?: number };
 
@@ -36,7 +37,7 @@ function rules(p: StrengthInput): [StrengthKey, number, number, number?][] {
   const bioPts = p.bioLength >= 150 ? 8 : p.bioLength >= 50 ? 4 : 0;
   return [
     ["avatar", p.avatar ? 10 : 0, 10],
-    ["cover", p.cover ? 5 : 0, 5],
+    ["cover", p.cover ? 4 : 0, 4],
     ["tagline", p.tagline ? 5 : 0, 5],
     ["languages", p.languages > 0 ? 3 : 0, 3],
     ["city", p.city ? 2 : 0, 2],
@@ -53,7 +54,8 @@ function rules(p: StrengthInput): [StrengthKey, number, number, number?][] {
     ["certification", p.certifications > 0 ? 3 : 0, 3],
     ["mawhibaBadge", p.mawhibaBadges > 0 ? 3 : 0, 3],
     ["bio", bioPts, 8],
-    ["zones", p.zones > 0 ? 3 : 0, 3],
+    ["zones", p.zones > 0 ? 2 : 0, 2],
+    ["location", p.location ? 2 : 0, 2],
     ["video", p.video ? 2 : 0, 2],
     ["socials", p.socials > 0 ? 2 : 0, 2],
   ];

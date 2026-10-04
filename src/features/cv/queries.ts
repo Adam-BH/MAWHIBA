@@ -71,6 +71,7 @@ export function strengthInputOf(c: CoachFull): StrengthInput {
     mawhibaBadges: c.stats.badges.length,
     bioLength: (c.bio ?? "").trim().length,
     zones: c.zones.length,
+    location: c.map_lat !== null,
     video: !!c.video_url,
     socials: Object.values(c.socials).filter(Boolean).length,
   };
