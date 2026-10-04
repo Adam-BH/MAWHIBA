@@ -123,6 +123,8 @@ Good to know:
 
 **Monthly event.** The home page shows the next "Matinée MAWHIBA" with spots left. Clients and coaches register in one click (free, capacity enforced in SQL under a row lock); visitors are sent to login and back. Admins publish events in `/admin/events`.
 
+**Coach map.** **Trouver un coach** → **Carte** (`/coaches?view=map`): the filters apply to the markers, hovering a card highlights its pin, **Autour de moi** sorts by distance ("à 3,2 km"). The public only sees a point rounded to ~1 km; the exact pin (wizard step 6, "Lieu d'entraînement") stays private. Mini maps on the home page, the client dashboard and each coach profile.
+
 **Close the demo.** `admin@` → **Vue d'ensemble** → **Star Tracks** (`/star-tracks`): insured sessions, Star premiums, verified and trained coaches, coach earnings and insured sessions by sport, on one projector-friendly page.
 
 **Admin.** `/admin/coaches` verifies new coaches (proofs open via signed URLs) and reviews palmarès & certifications.

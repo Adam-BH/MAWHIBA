@@ -5,17 +5,21 @@ import { PageHeader } from "@/components/shared/page-header";
 import { CoachCard } from "@/features/coaches/components/coach-card";
 import { CoachFilters } from "@/features/coaches/components/coach-filters";
 import { listCoaches } from "@/features/coaches/queries";
+import { CoachMapView } from "@/features/map/components/coach-map-view";
+import { ViewToggle } from "@/features/map/components/view-toggle";
+import { parseNear } from "@/lib/validations/location";
 
 export async function generateMetadata() {
   const t = await getTranslations("coaches");
   return { title: t("title") };
 }
 
-type Search = { sport?: string; city?: string; maxPrice?: string; inclusive?: string };
+type Search = { sport?: string; city?: string; maxPrice?: string; inclusive?: string; near?: string; view?: string };
 
 export default async function CoachesPage({ searchParams }: { searchParams: Promise<Search> }) {
   const params = await searchParams;
   const maxPrice = Number(params.maxPrice);
+  const near = parseNear(params.near);
   const [t, coaches] = await Promise.all([
     getTranslations("coaches"),
     listCoaches({
@@ -23,16 +27,19 @@ export default async function CoachesPage({ searchParams }: { searchParams: Prom
       city: params.city,
       maxPrice: Number.isInteger(maxPrice) && maxPrice > 0 ? maxPrice : undefined,
       inclusive: params.inclusive === "1",
+      near,
     }),
   ]);
 
   return (
     <>
-      <PageHeader title={t("title")} />
+      <PageHeader title={t("title")} actions={<Suspense><ViewToggle /></Suspense>} />
       <Suspense><CoachFilters /></Suspense>
       <p className="my-4 text-sm text-muted-foreground">{t("results", { count: coaches.length })}</p>
       {coaches.length === 0 ? (
         <EmptyState title={t("noResults")} />
+      ) : params.view === "map" ? (
+        <CoachMapView coaches={coaches} near={near} />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {coaches.map((coach) => <CoachCard key={coach.user_id} coach={coach} />)}

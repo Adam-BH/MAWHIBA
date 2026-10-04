@@ -7,4 +7,14 @@ export const locationSchema = z.object({
   radiusKm: z.number().int().min(1).max(100),
 });
 
+/** `?near=36.88,10.32`: 2 decimals max (no precise client location in URLs), inside Tunisia, else ignored. */
+export const nearParam = z.string().regex(/^\d{2}(\.\d{1,2})?,\d{1,2}(\.\d{1,2})?$/)
+  .transform((s) => { const [lat, lng] = s.split(",").map(Number); return { lat, lng }; })
+  .pipe(locationSchema.shape.point.unwrap());
+
+export function parseNear(value: string | undefined) {
+  const parsed = nearParam.safeParse(value);
+  return parsed.success ? parsed.data : undefined;
+}
+
 export type LocationInput = z.infer<typeof locationSchema>;

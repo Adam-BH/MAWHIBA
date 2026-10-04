@@ -133,7 +133,10 @@
     "starTitle": "Chaque séance est assurée par Star",
     "starText": "Une assurance de {fee} DT est incluse dans chaque réservation : vous vous entraînez l'esprit tranquille.",
     "footer": "MAWHIBA · Hackathon Star Assurances",
-    "heroAccent": "Des séances assurées par Star."
+    "heroAccent": "Des séances assurées par Star.",
+    "mapTitle": "Des coachs près de chez vous",
+    "mapText": "{count, plural, one {# coach vérifié} other {# coachs vérifiés}} partout en Tunisie. Ouvrez la carte et cherchez autour de vous.",
+    "mapCta": "Ouvrir la carte"
   },
   "coaches": {
     "title": "Trouver un coach",
@@ -163,7 +166,20 @@
     "offers": "Offres",
     "new": "Nouveau coach",
     "bookAt": "Réserver à {time}",
-    "moreSlots": "{count, plural, one {# autre jour} other {# autres jours}}"
+    "moreSlots": "{count, plural, one {# autre jour} other {# autres jours}}",
+    "map": {
+      "viewLabel": "Affichage",
+      "list": "Liste",
+      "map": "Carte",
+      "nearMe": "Autour de moi",
+      "clearNear": "Autour de moi",
+      "geoDenied": "Position indisponible. Choisissez une ville dans les filtres.",
+      "outside": "Votre position semble hors de Tunisie. Choisissez une ville dans les filtres.",
+      "mapLabel": "Carte des coachs",
+      "noPin": "Sans localisation précise",
+      "distance": "à {distance}",
+      "seeProfile": "Voir le profil"
+    }
   },
   "profile": {
     "title": "Mon profil",
@@ -312,7 +328,8 @@
     "noUpcoming": "Aucune séance confirmée à venir",
     "addSlots": "Ajouter des créneaux",
     "earnBadge": "Obtenir le badge Coaching inclusif",
-    "title": "Accueil"
+    "title": "Accueil",
+    "openMap": "Voir les coachs sur la carte"
   },
   "admin": {
     "title": "Vue d'ensemble",
@@ -856,7 +873,9 @@
     "issuedByMawhiba": "délivré par MAWHIBA le {date}",
     "verified": "Vérifié",
     "location": "Lieu d'entraînement",
-    "approx": "précision ~1 km"
+    "approx": "précision ~1 km",
+    "area": "Zone d'intervention",
+    "areaHint": "Zone approximative, jusqu'à {km} km autour du lieu d'entraînement."
   },
   "share": {
     "copy": "Copier le lien",

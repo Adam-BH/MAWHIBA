@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { describe, expect, it } from "vitest";
 import { CITY_COORDS } from "@/lib/config";
 import { distanceKm, formatDistance, isInTunisia, roundCoord } from "@/lib/geo";
+import { parseNear } from "@/lib/validations/location";
 
 config({ path: ".env.local", quiet: true });
 
@@ -37,6 +38,11 @@ describe("geo.ts", () => {
   it.each([[0.04, "100 m"], [0.83, "800 m"], [3.24, "3,2 km"], [42.4, "42 km"]])("formats %f km as %s", (km, label) => {
     expect(formatDistance(km)).toBe(label);
   });
+});
+
+describe("?near= param", () => {
+  it("accepts a ~1 km point inside Tunisia", () => expect(parseNear("36.88,10.32")).toEqual({ lat: 36.88, lng: 10.32 }));
+  it.each([undefined, "", "36.8812,10.32", "48.85,2.35", "abc", "36.88"])("ignores %j", (v) => expect(parseNear(v)).toBeUndefined());
 });
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

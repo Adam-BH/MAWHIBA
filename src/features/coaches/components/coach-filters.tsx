@@ -68,7 +68,7 @@ export function CoachFilters({ withAudience = false }: { withAudience?: boolean 
         <Checkbox checked={params.get("inclusive") === "1"} onCheckedChange={(c) => update("inclusive", c ? "1" : null)} />
         {t("inclusive")}
       </Label>
-      <Button variant="ghost" onClick={() => router.replace(pathname, { scroll: false })}>{t("reset")}</Button>
+      <Button variant="ghost" onClick={() => router.replace(params.get("view") === "map" ? `${pathname}?view=map` : pathname, { scroll: false })}>{t("reset")}</Button>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { Price } from "@/components/shared/price";
 import { AvailableSlots } from "@/features/coaches/components/available-slots";
 import { ProfileSections } from "@/features/cv/components/profile-sections";
 import { ShareButtons } from "@/features/cv/components/share-buttons";
+import { CoachMiniMap } from "@/features/map/components/coach-mini-map";
 import { getCoachFull, resolveCoach, strengthOf } from "@/features/cv/queries";
 import { OfferCard } from "@/features/offers/components/offer-card";
 import { listCoachOffers } from "@/features/offers/queries";
@@ -88,6 +89,15 @@ export default async function CoachPage({ params, searchParams }: Props) {
           <AvailableSlots slots={slots} canBook={!viewer || viewer.role === "client"} offerId={selected?.id} />
         </section>
         <ProfileSections coach={coach} />
+        {coach.map_lat !== null && coach.map_lng !== null && (
+          <section id="lieu" className="scroll-mt-20">
+            <h2 className="mb-1 text-xl font-semibold">{tp("area")}</h2>
+            <p className="mb-4 text-sm text-muted-foreground">{tp("areaHint", { km: coach.service_radius_km })}</p>
+            <CoachMiniMap label={tp("area")} center={[coach.map_lat, coach.map_lng]} zoom={coach.service_radius_km > 15 ? 9 : coach.service_radius_km > 6 ? 10 : 11}
+              circle={{ lat: coach.map_lat, lng: coach.map_lng, radiusKm: coach.service_radius_km }}
+              href={`/coaches?view=map&near=${coach.map_lat},${coach.map_lng}`} />
+          </section>
+        )}
         <section id="avis" className="scroll-mt-20">
           <h2 className="mb-4 text-xl font-semibold">{t("reviews")}</h2>
           <ReviewList reviews={reviews} />

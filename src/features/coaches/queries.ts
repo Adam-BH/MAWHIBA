@@ -1,11 +1,13 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { initials } from "@/lib/utils";
 import { INCLUSIVE_CERT_SLUG } from "@/lib/config";
+import { distanceKm, type LatLng } from "@/lib/geo";
 
-export type CoachFilters = { sport?: string; city?: string; maxPrice?: number; inclusive?: boolean };
+export type CoachFilters = { sport?: string; city?: string; maxPrice?: number; inclusive?: boolean; near?: LatLng };
 
 const CARD_FIELDS =
-  "user_id, slug, sports, primary_sport, highest_level, years_practice, tagline, headline, price_per_session, rating_avg, rating_count, verified, profile:profiles!inner(full_name, city, avatar_url)";
+  "user_id, slug, sports, primary_sport, highest_level, years_practice, tagline, headline, price_per_session, rating_avg, rating_count, verified, map_lat, map_lng, base_label, service_radius_km, profile:profiles!inner(full_name, city, avatar_url)";
 
 export async function listInclusiveCoachIds(): Promise<Set<string>> {
   const supabase = await createClient();
@@ -31,11 +33,25 @@ export async function listCoaches(filters: CoachFilters = {}, limit = 60) {
     ? await supabase.from("coach_cv_stats").select("coach_id, completed_sessions").in("coach_id", coaches.map((c) => c.user_id))
     : { data: [] };
   const sessions = new Map((stats ?? []).map((s) => [s.coach_id, s.completed_sessions ?? 0]));
-  return coaches.map((coach) => ({
+  const { near } = filters;
+  const cards = coaches.map((coach) => ({
     ...coach,
     inclusive: inclusiveIds.has(coach.user_id),
     stats: { ratingAvg: Number(coach.rating_avg), ratingCount: coach.rating_count, completedSessions: sessions.get(coach.user_id) ?? 0 },
+    // Display only (≤ 60 cards): matching distances are computed in SQL.
+    distanceKm: near && coach.map_lat !== null && coach.map_lng !== null ? distanceKm(near, { lat: coach.map_lat, lng: coach.map_lng }) : null,
   }));
+  return near ? cards.sort((a, b) => (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity)) : cards;
+}
+
+/** Public, approximate pins of every verified coach, for the mini maps. */
+export async function listCoachPins() {
+  const supabase = await createClient();
+  const { data } = await supabase.from("coach_profiles")
+    .select("user_id, map_lat, map_lng, profile:profiles!inner(full_name)")
+    .eq("verified", true).not("map_lat", "is", null);
+  return (data ?? []).flatMap((c) => c.map_lat !== null && c.map_lng !== null
+    ? [{ id: c.user_id, lat: c.map_lat, lng: c.map_lng, initials: initials(c.profile.full_name) }] : []);
 }
 
 export type CoachCardData = Awaited<ReturnType<typeof listCoaches>>[number];

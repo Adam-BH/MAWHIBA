@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { BadgeCheck, HeartHandshake, Star } from "lucide-react";
+import { BadgeCheck, HeartHandshake, MapPin, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { LevelChip } from "@/components/shared/level-chip";
 import { Price } from "@/components/shared/price";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import type { CoachCardData } from "@/features/coaches/queries";
 import { athleteCardData } from "@/lib/athlete-card";
+import { formatDistance } from "@/lib/geo";
 
 export function CoachCard({ coach }: { coach: CoachCardData }) {
   const t = useTranslations("coaches");
@@ -26,6 +27,11 @@ export function CoachCard({ coach }: { coach: CoachCardData }) {
       </div>
       {card.tagline && <p className="line-clamp-2 text-sm">{card.tagline}</p>}
       <div className="flex flex-wrap items-center gap-2 text-xs">
+        {coach.distanceKm !== null && (
+          <span className="flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 font-semibold text-primary">
+            <MapPin className="size-3.5" />{t("map.distance", { distance: formatDistance(coach.distanceKm) })}
+          </span>
+        )}
         {card.level && <LevelChip level={card.level} />}
         {card.badges.includes("inclusive") && (
           <span className="flex items-center gap-1 font-semibold text-primary"><HeartHandshake className="size-3.5" />{tb("inclusive")}</span>

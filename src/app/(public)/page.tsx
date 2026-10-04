@@ -5,16 +5,17 @@ import { BrandLine } from "@/components/shared/brand-line";
 import { InsuredBadge } from "@/components/shared/insured-badge";
 import { Section } from "@/components/shared/section";
 import { CoachCard } from "@/features/coaches/components/coach-card";
-import { listCoaches } from "@/features/coaches/queries";
+import { listCoachPins, listCoaches } from "@/features/coaches/queries";
 import { EventCard } from "@/features/events/components/event-card";
 import { getNextEvent } from "@/features/events/queries";
+import { CoachMiniMap } from "@/features/map/components/coach-mini-map";
 import { getCurrentUser } from "@/lib/auth";
-import { INSURANCE_FEE } from "@/lib/config";
+import { INSURANCE_FEE, MAP_DEFAULT_CENTER } from "@/lib/config";
 
 export default async function LandingPage() {
   const user = await getCurrentUser();
-  const [t, te, coaches, event] = await Promise.all([
-    getTranslations("landing"), getTranslations("events"), listCoaches({}, 6), getNextEvent(user?.id),
+  const [t, te, coaches, event, pins] = await Promise.all([
+    getTranslations("landing"), getTranslations("events"), listCoaches({}, 6), getNextEvent(user?.id), listCoachPins(),
   ]);
   const steps = [[t("step1Title"), t("step1Text")], [t("step2Title"), t("step2Text")], [t("step3Title"), t("step3Text")]];
   const linkClass = "text-sm font-semibold text-primary hover:underline";
@@ -62,6 +63,11 @@ export default async function LandingPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {coaches.map((coach) => <CoachCard key={coach.user_id} coach={coach} />)}
         </div>
+      </Section>
+
+      <Section title={t("mapTitle")} className="mt-16" action={<Link href="/coaches?view=map" className={linkClass}>{t("mapCta")}</Link>}>
+        <p className="-mt-2 mb-6 max-w-2xl text-muted-foreground">{t("mapText", { count: pins.length })}</p>
+        <CoachMiniMap label={t("mapCta")} center={MAP_DEFAULT_CENTER} zoom={7} markers={pins} />
       </Section>
 
       <section className="mt-16 flex flex-col gap-3 border-t pt-8 sm:flex-row sm:items-center sm:gap-6">

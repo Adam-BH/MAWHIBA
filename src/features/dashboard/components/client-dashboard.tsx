@@ -8,15 +8,18 @@ import { Stat } from "@/components/shared/stat";
 import { BookingCard } from "@/features/bookings/components/booking-card";
 import { listClientBookings, nextSession } from "@/features/bookings/queries";
 import { CoachCard } from "@/features/coaches/components/coach-card";
-import { listCoaches } from "@/features/coaches/queries";
+import { listCoachPins, listCoaches } from "@/features/coaches/queries";
+import { CoachMiniMap } from "@/features/map/components/coach-mini-map";
 import { ClientRequestsWidget } from "@/features/requests/components/requests-widget";
 import type { CurrentUser } from "@/lib/auth";
 import { isUpcoming } from "@/lib/booking-rules";
+import { CITY_COORDS, MAP_DEFAULT_CENTER, type City } from "@/lib/config";
 
 export async function ClientDashboard({ user }: { user: CurrentUser }) {
-  const [t, bookings, coaches] = await Promise.all([
-    getTranslations("dashboard"), listClientBookings(user.id), listCoaches({ city: user.city ?? undefined }, 3),
+  const [t, bookings, coaches, pins] = await Promise.all([
+    getTranslations("dashboard"), listClientBookings(user.id), listCoaches({ city: user.city ?? undefined }, 3), listCoachPins(),
   ]);
+  const center = CITY_COORDS[user.city as City] ?? MAP_DEFAULT_CENTER;
   const next = nextSession(bookings);
 
   return (
@@ -32,8 +35,11 @@ export async function ClientDashboard({ user }: { user: CurrentUser }) {
       <ClientRequestsWidget userId={user.id} />
       {coaches.length > 0 && (
         <Section title={t("recommended")}>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {coaches.map((coach) => <CoachCard key={coach.user_id} coach={coach} />)}
+          <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
+            <div className="grid gap-4 sm:grid-cols-2">
+              {coaches.map((coach) => <CoachCard key={coach.user_id} coach={coach} />)}
+            </div>
+            <CoachMiniMap label={t("openMap")} center={center} markers={pins} />
           </div>
         </Section>
       )}
