@@ -44,6 +44,12 @@ next-env.d.ts
 
 # local only: videos, exports and tool data (never committed)
 /local/
+/demo/
 /.tinbase/
 *.mp4
 *.mov
+
+# npm only: never commit other lockfiles
+pnpm-lock.yaml
+pnpm-workspace.yaml
+yarn.lock
